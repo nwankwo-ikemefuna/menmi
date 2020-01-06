@@ -1,0 +1,305 @@
+/*-----------------------------------------------------------------------------
+	-	Revolution Slider
+-----------------------------------------------------------------------------*/
+
+
+.main-slider {
+	padding: 0;
+	margin: auto;
+	margin-top: 15px;
+	margin-bottom: 0px;
+}
+.rev_slider_wrapper {
+	position: relative;
+}
+.rev_slider {
+	position: relative;
+	overflow: visible;
+}
+.rev_slider ul {
+	margin: 0px;
+	padding: 0px;
+	list-style: none !important;
+	list-style-type: none;
+	background-position: 0px 0px;
+}
+.rev_slider ul li, .rev_slider >ul >li, .rev_slider >ul >li:before {
+	list-style: none !important;
+	position: absolute;
+	visibility: hidden;
+	margin: 0px !important;
+	padding: 0px !important;
+	overflow-x: visible;
+	overflow-y: visible;
+	list-style-type: none !important;
+	background-image: none;
+	background-position: 0px 0px;
+	text-indent: 0em;
+}
+.tp-caption {
+	z-index: 1;
+}
+.fullwidthbanner-container {
+	width: 100%;
+	position: relative;
+	padding: 0;
+	overflow: hidden;
+	margin: auto;
+}
+.fullwidthbanner-container .fullwidthabanner {
+	width: 100%;
+	position: relative;
+	margin: auto;
+}
+.tp-simpleresponsive .tp-caption {
+	position: absolute;
+}
+.caption-inner.left {
+	text-align: left;
+}
+.caption-inner.right {
+	text-align: left;
+}
+.tp-caption.ExtraLargeTitle {
+	font-weight: 900;
+	color: #333;
+	text-decoration: none;
+	background-color: transparent;
+	padding: 0px 20px 0px 20px;
+	font-size: 60px;
+	font-family: 'Raleway', sans-serif;
+	text-transform: uppercase;
+}
+.tp-caption.ExtraLargeTitle.jtv-text {
+	font-family: "Roboto Condensed", sans-serif;
+	font-weight: 700;
+	color: #CF3341;
+}
+.tp-caption.LargeTitle {
+	line-height: 32px;
+	font-weight: 700;
+	color: #333;
+	text-decoration: none;
+	background-color: transparent;
+	padding: 0px 20px 0px 20px;
+	border-radius: 0px 0px 0px 0px;
+	text-transform: uppercase;
+	font-size: 13px;
+}
+a.shop-now-btn {
+	padding: 10px 20px;
+	font-size: 16px;
+	text-transform: uppercase;
+	font-weight: bold;
+	color: #fff;
+	margin-left: 0px;
+	text-decoration: none;
+	background-color: #333;
+}
+a.shop-now-btn:hover {
+	color: #fff;
+	background-color: #CF3341;
+}
+.tp-caption.decs {
+	font-size: 14px;
+	line-height: 18px;
+	font-weight: normal;
+	text-transform: none;
+	color: #666;
+	text-decoration: none;
+	background-color: transparent;
+	padding: 0px 0px 0px 0px;
+}
+.caption-inner.right .tp-caption.decs {
+	color: #fff;
+}
+.tp-bullets {
+	z-index: 1000;
+	position: absolute;
+	opacity: 1;
+}
+.tp-bullets.hidebullets {
+	opacity: 1;
+}
+.tparrows {
+	opacity: 1;
+}
+.tp-leftarrow {
+	z-index: 100;
+	cursor: pointer;
+	position: relative;
+	width: 40px;
+	height: 40px;
+}
+.tp-leftarrow:before {
+	content: "\f104";
+	font-family: 'FontAwesome';
+	font-size: 30px;
+	color: #fff;
+}
+.tp-rightarrow:before {
+	content: "\f105";
+	font-family: 'FontAwesome';
+	font-size: 30px;
+	color: #fff;
+}
+.tp-rightarrow {
+	z-index: 100;
+	cursor: pointer;
+	position: relative;
+	width: 40px;
+	height: 40px;
+}
+.rev_slider_wrapper .tp-leftarrow.default {
+	z-index: 100;
+	cursor: pointer;
+	left: -45px !important;
+	opacity: 0px;
+	visibility: hidden;
+	transition: all 0.3s ease-in-out;
+}
+.rev_slider_wrapper:hover .tp-leftarrow.default {
+	z-index: 100;
+	cursor: pointer;
+	left: 15px !important;
+	opacity: 1px;
+	visibility: visible;
+	transition: all 0.3s ease-in-out;
+}
+.rev_slider_wrapper .tp-rightarrow.default {
+	z-index: 100;
+	cursor: pointer;
+	right: -45px !important;
+	opacity: 0px;
+	visibility: hidden;
+	transition: all 0.3s ease-in-out;
+}
+.rev_slider_wrapper:hover .tp-rightarrow.default {
+	z-index: 100;
+	cursor: pointer;
+	right: 15px !important;
+	opacity: 1px;
+	visibility: visible;
+	transition: all 0.3s ease-in-out;
+}
+.tp-bullets.tp-thumbs {
+	/*z-index: 1000; */
+    
+	position: absolute;
+	padding: 3px;
+	width: 10px;
+	height: 10px;
+	/* THE DIMENSIONS OF THE THUMB CONTAINER */
+    
+	margin-top: -50px;
+	vertical-align: top;
+	bottom: -20px !important;
+}
+.fullwidthbanner-container .tp-thumbs {
+	padding: 3px;
+	margin: auto!important;
+}
+.tp-bullets.tp-thumbs .tp-mask {
+	width: 100px !important;
+	height: 20px !important;
+	/* THE DIMENSIONS OF THE THUMB CONTAINER */
+    
+	overflow: hidden;
+	position: relative;
+	opacity: 1;
+}
+.tp-bullets.tp-thumbs .tp-mask .tp-thumbcontainer {
+	width: 100px;
+}
+.tp-bullets.tp-thumbs .bullet.selected {
+	background-color: #999 !important;
+}
+.tp-bullets.tp-thumbs .bullet {
+	cursor: pointer;
+	overflow: hidden;
+	margin: 0;
+	float: left;
+	width: 10px !important;
+	height: 10px !important;
+	background-color: #ccc !important;
+	margin-right: 10px;
+	opacity: 1;
+}
+.tp-bullets.tp-thumbs .bullet:hover, .tp-bullets.tp-thumbs .bullet.selected {
+	opacity: 1;
+}
+.tp-simpleresponsive ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.tp-simpleresponsive >ul li {
+	list-style: none;
+	position: absolute;
+	visibility: hidden;
+}
+/*  CAPTION SLIDELINK   **/
+
+.tp-leftarrow.default, .tp-rightarrow.default {
+	font-family: FontAwesome;
+	font-size: 18px;
+	font-weight: normal;
+	height: 55px;
+	width: 55px;
+	text-align: center;
+	line-height: 50px;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+.tp-leftarrow.default:hover, .tp-rightarrow.default:hover {
+	background-color: #CF3341;
+}
+.forcefullwidth_wrapper_tp_banner, .fullwidthbanner-container {
+	max-width: 100%;
+	left: 0 !important;
+	margin: auto !important;
+	overflow: hidden;
+}
+ @media only screen and (min-width: 320px) and (max-width: 479px) {
+.tp-button {
+	padding: 2px 5px 2px;
+	line-height: 20px !important;
+	font-size: 10px !important;
+}
+.tp-leftarrow:before {
+	font-size: 20px;
+}
+.tp-rightarrow:before {
+	font-size: 20px;
+}
+.tp-leftarrow.default, .tp-rightarrow.default {
+	height: 35px;
+	width: 35px;
+	line-height: 30px;
+}
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+.tp-button {
+	padding: 4px 8px 3px;
+	line-height: 25px !important;
+	font-size: 11px !important;
+	font-weight: normal;
+}
+.tp-leftarrow:before {
+	font-size: 20px;
+}
+.tp-rightarrow:before {
+	font-size: 20px;
+}
+.tp-leftarrow.default, .tp-rightarrow.default {
+	height: 35px;
+	width: 35px;
+	line-height: 30px;
+}
+}
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+.side-home-banner {
+	text-align: center;
+	display: inline-block;
+	width: 100%;
+}
+}
