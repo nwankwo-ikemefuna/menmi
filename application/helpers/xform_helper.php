@@ -88,11 +88,11 @@ function xform_group($label, $name, $type = 'text', $value = '', $required = fal
     } 
 }
 
-function xform_submit($title = 'Save', $form_id = '', $extra = ['class' => 'btn btn-theme'], $fg_extra = ['class' => 'form-group']) {
-    $form_id = attr_isset($form_id, $form_id, ''); ?>
+function xform_submit($text = 'Save', $form_id = '', $extra = ['class' => 'btn btn-theme'], $fg_extra = ['class' => 'form-group']) {
+    $form_id = attr_isset($form_id, 'form="'.$form_id.'"', ''); ?>
     <div <?php echo set_extra_attrs($fg_extra); ?>>
         <button type="submit" <?php echo $form_id; ?> <?php echo set_extra_attrs($extra); ?> >
-            <span><?php echo $title; ?></span>
+            <span><?php echo $text; ?></span>
         </button>
     </div>
     <?php
@@ -138,7 +138,27 @@ function select_options_db($options_obj, $key, $label, $selected_val = NULL) {
     return $options;
 }
 
-function adit_form_modal($crud_type, $item, $fields, $prefix = 'm', $reload = 1) {
+function xform($action, $fields, $attrs = [], $butt_text = 'Save', $butt_form = '', $butt_attrs = []) {
+    $butt_class = input_key_isset($butt_attrs, 'class', 'btn btn-theme');
+    echo form_open($action, $attrs);
+        //form fields
+        foreach ($fields as $field) {
+            $label = input_key_isset($field, 'label', '');
+            $name = input_key_isset($field, 'name', '');
+            $type = input_key_isset($field, 'type', '');
+            $value = input_key_isset($field, 'value', '');
+            $required = input_key_isset($field, 'required', '');
+            $extra = input_key_isset($field, 'extra', []);
+            $label_extras = input_key_isset($field, 'label_extras', []);
+            $fg_extra = input_key_isset($field, 'fg_extra', []);
+            xform_group($label, $name, $type, $value, $required, $extra, $label_extras, $fg_extra);
+        }
+        xform_notice();
+        xform_submit($butt_text, $butt_form, $butt_attrs);
+    echo form_close();
+}
+
+function adit_form_modal($crud_type, $item, $fields, $butt_attrs = [], $prefix = 'm', $reload = 1) {
     $ci =& get_instance();
     $modal = $prefix.'_'.$crud_type;
     $title = ucfirst($crud_type).' ' . $item;
@@ -148,22 +168,6 @@ function adit_form_modal($crud_type, $item, $fields, $prefix = 'm', $reload = 1)
     $attrs = ['id' => $form_id, 'class' => 'ajax_form', 'data-modal' => $modal, 'data-crud_type' => $crud_type, 'data-msg' => $item.' '.$crud_type.'ed successfully', 'data-reload' => $reload];
     // var_dump($fields); die;
     modal_header($modal, $title);
-        echo form_open($action, $attrs);
-            //form fields
-            if ($crud_type == 'edit') form_input('id', 'hidden');
-            foreach ($fields as $field) {
-                $label = input_key_isset($field, 'label', '');
-                $name = input_key_isset($field, 'name', '');
-                $type = input_key_isset($field, 'type', '');
-                $value = input_key_isset($field, 'value', '');
-                $required = input_key_isset($field, 'required', '');
-                $extra = input_key_isset($field, 'extra', []);
-                $label_extras = input_key_isset($field, 'label_extras', []);
-                $fg_extra = input_key_isset($field, 'fg_extra', []);
-                xform_group($label, $name, $type, $value, $required, $extra, $label_extras, $fg_extra);
-            }
-            xform_notice();
-            xform_submit();
-        echo form_close();
+        xform($action, $fields, $attrs, ucfirst($crud_type), $form_id, $butt_attrs);
     modal_footer(false);
 }

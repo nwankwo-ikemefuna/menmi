@@ -1,5 +1,6 @@
 <?php 
 $fields = [
+	['name' => 'id', 'type' => 'hidden'],
 	['name' => 'name', 'label' => 'Name', 'required' => true],
 	['name' => 'vat', 'label' => 'VAT', 'type' => 'number', 'required' => true],
 ];

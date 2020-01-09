@@ -1,5 +1,6 @@
 <?php
 $fields = [
+	['name' => 'id', 'type' => 'hidden'],
 	['name' => 'template_id', 'value' => $row->id, 'type' => 'hidden'],
 	['name' => 'name', 'label' => 'Title', 'required' => true],
 	['name' => 'cat_id', 'label' => 'Category', 'type' => 'select', 'required' => true, 'extra' => ['db' => true, 'options' => $categories, 'text_col' => 'name']]
