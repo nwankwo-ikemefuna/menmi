@@ -34,8 +34,8 @@ class Templates extends Core_controller {
 		response_headers();
 		$keys = ['id', 'name', 'vat'];
         $xtra_butts = [
-            ['text' => 'Manage Items', 'url' => $this->c_controller.'/items'],
-            ['text' => 'Bite Me', 'modal' => 'm_confirm_action', 'icon' => 'book']
+            ['text' => 'Manage Items', 'type' => 'url', 'target' => $this->c_controller.'/items'],
+            ['text' => 'Bite Me', 'type' => 'modal', 'target' => 'm_confirm_action', 'icon' => 'book']
         ];
         $butts = ['view' => '', 'extra' => ['options' => $xtra_butts]];
         $buttons = table_crud_butts($this->module, $this->model, null, T_TEMPLATES, $trashed, $keys, $butts);
@@ -47,8 +47,8 @@ class Templates extends Core_controller {
 	public function view($id) { 
 		//buttons
 		$xtra_butts = [
-			['text' => 'Manage Items', 'url' => $this->c_controller.'/items/'.$id],
-            ['text' => 'Bite Me', 'modal' => 'm_confirm_action', 'icon' => 'book']
+			['text' => 'Manage Items', 'type' => 'url', 'target' => $this->c_controller.'/items/'.$id],
+            ['text' => 'Bite Me', 'type' => 'modal', 'target' => 'm_confirm_action', 'icon' => 'book']
 		];
 		$this->butts = ['add_m', 'list', 'extra' => $xtra_butts];
 		$sql = $this->template_model->sql();
@@ -61,10 +61,12 @@ class Templates extends Core_controller {
 
 
 	public function items($id) { 
+		$this->page = 'index';
 		$this->module = M_ITEMS;
 		$this->table = T_ITEMS;
 		//buttons
-		$this->butts = ['add_m', 'list' => ['url' => $this->c_controller.'/items/'.$id]];
+		$xtra_butts = [['text' => 'Template', 'type' => 'url', 'target' => $this->c_controller.'/view/'.$id]];
+		$this->butts = ['add_m', 'list' => ['url' => $this->c_controller.'/items/'.$id], 'extra' => $xtra_butts];
 		//bulk action
 		$this->ba_opts = ['Transfer' => ['modal' => 'm_confirm_action'], 'Delete'];
 		$sql = $this->template_model->sql();
@@ -84,7 +86,7 @@ class Templates extends Core_controller {
 		$this->module = M_ITEMS;
 		response_headers();
 		$keys = ['id', 'template_id', 'cat_id', 'name'];
-        $butts = ['edit' => ['type' => 'modal']];
+        $butts = ['edit' => ['type' => 'modal', 'modal' => 'm_edit']];
         $buttons = table_crud_butts($this->module, $this->model, null, T_ITEMS, $trashed, $keys, $butts);
 		$sql = $this->template_model->item_sql($id);
 		echo $this->common_model->get_rows_ajax($sql['table'], $keys, $buttons, $trashed, $sql['joins'], $sql['select'], $sql['where']);
@@ -121,7 +123,7 @@ class Templates extends Core_controller {
             'name' => ucfirst($this->input->post('name', TRUE)),
             'cat_id' => $this->input->post('cat_id', TRUE)
         ];
-        $this->common_model->update(T_ITEMS, $data, $this->input->post('id', TRUE));
+        $this->common_model->update(T_ITEMS, $data, ['id' => $this->input->post('id', TRUE)]);
         json_response_db();
     }
 

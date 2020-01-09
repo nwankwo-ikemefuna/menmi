@@ -94,7 +94,7 @@ array(
     //CI: system/helpers
     'date', 'form', 'inflector', 'url',
     //custom: application/helpers
-    'alert', 'app', 'crud', 'modal', 'nav', 'query', 'rest', 'widget'
+    'alert', 'app', 'crud', 'modal', 'nav', 'query', 'rest', 'widget', 'xform'
 );
 
 /*

@@ -118,7 +118,8 @@ class Core_Model extends CI_Model {
         $this->prepare_query($table, $trashed, $joins, $select, $where, $order, $group_by, true);
         //Bulk action column
         //Note: $1 assumes that the primary key column (usu id), is the first key
-        $this->datatables->add_column('checker', form_check_dt('ba_record_idx[]', '$1', 'ba_record'), 'id');
+        $this->datatables->add_column('checker', xform_input('ba_record_idx[]', 'checkbox', '$1', false, ['class' => 'ba_record'], true), 'id');
+
         //actions column
         $this->datatables->add_column('actions', $buttons, join(',', $keys));
         return $this->datatables->generate();

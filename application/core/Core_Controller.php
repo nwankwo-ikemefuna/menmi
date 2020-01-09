@@ -17,6 +17,7 @@ class Core_Controller extends CI_Controller {
 		$this->author_linkedin = 'https://www.linkedin.com/in/nwankwoikemefuna';
 		//get current controller class 
 		$this->c_controller = $this->router->fetch_class();
+		$this->c_method = $this->router->fetch_method();
 		//page scripts
 		$this->page_scripts = [];
 
@@ -28,6 +29,8 @@ class Core_Controller extends CI_Controller {
 		$this->site_name = $this->session->company_name;
 		$this->site_description = $this->session->company_short_description;
 
+		//current page
+		$this->page = $this->c_method;
 		//module
 		$this->module = '';
 		//table

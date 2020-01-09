@@ -136,7 +136,7 @@
             <!-- /header content -->
             
             <div class="company_name pull-right">
-                <a href="<?php echo base_url('user'); ?>"><?php echo $this->session->user_company; ?></a>
+                <a href="<?php echo base_url('user'); ?>"><?php echo ucfirst($this->page); ?> | <?php echo $this->session->user_company; ?></a>
             </div>
 
             <!-- page content -->
@@ -191,5 +191,4 @@
 
                             <?php 
                             //bulk action options
-                            bulk_action($this->ba_opts, $record_count);
-
+                            if ($this->ba_opts) bulk_action($this->ba_opts, $record_count);

@@ -1,6 +1,60 @@
 jQuery(document).ready(function ($) {
     "use strict";  
+
+    $(document).on( "submit", ".ajax_form", function(e) {
+        $(this).off("submit"); //unbind event to prevent multiple firing
+        e.preventDefault();
+        let obj = $(this);
+        let form_data = obj.serialize();
+        var url = obj.attr('action'),
+            form_id = obj.attr('id'),
+            crud_type = obj.data('crud_type'),
+            modal = obj.attr('data-modal') ? obj.data('modal') : null,
+            redirect = obj.attr('data-redirect') ? obj.data('redirect') : null,
+            msg = obj.attr('data-msg') ? obj.data('msg') : 'Successful',
+            reload = obj.attr('data-reload') ? Boolean(obj.data('reload')) : true, 
+            notice = obj.attr('data-notice') ? obj.data('notice') : '.status_msg';
+
+        if (url.length && form_id.length && crud_type.length) {
+            //is it a modal?
+            if (modal.length) {
+                ajax_post_form_dt(form_data, url, modal, msg, reload, notice);
+            } else {
+                ajax_post_form(form_data, url, redirect, msg, notice);
+            }
+        } else {
+            console.error('Setup Error: url, form id or crud type missing');
+        }
+    });
+
+    //Edit item: modal
+    $(document).on( "click", ".edit_record", function() {
+        var modal = $(this).data('x_modal'),
+            form_id = $(this).data('x_form_id');
+        //clear form
+        $('#'+form_id)[0].reset();
+        var inputs = $('form#'+form_id+' :input');
+        $.each(inputs, (i, input) => {
+            var name = $(input).attr('name');
+            if (typeof name !== "undefined") {
+                var val = $(this).data(name);
+                var field = $('#'+form_id).find(':input[name="'+name+'"]');
+                //get input type or tagname if type is undefined (eg select, textarea)
+                var type = field.attr('type') || field.prop('tagName').toLowerCase();
+                if (type == 'select' || type == 'checkbox' || type == 'radio') {
+                    //we need to call change event on these guys
+                    field.val(val).change();
+                } else {
+                    field.val(val);
+                }
+            }
+        });
+        $('#'+modal+ ' .modal-title').text('Edit Record');
+        $('#'+modal).modal('show'); //show the modal
+    });
+
 });
+
 
 function ajax_post_form(form_id, url, redirect_url = '', success_msg = 'Successful', notice_elem = '.status_msg') {
     $('#'+form_id).off("submit"); //unbind event to prevent multiple firing
@@ -11,9 +65,9 @@ function ajax_post_form(form_id, url, redirect_url = '', success_msg = 'Successf
             url: base_url+url, 
             type: 'POST',
             data: form_data,
-	        dataType: 'json'
-	    }).done(function(jres) {
-	    	if (jres.status) {
+            dataType: 'json'
+        }).done(function(jres) {
+            if (jres.status) {
                 $(notice_elem).html('<div class="alert alert-success">'+success_msg+'</div>')
                     .fadeIn('fast')
                     .delay( 10000 )
@@ -35,7 +89,36 @@ function ajax_post_form(form_id, url, redirect_url = '', success_msg = 'Successf
     });
 }
 
-function ajax_post_form_dt(form_id, url, modal_id = '',  success_msg = 'Successful!', reload_table = true, notice_elem = '.status_msg') {
+function ajax_post_form_dt(form_data, url, modal_id = '',  success_msg = 'Successful!', reload_table = true, notice_elem = '.status_msg') {
+    $.ajax({
+        url: url, 
+        type: 'POST',
+        data: form_data,
+        dataType: 'json'
+    }).done(function(jres) {
+        if (jres.status) {
+            if (reload_table) {
+                $('.ajax_dt_table').DataTable().ajax.reload();
+            }
+            $(notice_elem).html('<div class="alert alert-success">'+success_msg+'</div>')
+                .fadeIn('fast')
+                .delay( 10000 )
+                .fadeOut( 'slow' );
+            if (modal_id.length) {
+                setTimeout(function() { 
+                    $('#'+modal_id).modal('hide');
+                }, 3000);  
+            }
+        } else {
+            $(notice_elem).html('<div class="alert alert-danger text-center">' + jres.error + '</div>')
+                .fadeIn( 'fast' )
+                .delay( 10000 )
+                .fadeOut( 'slow' );
+        }
+    });
+}
+
+function ajax_post_form_dt2223(form_id, url, modal_id = '',  success_msg = 'Successful!', reload_table = true, notice_elem = '.status_msg') {
     $('#'+form_id).off("submit"); //unbind event to prevent multiple firing
     $('#'+form_id).submit(function(e) {
         e.preventDefault();
@@ -79,18 +162,18 @@ function ajax_post_form_mp(form_id, url, notice_elem = '.status_msg', redirect_u
             url: base_url+url, 
             type: 'POST',
             data: form_data,
-	        contentType: false,
-	        cache: false,
-	        processData: false
-	    }).done(function(jres) {
-	    	if (jres.status) {
+            contentType: false,
+            cache: false,
+            processData: false
+        }).done(function(jres) {
+            if (jres.status) {
                 $(notice_elem).html('<div class="alert alert-success">'+success_msg+'</div>')
                     .fadeIn('fast');
                 if (redirect_url.length) {
                     setTimeout(function() { 
                         $(location).attr('href', base_url+redirect_url);
                     }, 3000);
-               	}    
+                }    
             } else {
                 $(notice_elem).html('<div class="alert alert-danger text-center">' + jres.error + '</div>')
                     .fadeIn( 'fast' )
@@ -156,24 +239,25 @@ function confirm_actions(obj, ajax_url, title, msg, success_msg = 'Successful') 
     ajax_post_btn_data(ajax_url, mod, md, tb, id, 'confirm_btn', 'm_confirm_action', success_msg);
 }
 
-function modal_edit_record(obj, modal, form_id, attrs, url, item = 'Record') {
-    //clear form
-    $('#'+form_id)[0].reset();
-    $.each(attrs, (key, name) => {
-        var val = $(obj).data(key);
-        //if name is not supplied, use the key as name
-        name = name.length ? name : key;
-        var field = $('#'+form_id).find(':input[name="'+name+'"]');
-        //get input type or tagname if type is undefined (eg select, textarea)
-        var type = field.attr('type') || field.prop('tagName').toLowerCase();
-        if (type == 'select' || type == 'checkbox' || type == 'radio') {
-            //we need to call change event on these guys
-            field.val(val).change();
-        } else {
-            field.val(val);
-        }
-    });
-    $('#'+modal+ ' .modal-title').text('Edit Record');
-    $('#'+modal).modal('show'); //show the modal
-    return ajax_post_form_dt(form_id, url, modal, item+' updated successfully.');
-}
+
+function modal_edit_record223(obj, modal, form_id, attrs, url, item = 'Record') {
+        //clear form
+        $('#'+form_id)[0].reset();
+        $.each(attrs, (key, name) => {
+            var val = $(obj).data(key);
+            //if name is not supplied, use the key as name
+            name = name.length ? name : key;
+            var field = $('#'+form_id).find(':input[name="'+name+'"]');
+            //get input type or tagname if type is undefined (eg select, textarea)
+            var type = field.attr('type') || field.prop('tagName').toLowerCase();
+            if (type == 'select' || type == 'checkbox' || type == 'radio') {
+                //we need to call change event on these guys
+                field.val(val).change();
+            } else {
+                field.val(val);
+            }
+        });
+        $('#'+modal+ ' .modal-title').text('Edit Record');
+        $('#'+modal).modal('show'); //show the modal
+        return ajax_post_form_dt(form_id, url, modal, item+' updated successfully.');
+    }
