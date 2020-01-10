@@ -165,7 +165,7 @@ function adit_form_modal($crud_type, $item, $fields, $butt_attrs = [], $prefix =
     $form_id = $crud_type.'_form';
     $action = $ci->c_controller.'/'.$crud_type.'_item_ajax';
     $id_field = $crud_type == 'edit' ? xform_input('id', 'hidden') : '';
-    $attrs = ['id' => $form_id, 'class' => 'ajax_form', 'data-modal' => $modal, 'data-crud_type' => $crud_type, 'data-msg' => $item.' '.$crud_type.'ed successfully', 'data-reload' => $reload];
+    $attrs = ['id' => $form_id, 'class' => 'ajax_form', 'data-type' => 'modal_dt', 'data-modal' => $modal, 'data-msg' => $item.' '.$crud_type.'ed successfully', 'data-reload' => $reload];
     // var_dump($fields); die;
     modal_header($modal, $title);
         xform($action, $fields, $attrs, ucfirst($crud_type), $form_id, $butt_attrs);

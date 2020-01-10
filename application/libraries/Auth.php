@@ -151,6 +151,37 @@ class Auth {
 
 
 	/**
+	 * [_insert_permissions description] NOT IN USE YET, JUST SAVED HERE
+	 * @return [type] [description]
+	 */
+	function _insert_permissions() {
+		//modules
+	    $feat_count = count($_POST['feat_idx']);
+	    for ($i = 0; $i < $feat_count; $i++) { 
+	        $feat_id = $_POST['feat_idx'][$i];
+	        $l_types = "";
+	        $j = 1;
+	        foreach ($log_types as $type) {
+	            //if type is checked, get the first letter
+	            if (isset($_POST[$type['code']][$feat_id])) {
+	                //append types to feat id, using # as delim, and | as separator for types
+	                $l_types .= ($j == 1 ? $feat_id.'#' : '|') . $type['CategoryID'];
+	                $j++;
+	            }
+	        }
+	        if (strlen($l_types)) $features_arr[] = $l_types;
+	    }
+
+	    //implode the features, using & as delim
+	    $features = join('&', $features_arr);
+	    if ( ! strlen($features)) {
+	        stackErrors(array("Error", "No feature selected!"));
+	        exit;
+	    }
+	}
+
+
+	/**
 	* Restrict access to pages without the right permissions
 	* redirect to forbidden page
 	* @return boolean

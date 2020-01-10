@@ -20,13 +20,12 @@ jQuery(document).ready(function ($) {
         }
     });
 
+    //ajax datatables trigger
     var dt = $('.ajax_dt_table');
-    if (typeof dt !== "undefined") {
+    if (typeof dt.attr('id') !== "undefined") {
         var table = dt.attr('id'),
             url = dt.data('ajax_url'),
             keys = dt.data('ajax_keys');
-            console.log('id, url', table, url);
-            console.log('keys', keys);
         ajax_data_table(table, url, keys);
     }
 

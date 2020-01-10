@@ -1,7 +1,18 @@
 jQuery(document).ready(function ($) {
     "use strict";
 
-    //Note: tm is short for trigger_modal
+    //Note: tm is short for trigger_modal 
+    
+    function confirm_actions(obj, ajax_url, title, msg, success_msg = 'Successful') {
+        $('#m_confirm_action .modal-title').text(title); 
+        $('#m_confirm_action .modal-body .msg').html(msg); 
+        $('#m_confirm_action').modal('show');
+        var id = $(obj).data('id');
+        var tb = $(obj).data('tb');
+        var mod = $(obj).data('mod');
+        var md = $(obj).data('md');
+        ajax_post_btn_data(ajax_url, mod, md, tb, id, 'confirm_btn', 'm_confirm_action', success_msg);
+    }
     
     //trash record
     $(document).on( "click", ".trash_record", function() {
