@@ -45,7 +45,7 @@ jQuery(document).ready(function ($) {
             $('.ba_check_all').prop('checked', false); //change "select all" checked status to false
         }
         //check "select all" if all checkbox items are checked
-        if ($('.ba_record:checked').length == $('.checkbox').length ){
+        if ($('.ba_record:checked').length == $('.ba_record').length ){
             $('.ba_check_all').prop('checked', true);
         }
     });
