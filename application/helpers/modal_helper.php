@@ -18,7 +18,7 @@ Date Modified: 22nd June, 2019
  *
  * Dialog: modal-sm, modal-lg
  */
-function modal_header($id, $title = '', $xclass = '', $xdialog = '') { ?>
+function modal_header($id, $title = '', $xclass = 'fill-in', $xdialog = '') { ?>
     <div class="modal custom fade <?php echo $xclass; ?>" id="<?php echo $id; ?>" tabindex="-1" role="dialog" aria-labelledby="<?php echo $id; ?>" aria-hidden="true">
         <div class="modal-dialog <?php echo $xdialog; ?>" role="document">
             <div class="modal-content">

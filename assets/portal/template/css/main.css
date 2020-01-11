@@ -5862,7 +5862,6 @@ a.btn-warning {
 }
 
 .modal.fade.fill-in .modal-dialog {
-    display: table;
     top: 10%;
     background-color: rgba(255, 255, 255, 0);
     -webkit-transition: background-color .3s;
@@ -5870,7 +5869,6 @@ a.btn-warning {
 }
 
 .modal.fade.fill-in .modal-content {
-    display: table-cell;
     vertical-align: middle;
     border: 0;
     background: 0 0
@@ -5879,10 +5877,6 @@ a.btn-warning {
 .modal.fade.slide-left .modal-content,
 .modal.fade.slide-right .modal-content {
     border-radius: 0
-}
-
-.modal.fade.fill-in .modal-content .modal-header {
-    border-bottom: 0
 }
 
 .modal.fade.fill-in.show .modal-dialog {
@@ -6975,7 +6969,7 @@ fieldset[disabled] .form-control {
 .custom-select:invalid,
 .form-control.is-invalid,
 .form-control:invalid {
-    border-color: #eb7374
+    /*border-color: #eb7374*/
 }
 
 .custom-select.is-valid:focus,
@@ -7181,7 +7175,7 @@ fieldset[disabled] .form-control {
 }
 
 .material-form .form-group.floating-label .form-control.filled~label {
-    top: -17px;
+    /*top: -17px;*/
     font-size: 12px
 }
 

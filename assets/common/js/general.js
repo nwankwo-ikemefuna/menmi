@@ -28,23 +28,20 @@ jQuery(document).ready(function ($) {
 	}
 
 	//bulk action: disable action button if no bulk action type is selected
+    if ($('.ba_apply').length) $('.ba_apply').prop('disabled', true);
     $('[name="ba_option"]').change(function () {
-    	$('.ba_apply').removeClass('hide');
-        $('.ba_apply').prop('disabled', ! Boolean($(this).val()));
+    	$('.ba_apply').prop('disabled', ! Boolean($(this).val()));
     });
     
     //bulk action: select all checkbox items if select all is checked
-    $('.ba_check_all').change(function(){  //"select all" change 
-        $('.ba_record').prop('checked', $(this).prop('checked'));//change all ".checkbox" checked status
+    $('.ba_check_all').change(function(){  
+        $('.ba_record').prop('checked', $(this).prop('checked'));
     });
     
-    //".checkbox" change 
     $('.ba_record').change(function(){ 
-        //uncheck "select all", if one of the listed checkbox item is unchecked
-        if(false == $(this).prop('checked')){ //if this item is unchecked
-            $('.ba_check_all').prop('checked', false); //change "select all" checked status to false
+        if(false == $(this).prop('checked')){ 
+            $('.ba_check_all').prop('checked', false); 
         }
-        //check "select all" if all checkbox items are checked
         if ($('.ba_record:checked').length == $('.ba_record').length ){
             $('.ba_check_all').prop('checked', true);
         }

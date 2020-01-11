@@ -35,7 +35,7 @@ function bulk_action($options_arr, $record_count = 0, $default_modal = 'm_confir
                     ?>
                 </select>
                 <div class="input-group-append">
-                    <?php echo tm_confirm('Apply', $ci->module, $ci->model, $ci->table, 'ba_apply hide btn-lg', '', 'primary', 'Execute bulk action'); ?>
+                    <?php echo tm_confirm('Apply', $ci->module, $ci->model, $ci->table, 'ba_apply btn-lg', '', 'primary', 'Execute bulk action'); ?>
                 </div>
             </div>
         </div>

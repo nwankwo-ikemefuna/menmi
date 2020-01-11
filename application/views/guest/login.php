@@ -14,10 +14,10 @@
                 $redirect_url = $this->session->login_redirect ? $this->session->requested_page : base_url('user');
                 $attrs = ['id' => 'login_form', 'class' => 'ajax_form material-form', 'data-type' => 'redirect', 'data-redirect' => $redirect_url, 'data-msg' => "Login successful. Redirecting... <p>If you are not automatically redirected, <a href='{$redirect_url}'>click here</a></p>"];
                 $fields = [
-                    ['name' => 'email', 'type' => 'email', 'extra' => ['id' => 'email'], 'label_extra' => ['class' => 'floating-label']],
-                    ['name' => 'password', 'type' => 'password', 'extra' => ['id' => 'password'], 'label_extra' => ['class' => 'floating-label']]
+                    ['name' => 'email', 'type' => 'email', 'label' => 'Email', 'extra' => ['id' => 'email'], 'label_extra' => ['class' => 'floating-label']],
+                    ['name' => 'password', 'type' => 'password', 'label' => 'Password', 'extra' => ['id' => 'password'], 'label_extra' => ['class' => 'floating-label']]
                 ];
-                xform($this->c_controller.'/login_ajax', $fields, $attrs, 'Login', $attrs['id'], ['class' => 'btn-theme ripple btn-raised btn-block btn-submit']); ?>
+                xform($this->c_controller.'/login_ajax', $fields, $attrs, 'grid', 'Login', $attrs['id'], ['class' => 'btn-theme ripple btn-raised btn-block btn-submit']); ?>
             </div>
         </div>
     </div>
