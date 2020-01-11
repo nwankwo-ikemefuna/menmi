@@ -25,8 +25,9 @@ jQuery(document).ready(function ($) {
     if (typeof dt.attr('id') !== "undefined") {
         var table = dt.attr('id'),
             url = dt.data('ajax_url'),
-            keys = dt.data('ajax_keys');
-        ajax_data_table(table, url, keys);
+            keys = dt.data('ajax_keys'),
+            per_page = dt.attr('data-per_page') ? dt.data('per_page') : 30;
+        ajax_data_table(table, url, keys, per_page);
     }
 
 });
@@ -78,22 +79,18 @@ $.fn.dataTableExt.oApi.fnPagingInfo = function(oSettings) {
     };
 };
 
-function adjust_index(arr) {
-    // var new_arr = arr.map(n => n + 2);
-}
-
-function ajax_data_table(table_id, url, columns, no_search = [], no_order = [], page_length = 10) {
-    //common column names
-    let common_cols = [
-        {"data": "checker"},
-        {"data": null}
+function ajax_data_table(table_id, url, columns, page_length = 30) {
+    let pre_cols = [
+        {"data": "checker", "searchable": false, "orderable": false},
+        // {"data": null, "searchable": false, "orderable": false},
+        {"data": "actions", "searchable": false, "orderable": false}
     ];
-    //common column index
-    let common_ignore = [0, 1];
-    //adjust no_search and no_order index to account for the 2 guys above
-    /*no_search = adjust_index(no_search);
-    no_order = adjust_index(no_order);*/
-
+    columns = [...pre_cols, ...columns];
+    let post_cols = [
+        {"data": "created_on"},
+        {"data": "updated_on"}
+    ];
+    columns = [...columns, ...post_cols];
     var table = $('#'+table_id).dataTable({ 
         initComplete: function() {
             var api = this.api();
@@ -118,11 +115,8 @@ function ajax_data_table(table_id, url, columns, no_search = [], no_order = [], 
             type: "POST",
             //data: { 'q2r_secure' : csrf_hash } //cross site request forgery protection
         },
-        columns: [...common_cols, ...columns],
-        columnDefs: [
-            {searchable: false, targets: [...common_ignore, ...no_search]},
-            {orderable: false, targets: [...common_ignore, ...no_order]},
-        ],
+        columns: columns,
+        columnDefs: [],
         order: [],
         buttons: ExportButtons,
         dom: "<'dt_buttons'B>frtp",
@@ -131,7 +125,7 @@ function ajax_data_table(table_id, url, columns, no_search = [], no_order = [], 
             var info = this.fnPagingInfo();
             var page = info.iPage;
             var length = info.iLength;
-            $('td:eq(1)', row).html(index); //counter
+        //     $('td:eq(1)', row).html(index); //counter
         }
      
     });

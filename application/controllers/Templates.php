@@ -68,7 +68,7 @@ class Templates extends Core_controller {
 		$xtra_butts = [['text' => 'Template', 'type' => 'url', 'target' => $this->c_controller.'/view/'.$id]];
 		$this->butts = ['add_m', 'list' => ['url' => $this->c_controller.'/items/'.$id], 'extra' => $xtra_butts];
 		//bulk action
-		$this->ba_opts = ['Transfer' => ['modal' => 'm_confirm_action'], 'Delete'];
+		$this->ba_opts = ['Transfer' => ['modal' => 'm_confirm_action']];
 		$sql = $this->template_model->sql();
 		$row = $this->common_model->get_row($sql['table'], $id, 'id', 0, $sql['joins'], $sql['select'], $sql['where']);
 		$sql = $this->template_model->item_sql($id);

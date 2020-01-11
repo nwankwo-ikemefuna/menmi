@@ -13,7 +13,7 @@ class Core_Controller extends CI_Controller {
 		//constants
 		require_once 'application/config/http_codes.php';
 		require_once 'application/config/consts.php';
-		$this->site_author = 'Nwankwo Ikemefuna';
+		$this->site_author = 'SoftBytech';
 		$this->author_linkedin = 'https://www.linkedin.com/in/nwankwoikemefuna';
 		//get current controller class 
 		$this->c_controller = $this->router->fetch_class();

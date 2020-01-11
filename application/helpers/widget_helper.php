@@ -43,6 +43,46 @@ function bulk_action($options_arr, $record_count = 0, $default_modal = 'm_confir
     <?php
 }
 
+function ajax_table($id, $columns = [], $keys, $url, $col_grid = 'col-12', $responsive = true, $head_class = 'thead-default') { ?>
+    <div class="row">
+        <div class="<?php echo $col_grid; ?> m-b-10">
+            <div class="<?php echo $responsive ? 'table-responsive' : ''; ?>">
+                <?php echo csrf_hidden_input();
+                //data keys and configs
+                $data = [];
+                foreach ($keys as $key => $value) {
+                    $key = is_array($value) ? $key : $value;
+                    if (is_array($value)) {
+                        $searchable = isset($value['searchable']) ? $value['searchable'] : true;
+                        $orderable = isset($value['orderable']) ? $value['orderable'] : true;
+                        $data[] = ['data' => $key, 'searchable' => $searchable, 'orderable' => $orderable];
+                    } else {
+                        $data[] = ['data' => $key];
+                    }
+                } ?>
+                <table class="table ajax_dt_table mb-0" id="<?php echo $id; ?>" data-ajax_keys='<?php echo json_encode($data); ?>' data-ajax_url="<?php echo $url; ?>">
+                    <thead class="<?php echo $head_class; ?>">
+                        <tr>
+                            <th style="width: 10px"><?php echo xform_input('', 'checkbox', '', false, ['class' => 'ba_check_all']); ?></th><!-- Select all -->
+                            <!-- <th style="width: 20px">#</th> -->
+                            <th>Actions</th>
+                            <?php 
+                            foreach ($columns as $key => $value) {
+                                $name = is_array($value) ? $key : $value;
+                                $class = isset($value['class']) && strlen($value['class']) ? $value['class'] : '';
+                                echo '<th class="'.$class.'">'.$name.'</th>';
+                            } ?>
+                            <th class="min-w-150">Created On</th>
+                            <th class="min-w-150">Updated On</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+    <?php
+}
+
 function table_data_collapse($collapse_id, $content, $link_text = 'View details') {
     if ($content === NULL || $content === '') return NULL;
     $collapse = '<a class="underline-link" data-toggle="collapse" href="#'.$collapse_id.'">'.$link_text.'</a>';
@@ -70,41 +110,4 @@ function tc_show_more($content, $show_char = 100) {
     $collapse .= $content;
     $collapse .= '</span>';
     return $collapse;
-}
-
-function ajax_table($id, $columns = [], $keys, $url, $col_grid = 'col-12', $responsive = true, $head_class = 'thead-default') { ?>
-    <div class="row">
-        <div class="<?php echo $col_grid; ?> m-b-10">
-            <div class="<?php echo $responsive ? 'table-responsive' : ''; ?>">
-                <?php echo csrf_hidden_input();
-                //data keys and configs
-                $data = [];
-                foreach ($keys as $key => $value) {
-                    $key = is_array($value) ? $key : $value;
-                    if (is_array($value)) {
-                        $searchable = isset($value['searchable']) ? $value['searchable'] : true;
-                        $orderable = isset($value['orderable']) ? $value['orderable'] : true;
-                        $data[] = ['data' => $key, 'searchable' => $searchable, 'orderable' => $orderable];
-                    } else {
-                        $data[] = ['data' => $key];
-                    }
-                } ?>
-                <table class="table ajax_dt_table mb-0" id="<?php echo $id; ?>" data-ajax_keys='<?php echo json_encode($data); ?>' data-ajax_url="<?php echo $url; ?>">
-                    <thead class="<?php echo $head_class; ?>">
-                        <tr>
-                            <th><?php echo xform_input('', 'checkbox', '', false, ['class' => 'ba_check_all']); ?></th><!-- Select all -->
-                            <th>#</th><!-- Counter -->
-                            <?php 
-                            foreach ($columns as $key => $value) {
-                                $name = is_array($value) ? $key : $value;
-                                $class = isset($value['class']) && strlen($value['class']) ? $value['class'] : '';
-                                echo '<th class="'.$class.'">'.$name.'</th>';
-                            } ?>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-        </div>
-    </div>
-    <?php
 }

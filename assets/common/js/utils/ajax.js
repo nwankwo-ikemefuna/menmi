@@ -66,7 +66,14 @@ function ajax_post_form(form_data, url, redirect_url = '', success_msg = 'Succes
         url: url, 
         type: 'POST',
         data: form_data,
-        dataType: 'json'
+        dataType: 'json',
+        beforeSend: function() {
+            $(notice_elem).empty();
+            $('.ajax_spinner').removeClass('hide').addClass('fa-spin');
+        },
+        complete: function() {
+            $('.ajax_spinner').addClass('hide').removeClass('fa-spin');
+        }
     }).done(function(jres) {
         if (jres.status) {
             $(notice_elem).html('<div class="alert alert-success">'+success_msg+'</div>')
@@ -94,7 +101,14 @@ function ajax_post_form_dt(form_data, url, modal_id = '',  success_msg = 'Succes
         url: url, 
         type: 'POST',
         data: form_data,
-        dataType: 'json'
+        dataType: 'json',
+        beforeSend: function() {
+            $(notice_elem).empty();
+            $('.ajax_spinner').removeClass('hide').addClass('fa-spin');
+        },
+        complete: function() {
+            $('.ajax_spinner').addClass('hide').removeClass('fa-spin');
+        }
     }).done(function(jres) {
         if (jres.status) {
             if (reload_table) {
@@ -110,7 +124,7 @@ function ajax_post_form_dt(form_data, url, modal_id = '',  success_msg = 'Succes
                 }, 3000);  
             }
         } else {
-            $(notice_elem).html('<div class="alert alert-danger text-center">' + jres.error + '</div>')
+            $(notice_elem).html('<div class="alert alert-danger">' + jres.error + '</div>')
                 .fadeIn( 'fast' )
                 .delay( 10000 )
                 .fadeOut( 'slow' );
@@ -130,7 +144,14 @@ function ajax_post_form_mp(form_id, url, notice_elem = '.status_msg', redirect_u
             data: form_data,
             contentType: false,
             cache: false,
-            processData: false
+            processData: false,
+            beforeSend: function() {
+                $(notice_elem).empty();
+                $('.ajax_spinner').removeClass('hide').addClass('fa-spin');
+            },
+            complete: function() {
+                $('.ajax_spinner').addClass('hide').removeClass('fa-spin');
+            }
         }).done(function(jres) {
             if (jres.status) {
                 $(notice_elem).html('<div class="alert alert-success">'+success_msg+'</div>')
@@ -163,7 +184,14 @@ function ajax_post_btn_data(url, mod, md, tb, id, btn_id, modal_id = '', success
             url: base_url+url, 
             type: 'POST',
             data: post_data,
-            dataType: 'json'
+            dataType: 'json',
+            beforeSend: function() {
+                $('.confirm_status').empty();
+                $('.ajax_spinner').removeClass('hide').addClass('fa-spin');
+            },
+            complete: function() {
+                $('.ajax_spinner').addClass('hide').removeClass('fa-spin');
+            }
         }).done(function(jres) {
             if (jres.status) {
                 if (modal_id.length) {

@@ -136,7 +136,7 @@
             <!-- /header content -->
             
             <div class="company_name pull-right">
-                <a href="<?php echo base_url('user'); ?>"><?php echo ucfirst($this->page); ?> | <?php echo $this->session->user_company; ?></a>
+                <a href="<?php echo base_url(); ?>"><?php echo ucfirst($this->page); ?> | <?php echo $this->session->user_company; ?></a>
             </div>
 
             <!-- page content -->

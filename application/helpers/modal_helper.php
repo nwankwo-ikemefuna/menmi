@@ -33,14 +33,15 @@ function modal_header($id, $title = '', $xclass = 'fill-in', $xdialog = '') { ?>
     <?php        
 }
 
-function modal_footer($with_footer = true, $with_btn = false, $btn_id = 'confirm_btn', $with_close_btn = true, $close_btn_text = 'Cancel') { ?>
+function modal_footer($with_footer = true, $with_btn = false, $btn_id = 'confirm_btn', $btn_text = 'Yes, Continue', $with_close_btn = true, $close_btn_text = 'Cancel') { ?>
                 </div><!--/.modal-body-->
                 <?php 
                 if ($with_footer) { ?>
                     <div class="modal-footer">
                         <?php 
-                        if ($with_btn) { ?>
-                            <button class="btn btn-sm btn-warning text-white" role="button" id="<?php echo $btn_id; ?>">Yes, Continue</button>
+                        if ($with_btn) { 
+                            $btn_text .= ' <i class="fa fa-spinner ajax_spinner hide"></i>'; ?>
+                            <button class="btn btn-sm btn-warning text-white" role="button" id="<?php echo $btn_id; ?>"><?php echo $btn_text; ?></button>
                             <?php
                         }
                         //close button?

@@ -156,7 +156,7 @@ function xform_group_grid($label, $name, $type = 'text', $value = '', $required 
 
 function xform_submit($text = 'Save', $form_id = '', $extra = ['class' => 'btn btn-theme'], $fg_extra = ['class' => 'form-group']) {
     $form_id = attr_isset($form_id, 'form="'.$form_id.'"', ''); 
-    $c = input_key_isset($extra, 'rows', 100); ?>
+    $text .= ' <i class="fa fa-spinner ajax_spinner hide"></i>'; ?>
     <div <?php echo set_extra_attrs($fg_extra); ?>>
         <button type="submit" <?php echo $form_id; ?> <?php echo set_extra_attrs($extra); ?> >
             <span><?php echo $text; ?></span>

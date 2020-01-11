@@ -41,8 +41,16 @@ class Core_Model extends CI_Model {
     private function prepare_query($table, $trashed = 0, $joins = [], $select = '', $where = [], $order = [], $group_by = '', $ajax = false) {
         $obj = q_obj($ajax);
         $alias = $this->table_alias($table);
+        $date_created_sel = datetime_select($alias.'.date_created', 'created_on');
+        $date_updated_sel = datetime_select($alias.'.date_updated', 'updated_on');
         //select is not set? Select all from main table
-        if ( ! strlen($select)) $select = $alias.'.*';
+        if ( ! strlen($select)) {
+            $select = $alias.'.*';
+            $select .= ", {$date_created_sel}, {$date_updated_sel}";
+        } else {
+            //append date created and updated
+            $select .= ", {$date_created_sel}, {$date_updated_sel}";
+        }
         $this->$obj->select($select);
         $this->$obj->from($table);
         //joins

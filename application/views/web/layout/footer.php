@@ -123,7 +123,7 @@
 	        <div class="col-sm-6 col-xs-12 coppyright"> Copyright © <?php echo date('Y'); ?> <a href="<?php echo base_url(); ?>"> <?php echo $this->site_name; ?> </a>. All Rights Reserved. </div>
 	        <div class="col-sm-6 col-xs-12">
 	          <div class="payment">
-	            What should be here brah?
+	            Powered by <a href="<?php echo $this->author_linkedin; ?>" target="_blank"><?php echo $this->site_author; ?></a>
 	          </div>
 	        </div>
 	      </div>

@@ -21,6 +21,12 @@ function db_user_title($title) {
 	return strlen(trim($title)) ? ucwords($title) : NULL;
 }
 
+function datetime_select($field, $alias = '', $full_month = false) {
+	$month = $full_month ? 'M' : 'b';
+	$as_alias = strlen($alias) ? "AS {$alias}" : '';
+	return "DATE_FORMAT({$field}, '%D %{$month}, %Y at %h:%i %p') {$as_alias}";
+}
+
 function trashed_record_list() {
 	return (int) (isset($_GET['trashed']) && $_GET['trashed'] == 1);
 }
@@ -30,8 +36,4 @@ function sql_data($table, $joins, $select, $where, $where_extra = []) {
         $where = array_merge($where, $where_extra);
     }
     return['table' => $table, 'joins' => $joins, 'select' => $select, 'where' => $where];
-}
-
-function xobj($obj, $val) {
-	return isset($obj) ? $obj->$val : null;
 }
