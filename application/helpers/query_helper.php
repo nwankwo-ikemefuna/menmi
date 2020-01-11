@@ -1,7 +1,7 @@
 <?php 
 
 function q_obj(bool $ajax) {
-	return $ajax ? 'datatables' : 'db'; 
+	return $ajax ? 'datatables' : 'db';
 }
 
 function full_name_select($tbl_alias = '', $with_alias = true, $alias = 'full_name') {

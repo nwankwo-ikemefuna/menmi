@@ -17,7 +17,7 @@
                     ['name' => 'email', 'type' => 'email', 'label' => 'Email', 'extra' => ['id' => 'email'], 'label_extra' => ['class' => 'floating-label']],
                     ['name' => 'password', 'type' => 'password', 'label' => 'Password', 'extra' => ['id' => 'password'], 'label_extra' => ['class' => 'floating-label']]
                 ];
-                xform($this->c_controller.'/login_ajax', $fields, $attrs, 'grid', 'Login', $attrs['id'], ['class' => 'btn-theme ripple btn-raised btn-block btn-submit']); ?>
+                xform($this->c_controller.'/login_ajax', $fields, $attrs, 'Login', $attrs['id'], ['class' => 'btn-theme ripple btn-raised btn-block btn-submit']); ?>
             </div>
         </div>
     </div>

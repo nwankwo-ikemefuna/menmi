@@ -38,7 +38,7 @@ function xform_input($name, $type = 'text', $value = '', $required = false, $ext
     $attrs = set_extra_attrs($extra);
     $is_required = $required ? 'required' : '';
     if ($type == 'textarea') {
-        $rows = input_key_isset($extra, 'rows', 100);
+        $rows = input_key_isset($extra, 'rows', 8);
         $elem = '<textarea name="'.$name.'" rows="'.$rows.'" '.$is_required.' '.$attrs.'>'.$value.'</textarea>';
     } else {
         $elem = '<input type="'.$type.'" name="'.$name.'" value="'.$value.'" '.$is_required.' '.$attrs.' />';
@@ -171,10 +171,11 @@ function xform_notice($class = 'status_msg', $id = '') {
     <?php
 }
 
-function xform($action, $fields, $attrs = [], $layout = 'grid', $butt_text = 'Save', $butt_form = '', $butt_attrs = [], $notice_attrs = []) {
+function xform($action, $fields, $attrs = [], $butt_text = 'Save', $butt_form = '', $butt_attrs = [], $notice_attrs = []) {
     echo form_open($action, $attrs);
         //form fields
         foreach ($fields as $field) {
+            $layout = input_key_isset($field, 'layout', 'grid');
             $label = input_key_isset($field, 'label', '');
             $name = input_key_isset($field, 'name', '');
             $type = input_key_isset($field, 'type', '');
@@ -202,7 +203,7 @@ function xform($action, $fields, $attrs = [], $layout = 'grid', $butt_text = 'Sa
     echo form_close();
 }
 
-function adit_form_modal($crud_type, $item, $fields, $layout = 'grid', $butt_attrs = ['class' => 'btn btn-theme'], $prefix = 'm', $reload = 1) {
+function adit_form_modal($crud_type, $item, $fields, $butt_attrs = ['class' => 'btn btn-theme'], $prefix = 'm', $reload = 1) {
     $ci =& get_instance();
     $modal = $prefix.'_'.$crud_type;
     $title = ucfirst($crud_type).' ' . $item;
@@ -211,6 +212,6 @@ function adit_form_modal($crud_type, $item, $fields, $layout = 'grid', $butt_att
     $id_field = $crud_type == 'edit' ? xform_input('id', 'hidden') : '';
     $attrs = ['id' => $form_id, 'class' => 'ajax_form', 'data-type' => 'modal_dt', 'data-modal' => $modal, 'data-msg' => $item.' '.$crud_type.'ed successfully', 'data-reload' => $reload];
     modal_header($modal, $title);
-        xform($action, $fields, $attrs, $layout, ucfirst($crud_type), $form_id, $butt_attrs);
+        xform($action, $fields, $attrs, ucfirst($crud_type), $form_id, $butt_attrs);
     modal_footer(false);
 }
