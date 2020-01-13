@@ -24,9 +24,9 @@ class Templates extends Core_controller {
 		$this->butts = ['add_m', 'list'];
 		$sql = $this->template_model->sql();
 		$count = count($this->common_model->get_rows($sql['table'], $this->trashed, $sql['joins'], $sql['select'], $sql['where']));
-		$this->user_header('Templates', $count);
-		$this->load->view('user/templates/index');
-		$this->user_footer();
+		$this->dash_header('Templates', $count);
+		$this->load->view('dash/templates/index');
+		$this->dash_footer();
 	}
 
 
@@ -53,10 +53,10 @@ class Templates extends Core_controller {
 		$this->butts = ['add_m', 'list', 'extra' => $xtra_butts];
 		$sql = $this->template_model->sql();
 		$row = $this->common_model->get_row($sql['table'], $id, 'id', $this->trashed, $sql['joins'], $sql['select'], $sql['where']);
-		$this->user_header($row->name, $row->total_items, $id);
+		$this->dash_header($row->name, $row->total_items, $id);
 		$data['row'] = $row;
-		$this->load->view('user/templates/view', $data); 
-		$this->user_footer();
+		$this->load->view('dash/templates/view', $data); 
+		$this->dash_footer();
 	}
 
 
@@ -73,12 +73,12 @@ class Templates extends Core_controller {
 		$row = $this->common_model->get_row($sql['table'], $id, 'id', 0, $sql['joins'], $sql['select'], $sql['where']);
 		$sql = $this->template_model->item_sql($id);
 		$count = count($this->common_model->get_rows($sql['table'], $this->trashed, $sql['joins'], $sql['select'], $sql['where']));
-		$this->user_header('Items: '.$row->name, $count, $id);
+		$this->dash_header('Items: '.$row->name, $count, $id);
 		$data['row'] = $row;
 		$sql = $this->template_model->cat_sql();
 		$data['categories'] = $this->common_model->get_rows($sql['table'], $this->trashed, $sql['joins'], $sql['select'], $sql['where']);
-		$this->load->view('user/templates/items/index', $data); 
-		$this->user_footer();
+		$this->load->view('dash/templates/items/index', $data); 
+		$this->dash_footer();
 	}
 
 

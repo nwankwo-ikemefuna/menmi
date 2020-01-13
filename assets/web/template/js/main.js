@@ -60,16 +60,16 @@ jQuery(document).ready( function() {
 ******************************************/
 
     jQuery("#best-selling-slider .slider-items").owlCarousel({
-            items: 2,
-            itemsDesktop: [1250, 2],
-            itemsDesktopSmall: [980, 1],
+            items: 4,
+            itemsDesktop: [1250, 4],
+            itemsDesktopSmall: [980, 3],
             itemsTablet: [640, 2],
             itemsMobile: [360, 1],
             navigation: !0,
             navigationText: ['<a class="flex-prev"></a>', '<a class="flex-next"></a>'],
             slideSpeed: 500,
             pagination: !1,
-            autoPlay: false
+            autoPlay: true
         }),
 
 /******************************************

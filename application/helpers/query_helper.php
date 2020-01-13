@@ -27,13 +27,15 @@ function datetime_select($field, $alias = '', $full_month = false) {
 	return "DATE_FORMAT({$field}, '%D %{$month}, %Y at %h:%i %p') {$as_alias}";
 }
 
+function price_select($code_col, $price_col, $alias = '', $precision = 0) {
+	$as_alias = strlen($alias) ? "AS {$alias}" : '';
+	return "CONCAT('&#', {$code_col}, ';', {$price_col}) {$as_alias}";
+}
+
 function trashed_record_list() {
 	return (int) (isset($_GET['trashed']) && $_GET['trashed'] == 1);
 }
 
-function sql_data($table, $joins, $select, $where, $where_extra = []) {
-	if (is_array($where_extra) && count($where_extra) > 0) {
-        $where = array_merge($where, $where_extra);
-    }
-    return['table' => $table, 'joins' => $joins, 'select' => $select, 'where' => $where];
+function sql_data($table, $joins, $select, $where, $order = [], $group_by = '') {
+	return ['table' => $table, 'joins' => $joins, 'select' => $select, 'where' => $where, 'order' => $order, 'group_by' => $group_by];
 }

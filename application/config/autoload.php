@@ -94,7 +94,7 @@ array(
     //CI: system/helpers
     'date', 'form', 'inflector', 'url',
     //custom: application/helpers
-    'alert', 'app', 'crud', 'modal', 'nav', 'query', 'rest', 'widget', 'xform'
+    'alert', 'app', 'crud', 'modal', 'nav', 'product', 'query', 'rest', 'upload', 'widget', 'xform'
 );
 
 /*
@@ -138,4 +138,4 @@ $autoload['language'] = array();
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array('common_model', 'template_model');
+$autoload['model'] = array('common_model', 'product_model');

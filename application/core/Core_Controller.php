@@ -109,18 +109,19 @@ class Core_Controller extends CI_Controller {
 	}
 
 
-	protected function user_header($page_title, $record_count = '', $crud_rec_id = null) {
+	protected function dash_header($page_title, $record_count = '', $crud_rec_id = null, $meta_tags = '') {
 		//unset user login request data
 		$this->auth->unset_request_data();
 		$data['page_title'] = $page_title;
 		$data['record_count'] = $record_count;
 		$data['crud_rec_id'] = $crud_rec_id;
-		return $this->load->view('user/layout/header', $data);
+		$data['meta_tags'] = $meta_tags;
+		return $this->load->view('dash/layout/header', $data);
 	}
 	
 
-	protected function user_footer() {
-		return $this->load->view('user/layout/footer');
+	protected function dash_footer() {
+		return $this->load->view('dash/layout/footer');
 	}
 
 

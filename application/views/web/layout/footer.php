@@ -294,8 +294,8 @@ if ($this->page_scripts) {
 
 <script>
     //pass vars to javascript
-    var base_url = "<?php echo base_url(); ?>";
-    var c_controller = "<?php echo $this->c_controller; ?>";
+    var base_url = "<?php echo base_url(); ?>",
+    	c_controller = "<?php echo $this->c_controller; ?>";
 </script>
 
 </body>

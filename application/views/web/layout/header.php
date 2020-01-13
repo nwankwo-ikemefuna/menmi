@@ -34,29 +34,6 @@
   <!-- Header -->
   <header id="header">
     <div class="header-container">
-      <div class="header-top">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-5 col-sm-5 col-xs-6 hidden-xs">
-              <!-- Default Welcome Message -->
-              <div class="welcome-msg hidden-xs">Welcome to msg! </div>
-            </div>
-            <!-- top links -->
-            <div class="headerlinkmenu col-md-7 col-sm-7 col-xs-12"> 
-              
-              <ul class="links">              
-               <li><a href="account_page.html">My Account</a></li>
-                <li><a href="wishlist.html">Wishlist</a></li>
-                <li><a href="checkout.html">Checkout</a></li>
-                <li><a href="register_page.html">Sign Up</a></li>
-                <li><a href="account_page.html">Log In</a></li>
-              </ul>
-              <div class="language-currency-wrapper pull-right">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
       <div class="container">
         <div class="row">
           <div class="col-xs-12 col-sm-4 col-md-4 col-md-4 top-search"> 

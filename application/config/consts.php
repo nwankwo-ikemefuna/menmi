@@ -25,7 +25,20 @@ foreach ($modules as $module) {
 	}
 } 
 //array of modules
-define('MODULES', $modules_const);
+// define('MODULES', $modules_const);
+
+
+//Product Tags
+$tags = $CI->common_model->get_rows(T_TAGS);
+$tags_const = [];
+foreach ($tags as $tag) {
+	$const_tag = 'TAG_' . strtoupper($tag->name);
+	if ( ! defined($const_tag)) {
+		$tag_id = intval($tag->id);
+		define($const_tag, $tag_id);
+		$tags_const[$const_tag] = $tag_id;
+	}
+} 
 
 //User groups
 $usergroups = $CI->common_model->get_rows(T_USER_GROUPS);
@@ -41,7 +54,6 @@ define('VIEW', 1);
 define('ADD', 2);
 define('EDIT', 3);
 define('DEL', 4);
-
 
 //Misc
 define('SITE_FAVICON', base_url().'assets/common/img/logo/favicon.ico');

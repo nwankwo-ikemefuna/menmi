@@ -16,20 +16,15 @@ function upload_file($type) {
     }
 }
 
-function file_upload_path($type) {
-    //holds array of upload directories for easy modification
-    $paths = array(
-        'admin_photo'           => 'photos/admins',
-        'about_site'            => 'site',
-        'post_image'            => 'posts/featured_images',
-        'project'               => 'projects',
-        'ad_sidebar'            => 'ads/sidebar',
-        'ad_topbar'             => 'ads/top',
-    );
-    $uploads_folder = 'uploads/';
-    return $uploads_folder.$paths[$type].'/';
+function company_file_path($upload_ir, $file = '', $type = 'pix') {
+    $ci =& get_instance();
+    $comp_dir = 'uploads/companies/'.$ci->session->company_id;
+    $file = strlen($file) ? '/'.$file : '';
+    if ($type == 'doc') {
+        return base_url($comp_dir.'/docs/'.$upload_ir.$file);
+    }
+    return base_url($comp_dir.'/images/'.$upload_ir.$file);
 }
-
 
 function download_file($file_path, $file_name) { 
     $file_path = base_url($file_path.$file_name);

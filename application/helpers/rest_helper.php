@@ -13,10 +13,10 @@ function response_headers(
 	header("Cache-Control: " . 						$cache_control);
 }
 
-function json_response($msg = 'Successful', $status = true, $code = HTTP_OK) {
+function json_response($data = null, $status = true, $code = HTTP_OK) {
     http_response_code($code);
     $res = ['status' => $status];
-    $body = $status ? ['body' => ['msg' => $msg]] : ['error' => $msg];
+    $body = $status ? ['body' => ['msg' => $data]] : ['error' => $msg];
     $res = array_merge($res, $body);
     echo json_encode($res);
     exit;
