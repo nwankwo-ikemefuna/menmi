@@ -98,11 +98,11 @@ class Core_Model extends CI_Model {
      * get row details
      * @return object
      */
-    public function get_row($table, $id, $by = '', $trashed = 0, $joins = [], $select = '', $where = [], $group_by = '', $limit = '', $return = 'object') {
+    public function get_row($table, $id, $by = '', $trashed = 0, $joins = [], $select = '', $where = [], $group_by = '', $return = 'object') {
         $alias = $this->table_alias($table);
         $by = strlen($by) ? $by : 'id';
         $where[$alias.'.'.$by] = $id;
-        $this->prepare_query($table, $trashed, $joins, $select, $where, $group_by, $limit);
+        $this->prepare_query($table, $trashed, $joins, $select, $where, $group_by);
         $return = $return == 'object' ? 'row' : 'row_array';
         return $this->db->get()->$return();
     }
@@ -112,8 +112,8 @@ class Core_Model extends CI_Model {
      * get rows
      * @return object
      */
-    public function get_rows($table, $trashed = 0, $joins = [], $select = '', $where = [], $order = [], $group_by = '', $limit = '', $return = 'object') {
-        $this->prepare_query($table, $trashed, $joins, $select, $where, $order, $group_by, $limit);
+    public function get_rows($table, $trashed = 0, $joins = [], $select = '', $where = [], $order = [], $group_by = '', $limit = '', $offset = 0, $return = 'object') {
+        $this->prepare_query($table, $trashed, $joins, $select, $where, $order, $group_by, $limit, $offset);
         $return = $return == 'object' ? 'result' : 'result_array';
         return $this->db->get()->$return();
     }
@@ -123,12 +123,11 @@ class Core_Model extends CI_Model {
      * get rows for ajax using Ignited Datatables library
      * @return object
      */
-    public function get_rows_ajax($table, $keys, $buttons, $trashed = 0, $joins = [], $select = '', $where = [], $order = [], $group_by = '', $limit = '') {
-        $this->prepare_query($table, $trashed, $joins, $select, $where, $order, $group_by, $limit, true);
+    public function get_rows_ajax($table, $keys, $buttons, $trashed = 0, $joins = [], $select = '', $where = [], $order = [], $group_by = '', $limit = '', $offset = 0) {
+        $this->prepare_query($table, $trashed, $joins, $select, $where, $order, $group_by, $limit, $offset, true);
         //Bulk action column
         //Note: $1 assumes that the primary key column (usually id), is the first key
         $this->datatables->add_column('checker', xform_input('ba_record_idx[]', 'checkbox', '$1', false, ['class' => 'ba_record'], true), 'id');
-
         //actions column
         $this->datatables->add_column('actions', $buttons, join(',', $keys));
         return $this->datatables->generate();
@@ -137,7 +136,8 @@ class Core_Model extends CI_Model {
 
     public function insert(string $table, array $data) {
         if (count($data) > 0) {
-            return $this->db->insert($table, $data);
+            $this->db->insert($table, $data);
+            return $this->db->insert_id();
         }
         return 0;
     }

@@ -8,7 +8,8 @@ jQuery(document).ready(function ($) {
 
     //select picker
     $('.selectpicker').selectpicker({
-        liveSearch: true
+        liveSearch: true,
+        virtualScroll: true
     });
 
 

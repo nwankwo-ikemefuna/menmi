@@ -16,7 +16,7 @@ function response_headers(
 function json_response($data = null, $status = true, $code = HTTP_OK) {
     http_response_code($code);
     $res = ['status' => $status];
-    $body = $status ? ['body' => ['msg' => $data]] : ['error' => $msg];
+    $body = $status ? ['body' => ['msg' => $data]] : ['error' => $data];
     $res = array_merge($res, $body);
     echo json_encode($res);
     exit;

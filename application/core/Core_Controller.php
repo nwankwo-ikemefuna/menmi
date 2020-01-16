@@ -15,22 +15,21 @@ class Core_Controller extends CI_Controller {
 		require_once 'application/config/consts.php';
 		$this->site_author = 'SoftBytech';
 		$this->author_linkedin = 'https://www.linkedin.com/in/nwankwoikemefuna';
+        //trashed?
+		$this->trashed = trashed_record_list();
+		//company details
+		$this->set_company_info();
+		$this->company_id = $this->session->company_id;
+		$this->company_curr = $this->session->company_currency;
+		$this->site_name = $this->session->company_name;
+		$this->site_description = $this->session->company_short_description;
 		//get current controller class 
 		$this->c_controller = $this->router->fetch_class();
 		$this->c_method = $this->router->fetch_method();
-		//page scripts
-		$this->page_scripts = [];
-
-        //trashed?
-		$this->trashed = trashed_record_list();
-
-		//company details
-		$this->set_company_info();
-		$this->site_name = $this->session->company_name;
-		$this->site_description = $this->session->company_short_description;
-
 		//current page
 		$this->page = $this->c_method;
+		//page scripts
+		$this->page_scripts = [];
 		//module
 		$this->module = '';
 		//table
@@ -38,7 +37,7 @@ class Core_Controller extends CI_Controller {
 		//crud buttons
 		$this->butts = [];
 		//bulk action options
-		$this->ba_opts = [];
+		$this->ba_opts = null;
 		
         //set CSRF
 		$this->set_csrf();

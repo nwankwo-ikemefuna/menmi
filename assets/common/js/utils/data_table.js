@@ -22,14 +22,13 @@ jQuery(document).ready(function ($) {
 
     //ajax datatables trigger
     var dt = $('.ajax_dt_table');
-    if (typeof dt.attr('id') !== "undefined") {
+    if (typeof dt.attr('data-cols') !== "undefined") {
         var table = dt.attr('id'),
-            url = dt.data('ajax_url'),
-            keys = dt.data('ajax_keys'),
+            url = dt.data('url'),
+            cols = dt.data('cols'),
             per_page = dt.attr('data-per_page') ? dt.data('per_page') : 30;
-        ajax_data_table(table, url, keys, per_page);
+        ajax_data_table(table, url, cols, [], per_page);
     }
-
 });
 
 
@@ -79,7 +78,7 @@ $.fn.dataTableExt.oApi.fnPagingInfo = function(oSettings) {
     };
 };
 
-function ajax_data_table(table_id, url, columns, page_length = 30) {
+function ajax_data_table(table_id, url, columns, column_defs = [], page_length = 30) {
     let pre_cols = [
         {"data": "checker", "searchable": false, "orderable": false},
         // {"data": null, "searchable": false, "orderable": false},
@@ -110,16 +109,17 @@ function ajax_data_table(table_id, url, columns, page_length = 30) {
         stateSave: true,
         processing: true,
         serverSide: true,
+        info: true,
         ajax: {
             url: base_url + url + '/' + trashed, 
             type: "POST",
             //data: { 'q2r_secure' : csrf_hash } //cross site request forgery protection
         },
         columns: columns,
-        columnDefs: [],
+        columnDefs: column_defs,
         order: [],
         buttons: ExportButtons,
-        dom: "<'dt_buttons'B>frtp",
+        dom: "<'dt_buttons'B>frtip",
         rowCallback: function(row, data, iDisplayIndex) {
             var index = iDisplayIndex + 1;
             var info = this.fnPagingInfo();
@@ -129,4 +129,19 @@ function ajax_data_table(table_id, url, columns, page_length = 30) {
         }
      
     });
+}
+
+function record_image(data, type, row) { 
+    return '<img class="record_image" src='+data+'>'; 
+}
+
+function record_image_col(image = 'image_file') {
+    return {
+        data: image, 
+        searchable: false,
+        orderable: false,
+        render: function (data, type, row) { 
+            return record_image(data, type, row);
+        }
+    };
 }

@@ -38,7 +38,7 @@ switch (ENVIRONMENT) {
 
     case 'development':
         //development/local server
-        $config['base_url'] = '/'; //change to /menmi/ to view in a mobile device under the same LAN
+        $config['base_url'] = 'http://menmi.com/'; //change to /menmi/ to view in a mobile device under the same LAN
     break;
 
 }

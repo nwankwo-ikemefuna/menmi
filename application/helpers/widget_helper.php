@@ -1,4 +1,13 @@
 <?php 
+function grid_col($cols, $position = 'left') {
+    $data = [
+        1 => ['left' => 'col-12 col-lg-12'],
+        2 => ['left' => 'col-12 col-lg-5', 'right' => 'col-12 col-lg-5 offset-lg-2'],
+        3 => ['left' => 'col-12 col-lg-4', 'center' => 'col-12 col-lg-4', 'right' => 'col-12 col-lg-4'],
+        4 => ['left' => 'col-12 col-lg-3', 'center' => 'col-12 col-lg-3', 'right' => 'col-12 col-lg-3'],
+    ];
+    return $data[$cols][$position];
+}
 
 function bulk_action($options_arr, $record_count = 0, $default_modal = 'm_confirm_ba') {
     if ($record_count == 0) return;
@@ -43,31 +52,56 @@ function bulk_action($options_arr, $record_count = 0, $default_modal = 'm_confir
     <?php
 }
 
-function ajax_table($id, $columns = [], $keys, $url, $col_grid = 'col-12', $responsive = true, $head_class = 'thead-default') { ?>
+function ajax_table($id, $url, $headers, $columns, $col_defs = [], $col_grid = 'col-12', $responsive = true, $head_class = 'thead-default') { ?>
     <div class="row">
         <div class="<?php echo $col_grid; ?> m-b-10">
             <div class="<?php echo $responsive ? 'table-responsive' : ''; ?>">
                 <?php echo csrf_hidden_input();
-                //data keys and configs
-                $data = [];
-                foreach ($keys as $key => $value) {
-                    $key = is_array($value) ? $key : $value;
+                //data columns and configs
+                $cols = [];
+                foreach ($columns as $value) {
                     if (is_array($value)) {
-                        $searchable = isset($value['searchable']) ? $value['searchable'] : true;
-                        $orderable = isset($value['orderable']) ? $value['orderable'] : true;
-                        $data[] = ['data' => $key, 'searchable' => $searchable, 'orderable' => $orderable];
+                        $cols[] = $value;
                     } else {
-                        $data[] = ['data' => $key];
+                        $cols[] = ['data' => $value];
                     }
                 } ?>
-                <table class="table ajax_dt_table mb-0" id="<?php echo $id; ?>" data-ajax_keys='<?php echo json_encode($data); ?>' data-ajax_url="<?php echo $url; ?>">
+                <table class="table ajax_dt_table mb-0" id="<?php echo $id; ?>" data-url="<?php echo $url; ?>" data-cols='<?php echo json_encode($cols); ?>' <?php if (count($col_defs) > 0) { ?> data-col_defs='<?php echo json_encode($col_defs); ?>' <?php } ?> >
                     <thead class="<?php echo $head_class; ?>">
                         <tr>
                             <th style="width: 10px"><?php echo xform_input('', 'checkbox', '', false, ['class' => 'ba_check_all']); ?></th><!-- Select all -->
                             <!-- <th style="width: 20px">#</th> -->
-                            <th>Actions</th>
+                            <th class="min-w-100">Actions</th>
                             <?php 
-                            foreach ($columns as $key => $value) {
+                            foreach ($headers as $key => $value) {
+                                $name = is_array($value) ? $key : $value;
+                                $class = isset($value['class']) && strlen($value['class']) ? $value['class'] : '';
+                                echo '<th class="'.$class.'">'.$name.'</th>';
+                            } ?>
+                            <th class="min-w-150">Created On</th>
+                            <th class="min-w-150">Updated On</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+    <?php
+}
+
+function ajax_table_render($id, $headers, $col_grid = 'col-12', $responsive = true, $head_class = 'thead-default') { ?>
+    <div class="row">
+        <div class="<?php echo $col_grid; ?> m-b-10">
+            <div class="<?php echo $responsive ? 'table-responsive' : ''; ?>">
+                <?php echo csrf_hidden_input(); ?>
+                <table class="table ajax_dt_table mb-0" id="<?php echo $id; ?>">
+                    <thead class="<?php echo $head_class; ?>">
+                        <tr>
+                            <th style="width: 10px"><?php echo xform_input('', 'checkbox', '', false, ['class' => 'ba_check_all']); ?></th><!-- Select all -->
+                            <!-- <th style="width: 20px">#</th> -->
+                            <th class="min-w-100">Actions</th>
+                            <?php 
+                            foreach ($headers as $key => $value) {
                                 $name = is_array($value) ? $key : $value;
                                 $class = isset($value['class']) && strlen($value['class']) ? $value['class'] : '';
                                 echo '<th class="'.$class.'">'.$name.'</th>';

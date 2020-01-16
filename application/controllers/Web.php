@@ -17,15 +17,14 @@ class Web extends Core_controller {
 
     public function index() {
         $this->web_header($this->site_name);
-        $sql = $this->common_model->sliders_sql();
+        $sql = $this->common_model->sliders_sql($this->company_id);
         $data['sliders'] = $this->common_model->get_rows($sql['table'], 0, $sql['joins'], $sql['select'], $sql['where'], $sql['order'], '', 3);
-        $sql = $this->product_model->sql();
+        $sql = $this->product_model->sql($this->company_id);
         $where = array_merge($sql['where'], ['FIND_IN_SET('.TAG_FEATURED.', p.tags)' => '']);
+
         $data['featured_products'] = $this->common_model->get_rows($sql['table'], 0, $sql['joins'], $sql['select'], $where, $sql['order'], '', 12);
-        $sql = $this->product_model->cat_sql();
+        $sql = $this->product_model->cats_sql($this->company_id);
         $data['product_cats'] = $this->common_model->get_rows($sql['table'], 0, $sql['joins'], $sql['select'], $sql['where'], $sql['order'], '', 10);
-        // echo $this->db->last_query(); die;
-        // var_dump($data['product_cats']); die;
         $this->load->view('web/index', $data);
         $this->web_footer();
     }

@@ -330,6 +330,7 @@
     {
       $aaData = array();
       $rResult = $this->get_display_result();
+      // echo $this->last_query(); die;
       if($output == 'json')
       {
         $iTotal = $this->get_total_results(FALSE);
@@ -398,6 +399,7 @@
       }
       //ensure table with alias does not contain more than 1 space between original table name and alias
       $this->table = preg_replace('!\s+!', ' ', $this->table);
+      // var_dump($this->table); die;
       $tbl = explode(" ", $this->table);
       //if table has alias, get it, else get table name
       $table = count($tbl) > 1 ? $tbl[1] : $tbl[0];

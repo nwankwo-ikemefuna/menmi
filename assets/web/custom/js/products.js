@@ -27,7 +27,7 @@ jQuery(document).ready(function ($) {
 
     function cat_products(cat_id) {
         $.ajax({
-            url: base_url+'products/cat_products_ajax', 
+            url: base_url+'products_web/cat_products_ajax', 
             type: 'POST',
             data: {cat_id: cat_id},
             dataType: 'json',

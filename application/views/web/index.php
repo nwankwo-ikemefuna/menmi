@@ -17,10 +17,9 @@
                     $ex = preg_split('/[\s,\.]+/', $row->name, 3);
                     $text_upper = (isset($ex[0]) ? $ex[0].' ' : '') . (isset($ex[1]) ? $ex[1] : '');
                     $text_lower = isset($ex[2]) ? $ex[2] : '';
-                    $file = company_file_path($row->pix_dir, $row->image);
                     ?>
     
-                    <li data-transition='slideup' data-slotamount='7' data-masterspeed='1000' data-thumb=''><img src='<?php echo $file; ?>' data-bgposition='left top' data-bgfit='cover' data-bgrepeat='no-repeat' alt="banner"/>
+                    <li data-transition='slideup' data-slotamount='7' data-masterspeed='1000' data-thumb=''><img src='<?php echo $row->image_file; ?>' data-bgposition='left top' data-bgfit='cover' data-bgrepeat='no-repeat' alt="banner"/>
                     <div class="caption-inner">
                       <div class='tp-caption LargeTitle sft  tp-resizeme' data-x='85'  data-y='145'  data-endspeed='500'  data-speed='500' data-start='1300' data-easing='Linear.easeNone' data-splitin='none' data-splitout='none' data-elementdelay='0.1' data-endelementdelay='0.1' style='z-index:3; white-space:nowrap;'><?php echo $row->tag; ?> </div>
                       <div class='tp-caption ExtraLargeTitle sft  tp-resizeme' data-x='82'  data-y='200'  data-endspeed='500'  data-speed='500' data-start='1100' data-easing='Linear.easeNone' data-splitin='none' data-splitout='none' data-elementdelay='0.1' data-endelementdelay='0.1' style='z-index:2; white-space:nowrap;'><?php echo $text_upper; ?> </div>
@@ -96,12 +95,11 @@
           <div class="slider-items slider-width-col4">
             <?php
             if (count($featured_products) > 0) {
-              foreach ($featured_products as $row) { 
-                $file = company_file_path($row->pix_dir, $row->image); ?>
+              foreach ($featured_products as $row) { ?>
                 <div class="product-item">
                   <div class="item-inner">
                     <div class="product-thumbnail">
-                      <a href="<?php echo product_url($row->id, $row->name); ?>" class="product-item-photo"> <img class="product-image-photo" src="<?php echo $file; ?>" alt="<?php echo $row->name; ?>"></a>
+                      <a href="<?php echo product_url($row->id, $row->name); ?>" class="product-item-photo"> <img class="product-image-photo" src="<?php echo $row->image_file; ?>" alt="<?php echo $row->name; ?>"></a>
                     </div>
                     <div class="pro-box-info">
                       <div class="item-info">

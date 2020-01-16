@@ -16,14 +16,13 @@ function upload_file($type) {
     }
 }
 
-function company_file_path($upload_ir, $file = '', $type = 'pix') {
-    $ci =& get_instance();
-    $comp_dir = 'uploads/companies/'.$ci->session->company_id;
+function company_file_path($upload_ir = '', $file = '', $type = 'pix') {
+    $upload_ir = strlen($upload_ir) ? '/'.$upload_ir : '';
     $file = strlen($file) ? '/'.$file : '';
     if ($type == 'doc') {
-        return base_url($comp_dir.'/docs/'.$upload_ir.$file);
+        return base_url(COMPANY_DOC_DIR.$upload_ir.$file);
     }
-    return base_url($comp_dir.'/images/'.$upload_ir.$file);
+    return base_url(COMPANY_PIX_DIR.$upload_ir.$file);
 }
 
 function download_file($file_path, $file_name) { 

@@ -98,7 +98,7 @@ function ajax_extra_options_btn($module, $usergroups = null, $params) {
     }
 }
 
-function table_crud_butts($module, $model, $usergroups, $table, $trashed, $keys, $show = [], $offset = 1, $with_text = false) {
+function table_crud_butts($module, $model, $usergroups, $table, $trashed, $keys = [], $show = [], $offset = 1, $with_text = false) {
     $ci =& get_instance();
     if (intval($trashed) == 1) {
         // restore and delete permanently for trashed pages
@@ -157,13 +157,14 @@ function link_button($text, $url, $icon = '', $bg = 'primary', $title = '', $ful
 }
 
 function save_button($text, $form_id, $icon = 'save', $bg = 'primary', $title = '') {
+    $text .= ajax_spinner();
     $icon = strlen($icon) ? 'fa fa-'.$icon : '';
     return '<button type="submit" form="'.$form_id.'" class="btn btn-'.$bg.'" title="'.$title.'"><i class="'.$icon.'"></i> '.$text.'</button>';
 }
 
 function modal_button($text, $target, $icon = '', $bg = 'primary', $title = '', $class = '') {
     $icon = strlen($icon) ? 'fa fa-'.$icon : '';
-    return '<button class="btn btn-'.$bg.' '.$class.'" data-toggle="modal" data-target="#'.$target.'" title="'.$title.'"><i class="'.$icon.'"></i> '.$text.'</button>';
+    return '<button type="button" class="btn btn-'.$bg.' '.$class.'" data-toggle="modal" data-target="#'.$target.'" title="'.$title.'"><i class="'.$icon.'"></i> '.$text.'</button>';
 }
 
 function tm_confirm($text, $module, $model, $table, $class = 'tm_confirm', $icon = '', $bg = 'primary', $title = '') {

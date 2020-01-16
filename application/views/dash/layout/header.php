@@ -71,7 +71,7 @@
                         <ul class="nav side-menu flex-column">
                             <?php 
                             sidebar_menu('Dashboard', 'user', 'dashboard'); 
-                            sidebar_menu_parent_auth(M_TEMPLATES, VIEW, null, 'Templates', ['My Templates' => 'templates'], 'table');
+                            sidebar_menu_parent_auth(M_PRODUCTS, VIEW, null, 'Products', ['My Products' => 'products', 'Categories' => 'products/cats', 'Sizes' => 'products/sizes'], 'table');
                             sidebar_menu('Logout', 'logout', 'sign-out'); 
                             ?>
                         </ul>
@@ -191,4 +191,4 @@
 
                             <?php 
                             //bulk action options
-                            if ($this->ba_opts) bulk_action($this->ba_opts, $record_count);
+                            if (is_array($this->ba_opts)) bulk_action($this->ba_opts, $record_count);

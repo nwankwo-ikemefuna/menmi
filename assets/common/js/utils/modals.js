@@ -62,7 +62,6 @@ jQuery(document).ready(function ($) {
             m_msg = '';
             //get checked records
             var record_idx = checked_records();
-            // console.log('ba record idx', record_idx);
         switch (ba_val) {
 
             case 'Trash':
@@ -132,13 +131,6 @@ jQuery(document).ready(function ($) {
         $('#modal_email_user .modal-body #m_user_email').val(email);
         $('#modal_email_user').modal('show'); //show the modal
     });
-
-
-    //Login via ajax
-    const form_url = 'misc/email_user_ajax';
-    const success_msg = 'Email sent successfully';
-    ajax_post_form('m_email_user_form', form_url, '.status_msg', '', '', success_msg);
-
 
     //media
     $(document).on( "click", ".tm_media", function() {

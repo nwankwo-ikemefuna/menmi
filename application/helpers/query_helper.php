@@ -27,9 +27,12 @@ function datetime_select($field, $alias = '', $full_month = false) {
 	return "DATE_FORMAT({$field}, '%D %{$month}, %Y at %h:%i %p') {$as_alias}";
 }
 
-function price_select($code_col, $price_col, $alias = '', $precision = 0) {
-	$as_alias = strlen($alias) ? "AS {$alias}" : '';
-	return "CONCAT('&#', {$code_col}, ';', {$price_col}) {$as_alias}";
+function price_select($code_col, $price_col, $alias = 'price', $precision = 0) {
+	return "CONCAT('&#', {$code_col}, ';', {$price_col}) AS {$alias}";
+}
+
+function file_select($path, $file_dir_col, $file_col, $alias = 'file') {
+	return "CONCAT('{$path}', '/', {$file_dir_col}, '/', {$file_col}) AS {$alias}";
 }
 
 function trashed_record_list() {

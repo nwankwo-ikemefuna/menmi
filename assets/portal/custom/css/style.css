@@ -44,3 +44,8 @@ input:read-only {
 .ajax_crud_btn {
 	padding: 3px 7px;
 }
+
+.record_image {
+	max-width: 50px;
+	height: auto;
+}

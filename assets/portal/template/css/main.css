@@ -5478,7 +5478,7 @@ a.btn-warning {
     color: #51646b
 }
 
-.alert {
+/* .alert {
     border-radius: 0;
     padding: 20px;
     border: none;
@@ -5565,7 +5565,7 @@ a.btn-warning {
     display: inline-block;
     margin-top: 0
 }
-
+ */
 .alert .alert-image {
     width: 40px;
     white-space: nowrap;

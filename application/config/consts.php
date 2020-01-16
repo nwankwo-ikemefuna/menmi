@@ -49,6 +49,9 @@ foreach ($usergroups as $group) {
 	}
 } 
 
+define('COMPANY_PIX_DIR', 'uploads/companies/'.$CI->session->company_id.'/images');
+define('COMPANY_DOC_DIR', 'uploads/companies/'.$CI->session->company_id.'/docs');
+
 // User Rights 
 define('VIEW', 1);
 define('ADD', 2);

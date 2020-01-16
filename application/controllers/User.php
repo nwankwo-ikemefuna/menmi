@@ -16,9 +16,9 @@ class User extends Core_controller {
 
 	
 	public function index() { 
-		$this->user_header('Dashboard');
-		$this->load->view('user/dashboard/index'); 
-		$this->user_footer();
+		$this->dash_header('Dashboard');
+		$this->load->view('dash/dashboard/index'); 
+		$this->dash_footer();
 	}
 
 	

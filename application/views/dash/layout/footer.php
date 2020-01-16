@@ -21,13 +21,13 @@
 //modal confirm action
 modal_header('m_confirm_action'); ?>
 <div class="msg"></div>
-<div class="confirm_status m-t-10 text-center"></div>
+<div class="confirm_status m-t-10"></div>
 <?php modal_footer(true, true); 
 
 //confirm bulk action
 modal_header('m_confirm_ba'); ?>
 <div class="ba_msg"></div>
-<div class="confirm_status m-t-10 text-center"></div>
+<div class="confirm_status m-t-10"></div>
 <?php modal_footer(true, true, 'ba_confirm_btn'); 
 
 //modal row options
@@ -62,7 +62,7 @@ modal_footer(false);
 //custom page-specific scripts
 if ($this->page_scripts) {
     foreach ($this->page_scripts as $script) { 
-        $script_url = base_url().'assets/portal/custom/js/user/'.$script.'.js'; ?>
+        $script_url = base_url().'assets/portal/custom/js/dash/'.$script.'.js'; ?>
         <script src="<?php echo $script_url; ?>"></script>
         <?php echo "\r\n";
     } 

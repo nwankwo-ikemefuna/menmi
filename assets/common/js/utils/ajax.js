@@ -1,5 +1,9 @@
+//selectfield params to update and refresh selectfield when a new item is added from another form
+var selectfield_url = ''; 
+var selectfield_name = ''; 
+
 jQuery(document).ready(function ($) {
-    "use strict";  
+    "use strict"; 
 
     $(document).on( "submit", ".ajax_form", function(e) {
         $(this).off("submit"); //unbind event to prevent multiple firing
@@ -10,18 +14,21 @@ jQuery(document).ready(function ($) {
             form_id = obj.attr('id'),
             type = obj.attr('data-type') ? obj.data('type') : 'modal_dt',
             msg = obj.attr('data-msg') ? obj.data('msg') : 'Successful',
-            notice = obj.attr('data-notice') ? obj.data('notice') : '.status_msg';
+            notice = obj.attr('data-notice') ? obj.data('notice') : 'status_msg',
+            modal = obj.attr('data-modal') ? obj.data('modal') : null,
+            reload = obj.attr('data-reload') ? Boolean(obj.data('reload')) : true;
 
         if (url.length && form_id.length && type.length) {
             switch (type) {
-                //modal datatables
+
+                //modal datatables, with selectpicker
                 case 'modal_dt':
-                    var modal = obj.attr('data-modal') ? obj.data('modal') : null,
-                        reload = obj.attr('data-reload') ? Boolean(obj.data('reload')) : true;
+                case 'modal_sp':
                     if (modal.length) {
-                        ajax_post_form_dt(form_data, url, modal, msg, reload, notice);
+                        ajax_post_form_refresh(form_data, url, modal, type, msg, reload, notice);
                     }
                     break;
+
                 //redirect
                 case 'redirect':
                     var redirect = obj.attr('data-redirect') ? obj.data('redirect') : '_self';
@@ -59,16 +66,84 @@ jQuery(document).ready(function ($) {
         $('#'+modal).modal('show'); //show the modal
     });
 
+    //ajax datatables trigger
+    //bs select wraps select in a div, and this class is applied to the div too, so we target the selectfield, which is at odd index ie 1, 3, 5, etc
+    var ajxs = $('.ajax_select'); 
+    if ($(ajxs).length) {
+        $.each($(ajxs), (i, obj) => {
+            if (i % 2 !== 0) { //at every odd position
+                if (typeof $(obj).attr('data-url') !== "undefined") {
+                    var url = $(obj).data('url'),
+                        selectfield = $(obj).attr('name'),
+                        selected = $(obj).attr('data-selected') ? $(obj).data('selected') : '';
+                    get_select_options(url, selectfield, selected);
+                }
+            }
+        });
+    }
+
+
+    //selectpicker multiple items render on edit
+    var select_mult = $('.select_mult'); 
+    if ($(select_mult).length) {
+        $.each($(select_mult), (i, obj) => {
+            if (i % 2 !== 0) { //at every odd position
+                console.log($(obj));
+                if (typeof $(obj).attr('data-selected') !== "undefined") {
+                    var selectfield = $(obj).attr('name'),
+                        selected = $(obj).data('selected');
+                    $('[name="'+selectfield+'"]').selectpicker('val', selected).change();
+                }
+            }
+        });
+    }
+
+    //set selectfield url and name
+    $(document).on( "click", ".ajax_select_btn", function() {
+        selectfield_url = $(this).data('url');
+        selectfield_name = $(this).data('selectfield');
+    });
+
 });
 
-function ajax_post_form(form_data, url, redirect_url = '', success_msg = 'Successful', notice_elem = '.status_msg') {
+function get_select_options(url, selectfield, current_val) {
+    $.ajax({
+        url: base_url+url, 
+        type: 'GET',
+        dataType: 'json'
+    }).done( jres => {
+        $('[name="'+selectfield+'"]').empty(); //empty selectfield
+        var options = '<option value="">Select</option>';
+        if (jres.status) { 
+
+            var result = jres.body.msg;
+            if (result.length) {
+                $.each(result, (i, row) => {
+                    // var selected = row.id == current_val ? 'selected' : '';
+                    options += `<option ${row.id == current_val ? 'selected' : ''} value="${row.id}">${row.name}</option>`;
+                });
+            } else {
+                options += `<option value="" style="color: red">${jres.error}</option>`;
+            }
+
+        } else {
+            //status is false, show error message in red
+            options += `<option value="" style="color: red">${jres.error}</option>`;
+        }
+        //append the options to the select field
+        $('[name="'+selectfield+'"]').append(options);
+        $('[name="'+selectfield+'"]').selectpicker('refresh');
+    });
+}
+
+function ajax_post_form(form_data, url, redirect_url = '', success_msg = 'Successful', notice_elem = 'status_msg') {
     $.ajax({
         url: url, 
         type: 'POST',
         data: form_data,
         dataType: 'json',
         beforeSend: function() {
-            $(notice_elem).empty();
+            $('.'+notice_elem).empty();
             $('.ajax_spinner').removeClass('hide').addClass('fa-spin');
         },
         complete: function() {
@@ -76,34 +151,33 @@ function ajax_post_form(form_data, url, redirect_url = '', success_msg = 'Succes
         }
     }).done(function(jres) {
         if (jres.status) {
-            $(notice_elem).html('<div class="alert alert-success">'+success_msg+'</div>')
-                .fadeIn('fast')
-                .delay( 10000 )
-                .fadeOut( 'slow' );
+            status_box(notice_elem, success_msg, 'success');
             setTimeout(function() { 
                 if (redirect_url == '_self') {
+                    //self redirect
                     location.reload();
+                } else if (redirect_url == '_dynamic') {
+                    //dynamic redirect
+                    $(location).attr('href', base_url+jres.body.msg.redirect);
                 } else {
+                    //as provided
                     $(location).attr('href', redirect_url);
                 }
             }, 3000);  
         } else {
-            $(notice_elem).html('<div class="alert alert-danger text-center">' + jres.error + '</div>')
-                .fadeIn( 'fast' )
-                .delay( 10000 )
-                .fadeOut( 'slow' );
+            status_box(notice_elem, jres.error, 'danger');
         }
     });
 }
 
-function ajax_post_form_dt(form_data, url, modal_id = '',  success_msg = 'Successful!', reload_table = true, notice_elem = '.status_msg') {
+function ajax_post_form_refresh(form_data, url, modal_id = '', fm_type = 'modal_dt', success_msg = 'Successful!', refresh = true, notice_elem = 'status_msg') {
     $.ajax({
         url: url, 
         type: 'POST',
         data: form_data,
         dataType: 'json',
         beforeSend: function() {
-            $(notice_elem).empty();
+            $('.'+notice_elem).empty();
             $('.ajax_spinner').removeClass('hide').addClass('fa-spin');
         },
         complete: function() {
@@ -111,29 +185,28 @@ function ajax_post_form_dt(form_data, url, modal_id = '',  success_msg = 'Succes
         }
     }).done(function(jres) {
         if (jres.status) {
-            if (reload_table) {
-                $('.ajax_dt_table').DataTable().ajax.reload();
+            if (refresh) {
+                if (fm_type == 'modal_sp') {
+                    //refresh selectfield
+                    get_select_options(selectfield_url, selectfield_name);
+                } else {
+                    $('.ajax_dt_table').DataTable().ajax.reload();
+                }
             }
-            $(notice_elem).html('<div class="alert alert-success">'+success_msg+'</div>')
-                .fadeIn('fast')
-                .delay( 10000 )
-                .fadeOut( 'slow' );
+            status_box(notice_elem, success_msg, 'success');
             if (modal_id.length) {
                 setTimeout(function() { 
                     $('#'+modal_id).modal('hide');
                 }, 3000);  
             }
         } else {
-            $(notice_elem).html('<div class="alert alert-danger">' + jres.error + '</div>')
-                .fadeIn( 'fast' )
-                .delay( 10000 )
-                .fadeOut( 'slow' );
+            status_box(notice_elem, jres.error, 'danger');
         }
     });
 }
 
 //form multipart
-function ajax_post_form_mp(form_id, url, notice_elem = '.status_msg', redirect_url = '', success_msg = '') {
+function ajax_post_form_mp(form_id, url, notice_elem = 'status_msg', redirect_url = '', success_msg = '') {
     $('#'+form_id).off("submit"); //unbind event to prevent multiple firing
     $('#'+form_id).submit(function(e) {
         e.preventDefault();
@@ -146,7 +219,7 @@ function ajax_post_form_mp(form_id, url, notice_elem = '.status_msg', redirect_u
             cache: false,
             processData: false,
             beforeSend: function() {
-                $(notice_elem).empty();
+                $('.'+notice_elem).empty();
                 $('.ajax_spinner').removeClass('hide').addClass('fa-spin');
             },
             complete: function() {
@@ -154,18 +227,14 @@ function ajax_post_form_mp(form_id, url, notice_elem = '.status_msg', redirect_u
             }
         }).done(function(jres) {
             if (jres.status) {
-                $(notice_elem).html('<div class="alert alert-success">'+success_msg+'</div>')
-                    .fadeIn('fast');
+                status_box(notice_elem, success_msg, 'success');
                 if (redirect_url.length) {
                     setTimeout(function() { 
                         $(location).attr('href', base_url+redirect_url);
                     }, 3000);
                 }    
             } else {
-                $(notice_elem).html('<div class="alert alert-danger text-center">' + jres.error + '</div>')
-                    .fadeIn( 'fast' )
-                    .delay( 10000 )
-                    .fadeOut( 'slow' );
+                status_box(notice_elem, jres.error, 'danger');
             }
         });
     });
@@ -175,7 +244,6 @@ function ajax_post_btn_data(url, mod, md, tb, id, btn_id, modal_id = '', success
     //is id an array
     id = Array.isArray(id) && id.length ? id.join() : id;
     var post_data = {mod: mod, md: md, tb: tb, id: id};
-    console.log('ba record idx', id);
     // post_data = extra.length ? {...post_data, ...extra} : post_data;
     $('#'+btn_id).off("click"); //unbind event to prevent multiple firing
     $('#'+btn_id).click(function(e) {
@@ -195,13 +263,7 @@ function ajax_post_btn_data(url, mod, md, tb, id, btn_id, modal_id = '', success
         }).done(function(jres) {
             if (jres.status) {
                 if (modal_id.length) {
-                    $('.confirm_status')
-                        .removeClass('alert alert-danger')
-                        .addClass('alert alert-success')
-                        .html(success_msg)
-                        .fadeIn( 'fast' )
-                        .delay( 3000 )
-                        .fadeOut( 'slow' );
+                    status_box('confirm_status', success_msg, 'success');
                     setTimeout(function() { 
                         $('#'+modal_id).modal('hide');
                     }, 3000);
@@ -210,14 +272,22 @@ function ajax_post_btn_data(url, mod, md, tb, id, btn_id, modal_id = '', success
                     $('.ajax_dt_table').DataTable().ajax.reload();
                 }
             } else {
-                $('.confirm_status')
-                    .removeClass('alert alert-success')
-                    .addClass('alert alert-danger')
-                    .html(jres.error)
-                    .fadeIn( 'fast' )
-                    .delay( 3000 )
-                    .fadeOut( 'slow' );
+                status_box('confirm_status', jres.error, 'danger');
             }
         });
     });
+}
+
+function status_box(elem, msg, type = 'success', delay = 10000) {
+    var status_div = 
+    `<div class="alert alert-${type} alert-dismissible fade show" role="alert">
+        ${msg}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" title="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>`;
+    $('.'+elem).html(status_div)
+        .fadeIn( 'fast' );
+        // .delay( 10000 )
+        //.fadeOut( 'slow' );
 }
