@@ -1,12 +1,50 @@
 <?php 
-function grid_col($cols, $position = 'left') {
-    $data = [
-        1 => ['left' => 'col-12 col-lg-12'],
-        2 => ['left' => 'col-12 col-lg-5', 'right' => 'col-12 col-lg-5 offset-lg-2'],
-        3 => ['left' => 'col-12 col-lg-4', 'center' => 'col-12 col-lg-4', 'right' => 'col-12 col-lg-4'],
-        4 => ['left' => 'col-12 col-lg-3', 'center' => 'col-12 col-lg-3', 'right' => 'col-12 col-lg-3'],
-    ];
-    return $data[$cols][$position];
+
+function site_meta($page_title = '') { 
+    $ci =& get_instance();
+    ?>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <title><?php echo $page_title; ?> | <?php echo $ci->site_name; ?> </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="description" content="<?php echo $ci->site_description; ?>" />
+    <meta name="author" content="<?php echo $ci->site_author; ?>"  />
+    <meta name="keywords" content="">
+
+    <link rel="shortcut icon" type="image/png" href="<?php echo SITE_FAVICON; ?>" />
+    <?php
+}
+
+function grid_col($xs = '12', $sm = '', $md = '', $lg = '', $xl = '') {
+    $column = 'col-'.$xs;
+    $cols = ['sm' => $sm, 'md' => $md, 'lg' => $lg, 'xl' => $xl];
+    foreach ($cols as $col => $val) {
+        if (strlen($val)) {
+            //do we have an offset?
+            if (is_string($val)) {
+                $ex = explode('?', $val);
+                $offset = isset($ex[1]) && strlen($ex[1]) ? ' offset-'.$col.'-'.$ex[1] : '';
+                $column .= ' col-'.$col.'-'.$ex[0].$offset;
+            } else {
+                $column .= ' col-'.$col.'-'.$val;
+            }
+        }
+    }
+    return $column;
+}
+
+function data_show_grid($label, $data) { ?>
+    <div class="row m-b-5">
+        <div class="<?php echo grid_col(12, 6, 4, 3); ?>">
+            <div class="view_label"><?php echo $label; ?>:</div>
+        </div>
+        <div class="<?php echo grid_col(12, 6, 8, 9); ?>">       
+            <div class="view_data"><?php echo $data; ?></div>
+        </div>
+    </div>
+    <?php
 }
 
 function bulk_action($options_arr, $record_count = 0, $default_modal = 'm_confirm_ba') {
@@ -14,7 +52,7 @@ function bulk_action($options_arr, $record_count = 0, $default_modal = 'm_confir
     $ci =& get_instance();
     ?>
     <div class="row m-b-10">
-        <div class="col-12 col-lg-4 col-sm-8">
+        <div class="<?php echo grid_col(12, 8, 6, 4); ?>">
             <h5>Bulk Action (<em>with selected</em>)</h5>
             <div class="input-group">
                 <select name="ba_option" class="form-control" style="height: 35px;">
@@ -52,9 +90,9 @@ function bulk_action($options_arr, $record_count = 0, $default_modal = 'm_confir
     <?php
 }
 
-function ajax_table($id, $url, $headers, $columns, $col_defs = [], $col_grid = 'col-12', $responsive = true, $head_class = 'thead-default') { ?>
+function ajax_table($id, $url, $headers, $columns, $col_defs = [], $responsive = true, $head_class = 'thead-default') { ?>
     <div class="row">
-        <div class="<?php echo $col_grid; ?> m-b-10">
+        <div class="<?php echo grid_col(12); ?> m-b-10">
             <div class="<?php echo $responsive ? 'table-responsive' : ''; ?>">
                 <?php echo csrf_hidden_input();
                 //data columns and configs
@@ -89,9 +127,9 @@ function ajax_table($id, $url, $headers, $columns, $col_defs = [], $col_grid = '
     <?php
 }
 
-function ajax_table_render($id, $headers, $col_grid = 'col-12', $responsive = true, $head_class = 'thead-default') { ?>
+function ajax_table_render($id, $headers, $responsive = true, $head_class = 'thead-default') { ?>
     <div class="row">
-        <div class="<?php echo $col_grid; ?> m-b-10">
+        <div class="<?php echo grid_col(12); ?> m-b-10">
             <div class="<?php echo $responsive ? 'table-responsive' : ''; ?>">
                 <?php echo csrf_hidden_input(); ?>
                 <table class="table ajax_dt_table mb-0" id="<?php echo $id; ?>">
@@ -115,6 +153,95 @@ function ajax_table_render($id, $headers, $col_grid = 'col-12', $responsive = tr
         </div>
     </div>
     <?php
+}
+
+/**
+ * Template Class: 
+ * size - bd-example-modal-lg, bd-example-modal-sm, full-width-modal
+ * animation: slide-down|up|right|left|fill-in
+ *
+ * Dialog: modal-sm, modal-lg
+ */
+function modal_header($id, $title = '', $xclass = 'fill-in', $xdialog = '') { ?>
+    <div class="modal custom fade <?php echo $xclass; ?>" id="<?php echo $id; ?>" tabindex="-1" role="dialog" aria-labelledby="<?php echo $id; ?>" aria-hidden="true">
+        <div class="modal-dialog <?php echo $xdialog; ?>" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><?php echo $title; ?></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Content goes here -->
+    <?php        
+}
+
+function modal_footer($with_footer = true, $with_btn = false, $btn_id = 'confirm_btn', $btn_text = 'Yes, Continue', $with_close_btn = true, $close_btn_text = 'Cancel') { ?>
+                </div><!--/.modal-body-->
+                <?php 
+                if ($with_footer) { ?>
+                    <div class="modal-footer">
+                        <?php 
+                        if ($with_btn) { 
+                            $btn_text .= ' <i class="fa fa-spinner ajax_spinner hide"></i>'; ?>
+                            <button class="btn btn-sm btn-warning text-white" role="button" id="<?php echo $btn_id; ?>"><?php echo $btn_text; ?></button>
+                            <?php
+                        }
+                        //close button?
+                        if ($with_close_btn) { ?>
+                            <button type="button" class="btn btn-dark" data-dismiss="modal"><?php echo $close_btn_text; ?></button>
+                            <?php 
+                        } ?>
+                    </div>
+                    <?php 
+                } ?>
+            </div><!--/.modal-content-->
+        </div><!--/.modal-dialog-->
+    </div><!--/.modal-->
+    <?php        
+}
+
+function sidebar_menu($name, $url, $icon = 'cube', $title = '') { ?>
+    <li class="nav-item">
+        <a href="<?php echo base_url($url); ?>" title="<?php echo strlen($title) ? $title : $name; ?>">
+            <i class="fa fa-<?php echo $icon; ?>" aria-hidden="true"></i>
+            <span><?php echo $name; ?></span>
+        </a>
+    </li>
+    <?php
+}
+
+function sidebar_menu_auth($module, $right, $usergroups = null, $name, $url, $icon = 'cube', $title = '') {
+    $ci =& get_instance();
+    if ($ci->auth->vet_access($module, $right, $usergroups)) { 
+        sidebar_menu($name, $url, $icon, $title);
+    }
+}
+
+function sidebar_menu_parent($name, $children = [], $icon = 'cube', $title = '') { ?>
+    <li class="nav-item has-child">
+        <a href="javascript:void(0);" class="ripple" title="<?php echo strlen($title) ? $title : $name; ?>">
+            <i class="fa fa-<?php echo $icon; ?>" aria-hidden="true"></i>
+            <span><?php echo $name; ?></span>
+            <span class="fa fa-chevron-right" aria-hidden="true"></span>
+        </a>
+        <ul class="nav child-menu">
+            <?php 
+            foreach ($children as $child_name => $child_url) { ?>
+                <li><a href="<?php echo base_url($child_url); ?>"><?php echo $child_name; ?></a></li>
+                <?php
+            } ?>
+        </ul>
+    </li>
+    <?php
+}
+
+function sidebar_menu_parent_auth($module, $right, $usergroups = null, $name, $children = [], $icon = 'cube', $title = '') {
+    $ci =& get_instance();
+    if ($ci->auth->vet_access($module, $right, $usergroups)) { 
+        sidebar_menu_parent($name, $children, $icon, $title);
+    }
 }
 
 function table_data_collapse($collapse_id, $content, $link_text = 'View details') {

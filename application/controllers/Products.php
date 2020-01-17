@@ -109,16 +109,12 @@ class Products extends Core_controller {
 
 	public function view($id) { 
 		//buttons
-		$xtra_butts = [
-			['text' => 'Manage Items', 'type' => 'url', 'target' => $this->c_controller.'/items/'.$id],
-            ['text' => 'Bite Me', 'type' => 'modal', 'target' => 'm_confirm_action', 'icon' => 'book']
-		];
-		$this->butts = ['add_m', 'list', 'extra' => $xtra_butts];
+		$this->butts = ['add',  'edit', 'list'];
 		$sql = $this->product_model->sql($this->company_id);
 		$row = $this->common_model->get_row($sql['table'], $id, 'id', $this->trashed, $sql['joins'], $sql['select'], $sql['where']);
 		$this->dash_header($row->name, '', $id);
 		$data['row'] = $row;
-		$this->load->view('dash/products/view', $data); 
+		$this->load->view('dash/products/view', $data);
 		$this->dash_footer();
 	}
 

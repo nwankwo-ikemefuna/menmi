@@ -142,7 +142,7 @@
             <!-- page content -->
             <div class="main-content small-gutter" role="main">
                 <div class="row bg-title clearfix page-title">
-                    <div class="col-12 col-md-8">
+                    <div class="<?php echo grid_col(12, '', 8); ?>">
                         <h4 class="page-title">
                             <?php echo $page_title;
                             if ((bool) $this->trashed) {
@@ -153,7 +153,7 @@
                     <?php
                     if (strlen($record_count)) {
                         $_affix = $record_count === 1 ? '' : 's'; ?>
-                        <div class="col-12 col-md-4">
+                        <div class="<?php echo grid_col(12, '', 4); ?>">
                             <h4 class="page-title pull-right">
                                 <?php
                                 echo number_format($record_count) . ' record' . $_affix; ?>
@@ -168,7 +168,7 @@
                 //crud buttons not empty?
                 if (is_array($this->butts) && count($this->butts) > 0) { ?>
                     <div class="row page_buttons">
-                        <div class="col-12">
+                        <div class="<?php echo grid_col(12); ?>">
                             <div class="pull-left">
                                 <?php echo page_crud_butts($this->module, null, $this->butts, $crud_rec_id, $record_count); ?>
                             </div>
@@ -178,7 +178,7 @@
                 } ?>
                 
                 <div class="row m-t-15">
-                    <div class="col-12 m-b-10">
+                    <div class="<?php echo grid_col(12); ?> m-b-10">
                         <div class="bg-white padding-25 h-100">
                             <div class="m-t-10">
                                 <?php

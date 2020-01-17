@@ -1,6 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+function ajax_spinner($class = 'ajax_spinner') {
+    return ' <i class="fa fa-spinner hide '.$class.'"></i>';
+}
+
 function alert_dismiss() {
     return '<button type="button" class="close" data-dismiss="alert" aria-label="Close" title="Close"> 
         <span aria-hidden="true">&times;</span></button>';

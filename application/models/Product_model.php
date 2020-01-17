@@ -18,7 +18,7 @@ class Product_model extends Core_Model {
             ".price_select('curr.code', 'p.price', 'amount', 2).", 
             ".price_select('curr.code', 'p.price_old', 'amount_old', 2).", 
             p.tags, GROUP_CONCAT(`t`.`title` SEPARATOR ', ') AS tag_names, 
-           p.size, s.name AS size_name, p.color, c.name AS color_name, 
+            p.size, s.name AS size_name, p.color, c.name AS color_name, 
             p.image, p.images,
             ".file_select(COMPANY_PIX_DIR, 'm.pix_dir', 'p.image', 'image_file');
         $joins = [

@@ -49,3 +49,7 @@ input:read-only {
 	max-width: 50px;
 	height: auto;
 }
+
+.view_label {
+	font-weight: 600;
+}

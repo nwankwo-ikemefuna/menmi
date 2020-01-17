@@ -16,7 +16,7 @@ echo form_open($this->c_controller.'/'.$type.'_ajax', $attrs);
 	xform_notice();
 	xform_input('id', 'hidden', adit_value($row, 'id')); ?>
 	<div class="row">
-		<div class="<?php echo grid_col(2, 'left'); ?>">
+		<div class="<?php echo grid_col(12, '', 5); ?>">
 			<?php 
 			xform_group_grid('Name', 'name', 'text', adit_value($row, 'name'), true);
 			xform_group_grid('Category', 'cat_id', 'select', '', true, 
@@ -31,7 +31,7 @@ echo form_open($this->c_controller.'/'.$type.'_ajax', $attrs);
 			xform_group_grid('Stock', 'stock', 'number', adit_value($row, 'stock'), true, ['min' => 0]);
 			?>
 		</div>
-		<div class="<?php echo grid_col(2, 'right'); ?>">
+		<div class="<?php echo grid_col(12, '', '5?2'); ?>">
 			<?php
 			xform_group_grid('Size', 'size', 'select', adit_value($row, 'size'), true, 
 				['ajax' => true, 

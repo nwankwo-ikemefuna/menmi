@@ -9,22 +9,6 @@ Author: Nwankwo Ikemefuna
 Date Created: 31/12/2019
 Date Modified: 31/12/2019
 */ 
-function site_meta($page_title = '') { 
-    $ci =& get_instance();
-    ?>
-    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-    <title><?php echo $page_title; ?> | <?php echo $ci->site_name; ?> </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-touch-fullscreen" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="description" content="<?php echo $ci->site_description; ?>" />
-    <meta name="author" content="<?php echo $ci->site_author; ?>"  />
-    <meta name="keywords" content="">
-
-    <link rel="shortcut icon" type="image/png" href="<?php echo SITE_FAVICON; ?>" />
-    <?php
-}
 
 function xdump($var = null) {
     if (isset($var)) {
@@ -36,10 +20,6 @@ function xdump($var = null) {
 function is_assoc_array(array $arr) {
     if (array() === $arr) return false;
     return array_keys($arr) !== range(0, count($arr) - 1);
-}
-
-function ajax_status_spinner($span_id, $extra_msg = NULL) {
-    return '<span id="'.$span_id.'" style="display: none"><i class="fa fa-spinner fa-spin"></i> ' . $extra_msg . '</span>';
 }
 
 function toggle_password_visibility() {
@@ -153,7 +133,32 @@ function array_has_string_keys(array $array) {
     return count(array_filter(array_keys($array), 'is_string')) > 0;
 }
 
-function loading_icon() { ?>
-    <i class="fa fa-spinner fa-spin"></i>
-    <?php
+function multi_select_str(array $data, $delim = ',') {
+    return join($delim, $data);
+}
+
+function mod_view_page($id, $view = 'view') {
+    $ci =& get_instance();
+    return $ci->c_controller.'/'.$view.'/'.$id;
+}
+
+function attr_isset($key, $val, $default) {
+    return isset($key) && strlen($key) ? $val : $default;
+}
+
+function input_key_isset($arr, $key, $default = '', $val = '') {
+    if (array_key_exists($key, $arr) && !empty($arr[$key])) {
+        return strlen($val) ? $val : $arr[$key];
+    } 
+    return $default;
+}
+
+function set_extra_attrs($extra) {
+    $attrs = "";
+    if (count($extra) > 0) { 
+        foreach ($extra as $attr => $value) {
+            $attrs .= $attr.'='.'"'.$value.'" ';
+        } 
+    } 
+    return $attrs;
 }

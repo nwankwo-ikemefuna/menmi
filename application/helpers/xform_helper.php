@@ -1,26 +1,5 @@
 <?php 
 
-function attr_isset($key, $val, $default) {
-    return isset($key) && strlen($key) ? $val : $default;
-}
-
-function input_key_isset($arr, $key, $default = '', $val = '') {
-    if (array_key_exists($key, $arr) && !empty($arr[$key])) {
-        return strlen($val) ? $val : $arr[$key];
-    } 
-    return $default;
-}
-
-function set_extra_attrs($extra) {
-    $attrs = "";
-    if (count($extra) > 0) { 
-        foreach ($extra as $attr => $value) {
-            $attrs .= $attr.'='.'"'.$value.'" ';
-        } 
-    } 
-    return $attrs;
-}
-
 function xform_label($label, $for = '', $extra = [], $ajax = false) {
     //prepend bs class
     $extra['class'] = 'form-control-label '.input_key_isset($extra, 'class', '');
@@ -196,9 +175,12 @@ function xform_group_list($label, $name, $type = 'text', $value = '', $required 
     } 
 }
 
-function xform_group_grid($label, $name, $type = 'text', $value = '', $required = false, $input_extra = [], $label_extras = [], $fg_extra = [], $input_group = [], $label_col_attrs = ['class' => 'col-12 col-sm-6 col-md-4 col-lg-3'], $input_col_attrs = ['class' => 'col-12 col-sm-6 col-md-8 col-lg-9']) {
+function xform_group_grid($label, $name, $type = 'text', $value = '', $required = false, $input_extra = [], $label_extras = [], $fg_extra = [], $input_group = [], $label_col_attrs = [], $input_col_attrs = []) {
     //prepend bs class
     $fg_extra['class'] = 'form-group '.input_key_isset($fg_extra, 'class', '');
+    $label_col_attrs['class'] = grid_col(12, 6, 4, 3).' '.input_key_isset($label_col_attrs, 'class', '');
+    $input_col_attrs['class'] = grid_col(12, 6, 8, 9).' '.input_key_isset($input_col_attrs, 'class', '');
+    //label for
     $for = input_key_isset($input_extra, 'id', '');
 
     //hide label if type is hidden, and don't wrap in form-group div to save real estate
@@ -258,8 +240,8 @@ function xform($action, $fields, $attrs = [], $butt_text = 'Save', $butt_form = 
             if ($layout == 'list') { //list
                 xform_group_list($label, $name, $type, $value, $required, $extra, $label_extras, $fg_extra, $input_group);
             } else { //grid
-                $label_col_attrs = input_key_isset($field, 'label_col_attrs', ['class' => 'col-12 col-sm-6 col-md-4 col-lg-3']);
-                $input_col_attrs = input_key_isset($field, 'input_col_attrs', ['class' => 'col-12 col-sm-6 col-md-8 col-lg-9']);
+                $label_col_attrs = input_key_isset($field, 'label_col_attrs', ['class' => grid_col(12, 6, 4, 3)]);
+                $input_col_attrs = input_key_isset($field, 'input_col_attrs', ['class' => grid_col(12, 6, 8, 9)]);
                 xform_group_grid($label, $name, $type, $value, $required, $extra, $label_extras, $fg_extra, $input_group, $label_col_attrs, $input_col_attrs);
             }
         }
@@ -287,17 +269,4 @@ function ajax_form_modal(array $data, array $fields, $butt_attrs = ['class' => '
     modal_header($data['modal'], $data['title']);
         xform($data['url'], $fields, $attrs, ucfirst($data['crud_type']), '', $butt_attrs, ['class' => $notice]);
     modal_footer(false);
-}
-
-function multi_select_str(array $data, $delim = ',') {
-    return join($delim, $data);
-}
-
-function ajax_spinner($class = 'ajax_spinner') {
-    return ' <i class="fa fa-spinner hide '.$class.'"></i>';
-}
-
-function mod_view_page($id, $view = 'view') {
-    $ci =& get_instance();
-    return $ci->c_controller.'/'.$view.'/'.$id;
 }
