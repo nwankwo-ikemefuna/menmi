@@ -1,6 +1,22 @@
 <?php 
+function xform_pre_notice($msg = '', $class = '', $id = '') {
+    $id = attr_isset($id, 'id="'.$id.'"', ''); ?>
+    <div class="m-t-10 m-b-10 <?php echo $class; ?>" <?php echo $id; ?>>
+        <?php echo strlen($msg) ? '<p>'.$msg.'</p>' : ''; ?> 
+        All fields marked <span class="text-danger">*</span> are required.
+    </div>
+    <?php
+}
+
+function xform_notice($class = 'status_msg', $id = '') {
+    $id = attr_isset($id, 'id="'.$id.'"', ''); ?>
+    <div class="m-t-10 m-b-10 <?php echo $class; ?>" <?php echo $id; ?>></div>
+    <?php
+}
 
 function xform_label($label, $for = '', $extra = [], $ajax = false) {
+    //if associated field has required attribute, append * to label name
+    $label .= isset($extra['required']) && $extra['required'] ? '<span class="text-danger">*</span>' : '';
     //prepend bs class
     $extra['class'] = 'form-control-label '.input_key_isset($extra, 'class', '');
     $for = attr_isset($for, 'for="'.$for.'"', '');
@@ -9,9 +25,18 @@ function xform_label($label, $for = '', $extra = [], $ajax = false) {
     echo $elem;
 }
 
+function xform_help($extra) {
+    if (array_key_exists('help', $extra)) {
+        $class = input_key_isset($extra, 'help_class', '');
+        $id = input_key_isset($extra, 'help_id', '');
+        return '<div class="text-muted '.$class.'" '.$id.'>'.$extra['help'].'</div>';
+    }
+    return '';
+}
+
 function xform_input($name, $type = 'text', $value = '', $required = false, $extra = [], $ajax = false) {
     //prepend bs class
-    if ( ! in_array($type, ['checkbox', 'radio'])) {
+    if ( ! in_array($type, ['checkbox', 'radio', 'file'])) {
         $extra['class'] = 'form-control '.input_key_isset($extra, 'class', '');
     }
     $attrs = set_extra_attrs($extra);
@@ -19,8 +44,19 @@ function xform_input($name, $type = 'text', $value = '', $required = false, $ext
     if ($type == 'textarea') {
         $rows = input_key_isset($extra, 'rows', 8);
         $elem = '<textarea name="'.$name.'" rows="'.$rows.'" '.$is_required.' '.$attrs.'>'.$value.'</textarea>';
+        $elem .= xform_help($extra);
+    } elseif ($type == 'file') {
+        $extra['class'] = 'file_input '.input_key_isset($extra, 'class', '');
+        $exclude = ['help', 'help_class', 'help_id'];
+        $attrs = set_extra_attrs($extra, $exclude);
+        $elem = '<div class="file_preview_area">
+                    <input type="'.$type.'" name="'.$name.'" value="'.$value.'" '.$is_required.' '.$attrs.' />'
+                    . xform_help($extra) . 
+                    '<div class="file_preview card-deck"></div>
+                </div>';
     } else {
         $elem = '<input type="'.$type.'" name="'.$name.'" value="'.$value.'" '.$is_required.' '.$attrs.' />';
+        $elem .= xform_help($extra);
     }
     if ($ajax) return $elem;
     echo $elem;
@@ -47,7 +83,7 @@ function xform_select($name, $value = '', $required = false, $extra = [], $ajax 
     $attrs_arr = input_key_isset($extra, 'extra', []);
     $attrs_arr['class'] = 'form-control '.input_key_isset($attrs_arr, 'class', '');
     //selectpicker
-    $selectpicker = input_key_isset($extra, 'sp', true);
+    $selectpicker = isset($extra['sp']) ? $extra['sp'] : true;
     $attrs_arr['class'] = $selectpicker ? $attrs_arr['class'].' selectpicker' : '';
     $attrs = set_extra_attrs($attrs_arr);
     $selected = array_key_exists('selected', $extra) && strlen($extra['selected']) ? "data-selected='".$extra['selected']."'" : '';
@@ -61,6 +97,7 @@ function xform_select($name, $value = '', $required = false, $extra = [], $ajax 
     $elem .= $blank;
     $elem .= $options;
     $elem .= '</select>';
+    $elem .= xform_help($extra);
     if ($ajax) return $elem;
     echo $elem;
 }
@@ -167,7 +204,9 @@ function xform_group_list($label, $name, $type = 'text', $value = '', $required 
         xform_input($name, $type, $value, $required, $input_extra);
     } else { ?>
         <div <?php echo set_extra_attrs($fg_extra); ?>>
-            <?php 
+            <?php
+            //if required, append * to label name
+            $label_extras = $required ? array_merge($label_extras, ['required' => true]) : $label_extras;
             xform_label($label, $for, $label_extras);
             _form_field($name, $type, $value, $required, $input_extra, $input_group); ?>
         </div>
@@ -191,6 +230,8 @@ function xform_group_grid($label, $name, $type = 'text', $value = '', $required 
             <div <?php echo set_extra_attrs($label_col_attrs); ?>>
                 <div <?php echo set_extra_attrs($fg_extra); ?>>
                     <?php
+                    //if required, append * to label name
+                    $label_extras = $required ? array_merge($label_extras, ['required' => true]) : $label_extras;
                     xform_label($label, $for, $label_extras); ?>
                 </div>
             </div>
@@ -213,12 +254,6 @@ function xform_submit($text = 'Save', $form_id = '', $extra = ['class' => 'btn b
             <span><?php echo $text; ?></span>
         </button>
     </div>
-    <?php
-}
-
-function xform_notice($class = 'status_msg', $id = '') {
-    $id = attr_isset($id, 'id="'.$id.'"', ''); ?>
-    <div class="m-t-10 m-b-10 <?php echo $class; ?>" <?php echo $id; ?>></div>
     <?php
 }
 
@@ -255,10 +290,10 @@ function xform($action, $fields, $attrs = [], $butt_text = 'Save', $butt_form = 
     echo form_close();
 }
 
-function adit_value($row, $field, $type = 'input') {
+function adit_value($row, $field, $default = '') {
     $ci =& get_instance();
-    if ($ci->c_method == 'add') return '';
-    return $row->$field;
+    if ( !empty($row)) return $row->$field;
+    return $default;
 }
 
 function ajax_form_modal(array $data, array $fields, $butt_attrs = ['class' => 'btn btn-theme']) {

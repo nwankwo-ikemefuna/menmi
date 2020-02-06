@@ -1,5 +1,15 @@
 <?php 
 
+function mod_view_page($id, $page = 'view') {
+    $ci =& get_instance();
+    return $ci->c_controller.'/'.$page.'/'.$id;
+}
+
+function mod_edit_page($id, $page = 'edit') {
+    $ci =& get_instance();
+    return $ci->c_controller.'/'.$page.'/'.$id;
+}
+
 function ajax_data_keys($keys) {
     $data = [];
     foreach ($keys as $key) {
@@ -71,7 +81,7 @@ function ajax_del_btn($module, $model, $usergroups = null, $params) {
     $ci =& get_instance();
     if ($ci->auth->vet_access($module, DEL, $usergroups)) { 
         $text = $params['with_text'] ? 'Delete' : '';
-        return '<button type="button" data-mod="'.$module.'" data-md="'.$model.'" data-tb="'.$params['table'].'" data-id="$'.$params['offset'].'" class="delete_record btn btn-danger ajax_crud_btn" title="Delete record permanently"><i class="fa fa-'.$params['icon'].'"></i> '.$text.'</button>';
+        return '<button type="button" data-mod="'.$module.'" data-md="'.$model.'" data-tb="'.$params['table'].'" data-id="$'.$params['offset'].'" data-cmm="'.$params['cmm'].'" data-files=\''.$params['files'].'\' class="delete_record btn btn-danger ajax_crud_btn" title="Delete record permanently"><i class="fa fa-'.$params['icon'].'"></i> '.$text.'</button>';
     }
 }
 
@@ -103,13 +113,18 @@ function table_crud_butts($module, $model, $usergroups, $table, $trashed, $keys 
     if (intval($trashed) == 1) {
         // restore and delete permanently for trashed pages
         // will always show on trashed list
-        return  ajax_restore_btn($module, $model, $usergroups, ['table' => $table, 'offset' => $offset, 'with_text' => $with_text, 'icon' => 'refresh']) . ' ' . 
-                ajax_del_btn($module, $model, $usergroups, ['table' => $table, 'offset' => $offset, 'with_text' => $with_text, 'icon' => 'trash-o']); 
+        $btn = ajax_restore_btn($module, $model, $usergroups, ['table' => $table, 'offset' => $offset, 'with_text' => $with_text, 'icon' => 'refresh']) . ' ';
+        //check for custom model method (cmm) specified?
+        $cmm = array_key_exists('delete', $show) && array_key_exists('cmm', $show['delete']) ? $show['delete']['cmm'] : '';
+        //check for files
+        $files = array_key_exists('delete', $show) && array_key_exists('files', $show['delete']) ? $show['delete']['files'] : [];
+        $files = json_encode($files);
+        $btn .= ajax_del_btn($module, $model, $usergroups, ['table' => $table, 'offset' => $offset, 'cmm' => $cmm, 'files' => $files, 'with_text' => $with_text, 'icon' => 'trash-o']);
+        return $btn;
     }
     $butts = "";
-    $isset_show = isset($show) && is_array($show);
     //view
-    if ($isset_show && array_key_exists('view', $show)) {
+    if (array_key_exists('view', $show)) {
         $type = _crud_butt_param($show, 'view', 'type', 'url');
         $icon = _crud_butt_param($show, 'view', 'icon', 'eye');
         if ($type == 'url') {
@@ -121,7 +136,7 @@ function table_crud_butts($module, $model, $usergroups, $table, $trashed, $keys 
         }
     }
     //edit
-    if ($isset_show && array_key_exists('edit', $show)) {
+    if (array_key_exists('edit', $show)) {
         $type = _crud_butt_param($show, 'edit', 'type', 'url');
         $icon = _crud_butt_param($show, 'edit', 'icon', 'edit');
         if ($type == 'url') {
@@ -137,7 +152,7 @@ function table_crud_butts($module, $model, $usergroups, $table, $trashed, $keys 
     //trash: will always show on untrashed list
     $butts .=   ajax_trash_btn($module, $model, $usergroups, ['table' => $table, 'offset' => $offset, 'with_text' => $with_text, 'icon' => 'trash']) . ' ';
     //extra options
-    if ($isset_show && array_key_exists('extra', $show)) {
+    if (array_key_exists('extra', $show)) {
         $icon = _crud_butt_param($show, 'extra', 'icon', 'navicon');
         $options = _crud_butt_param($show, 'extra', 'options', []);
         $butts .= ajax_extra_options_btn($module, $usergroups, ['options' => $options, 'offset' => $offset, 'with_text' => $with_text, 'icon' => $icon]) . ' ';
@@ -150,34 +165,40 @@ function _crud_butt_param($show, $type, $key, $default) {
     return is_array($show[$type]) && isset($show[$type][$key]) && ! empty($show[$type][$key]) ? $show[$type][$key] : $default;
 }
 
-function link_button($text, $url, $icon = '', $bg = 'primary', $title = '', $full_url = false) {
+function link_button($text, $url, $icon = '', $bg = 'primary', $title = '', $class = '', $full_url = false, $extra= []) {
+    $attrs = set_extra_attrs($extra);
     $icon = strlen($icon) ? 'fa fa-'.$icon : '';
     $url = $full_url ? $url : base_url($url);
-    return '<a class="btn btn-'.$bg.'" href="'.$url.'" title="'.$title.'"><i class="'.$icon.'"></i> '.$text.'</a>';
+    return '<a class="btn btn-'.$bg.' '.$class.'" href="'.$url.'" title="'.$title.'"><i class="'.$icon.'" '.$attrs.'></i> '.$text.'</a>';
 }
 
-function save_button($text, $form_id, $icon = 'save', $bg = 'primary', $title = '') {
+function save_button($text, $form_id, $icon = 'save', $bg = 'primary', $title = '', $extra= []) {
+    $attrs = set_extra_attrs($extra);
     $text .= ajax_spinner();
     $icon = strlen($icon) ? 'fa fa-'.$icon : '';
-    return '<button type="submit" form="'.$form_id.'" class="btn btn-'.$bg.'" title="'.$title.'"><i class="'.$icon.'"></i> '.$text.'</button>';
+    return '<button type="submit" form="'.$form_id.'" class="btn btn-'.$bg.'" title="'.$title.'" '.$attrs.'><i class="'.$icon.'"></i> '.$text.'</button>';
 }
 
-function modal_button($text, $target, $icon = '', $bg = 'primary', $title = '', $class = '') {
+function modal_button($text, $target, $icon = '', $bg = 'primary', $title = '', $class = '', $extra= []) {
+    $attrs = set_extra_attrs($extra);
     $icon = strlen($icon) ? 'fa fa-'.$icon : '';
-    return '<button type="button" class="btn btn-'.$bg.' '.$class.'" data-toggle="modal" data-target="#'.$target.'" title="'.$title.'"><i class="'.$icon.'"></i> '.$text.'</button>';
+    return '<button type="button" class="btn btn-'.$bg.' '.$class.'" data-toggle="modal" data-target="#'.$target.'" title="'.$title.'" '.$attrs.'><i class="'.$icon.'"></i> '.$text.'</button>';
 }
 
-function tm_confirm($text, $module, $model, $table, $class = 'tm_confirm', $icon = '', $bg = 'primary', $title = '') {
+function tm_confirm($text, $module, $model, $table, $class = 'tm_confirm', $icon = '', $bg = 'primary', $title = '', $extra = []) {
+    $attrs = set_extra_attrs($extra);
     $icon = strlen($icon) ? 'fa fa-'.$icon : '';
-    return '<button class="btn btn-'.$bg.' '.$class.'" data-mod="'.$module.'" data-md="'.$model.'" data-tb="'.$table.'" title="'.$title.'"><i class="'.$icon.'"></i> '.$text.'</button>';
+    return '<button class="btn btn-'.$bg.' '.$class.'" data-mod="'.$module.'" data-md="'.$model.'" data-tb="'.$table.'" title="'.$title.'" '.$attrs.'><i class="'.$icon.'"></i> '.$text.'</button>';
 }
 
 function page_crud_butts($module, $usergroups, $butts, $record_id = null, $record_count = 0) {
     $ci =& get_instance();
 
+    //any additional where clause? For trash all, restore all and clear trash.
+    $where = isset($butts['where']) && ! empty($butts['where']) ? json_encode($butts['where']) : '';
+
     //refresh button to be appended
-    $current_url = current_url() . (strlen($_SERVER['QUERY_STRING']) ? '?' . $_SERVER['QUERY_STRING'] : '');
-    $refresh_btn = link_button('Refresh', $current_url, 'refresh', 'primary', 'Reload page', true);
+    $refresh_btn = link_button('Refresh', get_requested_page(), 'refresh', 'primary', 'Reload page', '', true);
 
     $buttons = [];
     foreach ($butts as $_key => $butt) {
@@ -207,14 +228,16 @@ function page_crud_butts($module, $usergroups, $butts, $record_id = null, $recor
                     //trashed records?
                     if ($ci->trashed == 1) {
                         
-                        $clear_all_btn = '';
-                        $restore_all_btn = '';
+                        $restore_all = '';
+                        $clear_all = '';
                         if ($ci->page == 'index' && $record_count > 0) {
-                            $clear_all_btn = tm_confirm('Clear All', $ci->module, $ci->model, $ci->table, 'tm_clear_trash', 'trash-o', 'danger', 'Empty trash');
-                            $restore_all_btn = tm_confirm('Restore All', $ci->module, $ci->model, $ci->table, 'tm_restore_all', 'refresh', 'success', 'Restore all records');
+                            $restore_all = tm_confirm('Restore All', $ci->module, $ci->model, $ci->table, 'tm_restore_all', 'refresh', 'success', 'Restore all records', ['data-where' => $where]);
+                            //any files to be deleted?
+                            $files = isset($butt['files']) ? $butt['files'] : [];
+                            $clear_all = tm_confirm('Clear All', $ci->module, $ci->model, $ci->table, 'tm_clear_trash', 'trash-o', 'danger', 'Empty trash', ['data-files' => json_encode($files), 'data-where' => $where]);
                         }
                         //return early, cos we don't need to show other buttons
-                        return $btn . ' ' . $refresh_btn . ' ' . $clear_all_btn . ' ' . $restore_all_btn;
+                        return $btn.' '.$restore_all.' '.$clear_all.' '.$refresh_btn;
                     } else {
                         if ($ci->page == 'index') {
                             $query_string = '?trashed=1';
@@ -275,8 +298,8 @@ function page_crud_butts($module, $usergroups, $butts, $record_id = null, $recor
                 $btn = save_button('Save', $form_id, $icon, $bg, 'Save changes');
                 break;
 
-            //Delete: modal
-            case 'del':
+            //Delete: (with confirm modal)
+            case 'delete':
                 $btn = '';
                 if ($ci->auth->vet_access($module, DEL, $usergroups)) { 
                     $modal = $isset_modal ? $butt['modal'] : $ci->c_controller.'/delete/'.$record_id;
@@ -311,14 +334,18 @@ function page_crud_butts($module, $usergroups, $butts, $record_id = null, $recor
                 $btn = '';
                 break;
         }
-        $buttons[] = $btn;
+        $buttons[$key] = $btn;
     } 
     $trash_all_btn = "";
     if ($ci->page == 'index' && $record_count > 0) {
-        $trash_all_btn = tm_confirm('Trash All', $ci->module, $ci->model, $ci->table, 'tm_trash_all', 'trash', 'warning', 'Trash all records');
+        $trash_all_btn = tm_confirm('Trash All', $ci->module, $ci->model, $ci->table, 'tm_trash_all', 'trash', 'warning', 'Trash all records', ['data-where' => $where]);
+        $buttons['trash_all'] = $trash_all_btn;
     }
-    //append other button
-    $buttons[] = $refresh_btn;
-    $buttons[] = $trash_all_btn;
-    return join(" ", $buttons); 
+    //append other buttons
+    $buttons['refresh'] = $refresh_btn;
+    //button sort order
+    $order = ['save', 'add', 'add_m', 'edit', 'delete', 'view', 'list', 'restore_all', 'trash_all', 'clear_trash', 'extra', 'refresh'];
+    //let's do the sort
+    $sorted = sort_array($buttons, $order);
+    return join(" ", $sorted); 
 }

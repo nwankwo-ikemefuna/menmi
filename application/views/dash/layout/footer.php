@@ -33,6 +33,11 @@ modal_header('m_confirm_ba'); ?>
 //modal row options
 modal_header('m_row_options', 'More Options', '', 'modal-form');
 modal_footer(false); 
+
+//Image View
+//modal row options
+modal_header('m_img_view', 'Image View', 'fill-in', 'modal-lg');
+modal_footer(false); 
 ?>
 
 <!-- Vendors -->
@@ -44,6 +49,9 @@ modal_footer(false);
 <script src="<?php echo base_url(); ?>vendors/selectpicker/js/bootstrap-select.min.js"></script>
 <!-- Datatables BS 4 -->
 <script src="<?php echo base_url(); ?>vendors/datatables_bs4/datatables.min.js"></script>
+<!-- jQuery File Upload -->
+<script src="<?php echo base_url(); ?>vendors/jquery-upload/js/vendor/jquery.ui.widget.js"></script>
+<script src="<?php echo base_url(); ?>vendors/jquery-upload/js/jquery.fileupload.js"></script>
 
 <!-- Template scripts -->
 <script src="<?php echo base_url(); ?>assets/portal/template/js/main.js"></script>

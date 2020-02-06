@@ -13,7 +13,14 @@ function full_name_select($tbl_alias = '', $with_alias = true, $alias = 'full_na
 			IFNULL({$tbl_alias}first_name, ''), ' ', 
 			IFNULL({$tbl_alias}other_name, '')
 		))";
-	$select .= $with_alias ? "AS {$alias}" : '';
+	$select .= $with_alias ? " AS {$alias}" : '';
+	return $select;
+}
+
+function user_age_select($tbl_alias = '', $alias = 'age') {
+	$tbl_alias = strlen($tbl_alias) ? "{$tbl_alias}." : '';
+	$select = "IFNULL( 
+	CONCAT(TIMESTAMPDIFF(YEAR, {$tbl_alias}date_of_birth, CURDATE()), (IF(TIMESTAMPDIFF(YEAR, {$tbl_alias}date_of_birth, CURDATE()) = 1, ' year', ' years'))), '') AS {$alias}";
 	return $select;
 }
 
@@ -31,8 +38,8 @@ function price_select($code_col, $price_col, $alias = 'price', $precision = 0) {
 	return "CONCAT('&#', {$code_col}, ';', {$price_col}) AS {$alias}";
 }
 
-function file_select($path, $file_dir_col, $file_col, $alias = 'file') {
-	return "CONCAT('{$path}', '/', {$file_dir_col}, '/', {$file_col}) AS {$alias}";
+function file_select($path, $file_dir_col, $file_col, $alias = 'file', $default = null) {
+	return "CONCAT('/{$path}', '/', {$file_dir_col}, '/', {$file_col}) AS {$alias}";
 }
 
 function trashed_record_list() {

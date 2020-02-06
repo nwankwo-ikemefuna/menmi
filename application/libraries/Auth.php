@@ -18,8 +18,8 @@ class Auth {
         if ($this->ci->form_validation->run() === FALSE) 
             json_response(validation_errors(), false);    
 
-        $username = $this->ci->input->post($username_key, TRUE);
-        $password = $this->ci->input->post('password', TRUE);
+        $username = xpost($username_key);
+        $password = xpost('password');
         $row = $this->ci->common_model->get_row(T_USERS, $username, $username_key);
 		//user exists, is not trashed, and password is correct...
         if ($row && password_verify($password, $row->password)) {
@@ -74,7 +74,7 @@ class Auth {
 		//create a session to hold the current requested page
 		$data = array(
 			'login_redirect' => TRUE,
-			'requested_page' => current_url() . (strlen($_SERVER['QUERY_STRING']) ? '?' . $_SERVER['QUERY_STRING'] : '')
+			'requested_page' => get_requested_page()
 		);
 		$this->ci->session->set_userdata($data);
 		return $data;

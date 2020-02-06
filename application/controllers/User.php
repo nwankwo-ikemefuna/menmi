@@ -21,5 +21,4 @@ class User extends Core_controller {
 		$this->dash_footer();
 	}
 
-	
 }

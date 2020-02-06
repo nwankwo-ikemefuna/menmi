@@ -10,13 +10,6 @@ Date Created: 31/12/2019
 Date Modified: 31/12/2019
 */ 
 
-function xdump($var = null) {
-    if (isset($var)) {
-        var_dump($var);
-        exit;
-    }
-}
-
 function is_assoc_array(array $arr) {
     if (array() === $arr) return false;
     return array_keys($arr) !== range(0, count($arr) - 1);
@@ -133,13 +126,14 @@ function array_has_string_keys(array $array) {
     return count(array_filter(array_keys($array), 'is_string')) > 0;
 }
 
-function multi_select_str(array $data, $delim = ',') {
-    return join($delim, $data);
+function join_us($data, $delim = ',') {
+    if (empty($data)) return null; 
+    return is_array($data) ? join($delim, $data) : $data;
 }
 
-function mod_view_page($id, $view = 'view') {
-    $ci =& get_instance();
-    return $ci->c_controller.'/'.$view.'/'.$id;
+function split_us($data, $delim = ',') {
+    if (empty($data)) return null; 
+    return explode($delim, $data);
 }
 
 function attr_isset($key, $val, $default) {
@@ -153,12 +147,24 @@ function input_key_isset($arr, $key, $default = '', $val = '') {
     return $default;
 }
 
-function set_extra_attrs($extra) {
+function set_extra_attrs($extra, $exclude = []) {
     $attrs = "";
     if (count($extra) > 0) { 
         foreach ($extra as $attr => $value) {
-            $attrs .= $attr.'='.'"'.$value.'" ';
+            if ( ! in_array($attr, $exclude)) {
+                $attrs .= "{$attr}='{$value}' ";
+            }
         } 
     } 
     return $attrs;
+}
+
+function sort_array(array $arr, array $sort_order) {
+    $sorted = [];
+    foreach ($sort_order as $key) {
+        if (isset($arr[$key])) {
+            $sorted[$key] = $arr[$key];
+        }
+    }
+    return $sorted;
 }

@@ -95,13 +95,29 @@ class Core_Model extends CI_Model {
 
 
     /**
-     * get row details
+     * get row details by a column (quick fetch)
      * @return object
      */
-    public function get_row($table, $id, $by = '', $trashed = 0, $joins = [], $select = '', $where = [], $group_by = '', $return = 'object') {
+    public function get_qrow($table, $id, $by = '', $trashed = 0, $return = 'object') {
         $alias = $this->table_alias($table);
         $by = strlen($by) ? $by : 'id';
         $where[$alias.'.'.$by] = $id;
+        $this->prepare_query($table, $trashed, [], '', $where);
+        $return = $return == 'object' ? 'row' : 'row_array';
+        return $this->db->get()->$return();
+    }
+
+
+    /**
+     * get row details
+     * @return object
+     */
+    public function get_row($table, $id = '', $by = '', $trashed = 0, $joins = [], $select = '', $where = [], $group_by = '', $return = 'object') {
+        $alias = $this->table_alias($table);
+        if (strlen($id)) {
+            $by = strlen($by) ? $by : 'id';
+            $where[$alias.'.'.$by] = $id;
+        }
         $this->prepare_query($table, $trashed, $joins, $select, $where, $group_by);
         $return = $return == 'object' ? 'row' : 'row_array';
         return $this->db->get()->$return();
@@ -160,10 +176,35 @@ class Core_Model extends CI_Model {
     }
 
 
-    public function delete(string $table, array $where) { 
+    public function delete($table, $where) { 
         if (count($where) > 0) {
             $this->db->where($where);
             return $this->db->delete($table);
+        }
+        return 0;
+    }
+
+
+    public function delete_with_files($table, $where, $files) {
+        //get the files to be deleted
+        $row = $this->db->get_where($table, $where)->row();
+        $paths = [];
+        foreach ($files as $col => $_path) {
+            $the_files = $row->$col; //file(s) name(s)
+            //is the file column empty?
+            if ( ! strlen($the_files)) continue;
+            //get files as array
+            $files_arr = explode(',', $the_files);
+            if (count($files_arr) === 0) continue;
+            $paths[$_path] = $files_arr;
+        }
+        $deleted = $this->delete($table, $where);
+        if ($deleted) {
+            //unlink files
+            foreach ($paths as $path => $files_arr) {
+                unlink_files($path, $files_arr);
+            }
+            return 1;
         }
         return 0;
     }

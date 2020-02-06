@@ -17,24 +17,6 @@ function site_meta($page_title = '') {
     <?php
 }
 
-function grid_col($xs = '12', $sm = '', $md = '', $lg = '', $xl = '') {
-    $column = 'col-'.$xs;
-    $cols = ['sm' => $sm, 'md' => $md, 'lg' => $lg, 'xl' => $xl];
-    foreach ($cols as $col => $val) {
-        if (strlen($val)) {
-            //do we have an offset?
-            if (is_string($val)) {
-                $ex = explode('?', $val);
-                $offset = isset($ex[1]) && strlen($ex[1]) ? ' offset-'.$col.'-'.$ex[1] : '';
-                $column .= ' col-'.$col.'-'.$ex[0].$offset;
-            } else {
-                $column .= ' col-'.$col.'-'.$val;
-            }
-        }
-    }
-    return $column;
-}
-
 function data_show_grid($label, $data) { ?>
     <div class="row m-b-5">
         <div class="<?php echo grid_col(12, 6, 4, 3); ?>">
@@ -48,24 +30,27 @@ function data_show_grid($label, $data) { ?>
 }
 
 function bulk_action($options_arr, $record_count = 0, $default_modal = 'm_confirm_ba') {
-    if ($record_count == 0) return;
+    if (count($options_arr) === 0 || $record_count == 0) return;
     $ci =& get_instance();
     ?>
     <div class="row m-b-10">
-        <div class="<?php echo grid_col(12, 8, 6, 4); ?>">
-            <h5>Bulk Action (<em>with selected</em>)</h5>
+        <div class="<?php echo grid_col(12, 8, '', 4); ?>">
+            <h5>Bulk Action (<em>with selected</em>) <span id="ba_selected_msg" class="text-danger"></span></h5>
             <div class="input-group">
                 <select name="ba_option" class="form-control" style="height: 35px;">
                     <option value="">Select</option>
                     <?php
                     //append trash, restore and delete options
-                    if ($ci->trashed == 0) {
-                        $options_arr = array_merge($options_arr, ['Trash']);
-                    } else {
-                        $options_arr = array_merge($options_arr, ['Restore', 'Delete']);
+                    if (in_array('delete', $options_arr)) {
+                        if ($ci->trashed == 0) {
+                            $options_arr = array_merge($options_arr, ['Trash']);
+                        } else {
+                            $options_arr = array_merge($options_arr, ['Restore', 'Delete']);
+                        }
                     }
                     $options = "";
                     foreach ($options_arr as $_key => $vals) {
+                        if ($vals == 'delete') continue;
                         $label = is_array($vals) ? $_key : $vals;
                         //is array?
                         if (is_array($vals)) {
@@ -82,7 +67,8 @@ function bulk_action($options_arr, $record_count = 0, $default_modal = 'm_confir
                     ?>
                 </select>
                 <div class="input-group-append">
-                    <?php echo tm_confirm('Apply', $ci->module, $ci->model, $ci->table, 'ba_apply btn-lg', '', 'primary', 'Execute bulk action'); ?>
+                    <?php
+                    echo tm_confirm('Apply', $ci->module, $ci->model, $ci->table, 'ba_apply btn-lg', '', 'primary', 'Execute bulk action'); ?>
                 </div>
             </div>
         </div>
@@ -153,53 +139,6 @@ function ajax_table_render($id, $headers, $responsive = true, $head_class = 'the
         </div>
     </div>
     <?php
-}
-
-/**
- * Template Class: 
- * size - bd-example-modal-lg, bd-example-modal-sm, full-width-modal
- * animation: slide-down|up|right|left|fill-in
- *
- * Dialog: modal-sm, modal-lg
- */
-function modal_header($id, $title = '', $xclass = 'fill-in', $xdialog = '') { ?>
-    <div class="modal custom fade <?php echo $xclass; ?>" id="<?php echo $id; ?>" tabindex="-1" role="dialog" aria-labelledby="<?php echo $id; ?>" aria-hidden="true">
-        <div class="modal-dialog <?php echo $xdialog; ?>" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"><?php echo $title; ?></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- Content goes here -->
-    <?php        
-}
-
-function modal_footer($with_footer = true, $with_btn = false, $btn_id = 'confirm_btn', $btn_text = 'Yes, Continue', $with_close_btn = true, $close_btn_text = 'Cancel') { ?>
-                </div><!--/.modal-body-->
-                <?php 
-                if ($with_footer) { ?>
-                    <div class="modal-footer">
-                        <?php 
-                        if ($with_btn) { 
-                            $btn_text .= ' <i class="fa fa-spinner ajax_spinner hide"></i>'; ?>
-                            <button class="btn btn-sm btn-warning text-white" role="button" id="<?php echo $btn_id; ?>"><?php echo $btn_text; ?></button>
-                            <?php
-                        }
-                        //close button?
-                        if ($with_close_btn) { ?>
-                            <button type="button" class="btn btn-dark" data-dismiss="modal"><?php echo $close_btn_text; ?></button>
-                            <?php 
-                        } ?>
-                    </div>
-                    <?php 
-                } ?>
-            </div><!--/.modal-content-->
-        </div><!--/.modal-dialog-->
-    </div><!--/.modal-->
-    <?php        
 }
 
 function sidebar_menu($name, $url, $icon = 'cube', $title = '') { ?>

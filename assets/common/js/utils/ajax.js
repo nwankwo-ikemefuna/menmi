@@ -9,7 +9,6 @@ jQuery(document).ready(function ($) {
         $(this).off("submit"); //unbind event to prevent multiple firing
         e.preventDefault();
         let obj = $(this);
-        let form_data = obj.serialize();
         var url = obj.attr('action'),
             form_id = obj.attr('id'),
             type = obj.attr('data-type') ? obj.data('type') : 'modal_dt',
@@ -17,7 +16,7 @@ jQuery(document).ready(function ($) {
             notice = obj.attr('data-notice') ? obj.data('notice') : 'status_msg',
             modal = obj.attr('data-modal') ? obj.data('modal') : null,
             reload = obj.attr('data-reload') ? Boolean(obj.data('reload')) : true;
-
+        let form_data = new FormData(this);
         if (url.length && form_id.length && type.length) {
             switch (type) {
 
@@ -110,12 +109,11 @@ function get_select_options(url, selectfield, current_val) {
     $.ajax({
         url: base_url+url, 
         type: 'GET',
-        dataType: 'json'
+        dataType: 'json',
     }).done( jres => {
         $('[name="'+selectfield+'"]').empty(); //empty selectfield
         var options = '<option value="">Select</option>';
         if (jres.status) { 
-
             var result = jres.body.msg;
             if (result.length) {
                 $.each(result, (i, row) => {
@@ -142,6 +140,9 @@ function ajax_post_form(form_data, url, redirect_url = '', success_msg = 'Succes
         type: 'POST',
         data: form_data,
         dataType: 'json',
+        contentType: false,
+        cache: false,
+        processData: false,
         beforeSend: function() {
             $('.'+notice_elem).empty();
             $('.ajax_spinner').removeClass('hide').addClass('fa-spin');
@@ -176,6 +177,9 @@ function ajax_post_form_refresh(form_data, url, modal_id = '', fm_type = 'modal_
         type: 'POST',
         data: form_data,
         dataType: 'json',
+        contentType: false,
+        cache: false,
+        processData: false,
         beforeSend: function() {
             $('.'+notice_elem).empty();
             $('.ajax_spinner').removeClass('hide').addClass('fa-spin');
@@ -205,45 +209,7 @@ function ajax_post_form_refresh(form_data, url, modal_id = '', fm_type = 'modal_
     });
 }
 
-//form multipart
-function ajax_post_form_mp(form_id, url, notice_elem = 'status_msg', redirect_url = '', success_msg = '') {
-    $('#'+form_id).off("submit"); //unbind event to prevent multiple firing
-    $('#'+form_id).submit(function(e) {
-        e.preventDefault();
-        let form_data = new FormData();
-        $.ajax({
-            url: base_url+url, 
-            type: 'POST',
-            data: form_data,
-            contentType: false,
-            cache: false,
-            processData: false,
-            beforeSend: function() {
-                $('.'+notice_elem).empty();
-                $('.ajax_spinner').removeClass('hide').addClass('fa-spin');
-            },
-            complete: function() {
-                $('.ajax_spinner').addClass('hide').removeClass('fa-spin');
-            }
-        }).done(function(jres) {
-            if (jres.status) {
-                status_box(notice_elem, success_msg, 'success');
-                if (redirect_url.length) {
-                    setTimeout(function() { 
-                        $(location).attr('href', base_url+redirect_url);
-                    }, 3000);
-                }    
-            } else {
-                status_box(notice_elem, jres.error, 'danger');
-            }
-        });
-    });
-}
-
-function ajax_post_btn_data(url, mod, md, tb, id, btn_id, modal_id = '', success_msg = 'Successful', extra = {}, reload_table = true) {
-    //is id an array
-    id = Array.isArray(id) && id.length ? id.join() : id;
-    var post_data = {mod: mod, md: md, tb: tb, id: id};
+function ajax_post_btn_data(url, post_data, btn_id, modal_id = '', success_msg = 'Successful', reload_table = true) {
     // post_data = extra.length ? {...post_data, ...extra} : post_data;
     $('#'+btn_id).off("click"); //unbind event to prevent multiple firing
     $('#'+btn_id).click(function(e) {
@@ -287,7 +253,7 @@ function status_box(elem, msg, type = 'success', delay = 10000) {
         </button>
     </div>`;
     $('.'+elem).html(status_div)
-        .fadeIn( 'fast' );
-        // .delay( 10000 )
-        //.fadeOut( 'slow' );
+        .fadeIn( 'fast' )
+        .delay( 10000 )
+        .fadeOut( 'slow' );
 }

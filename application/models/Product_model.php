@@ -35,7 +35,7 @@ class Product_model extends Core_Model {
     }
 
 
-    public function cats_sql($company_id) {
+    public function cats_sql($company_id = null) {
         $select = 'cat.id, cat.name, cat.order, COUNT(p.cat_id) AS product_count';
         $joins = [T_PRODUCTS.' p' => ['p.cat_id = cat.id']];
         $where = ['cat.company_id' => $company_id];
@@ -43,11 +43,25 @@ class Product_model extends Core_Model {
     }
 
 
-    public function sizes_sql($company_id) {
+    public function sizes_sql($company_id = null) {
         $select = 's.id, s.name, s.order, COUNT(p.cat_id) AS product_count';
         $joins = [T_PRODUCTS.' p' => ['p.cat_id = s.id']];
         $where = ['s.company_id' => $company_id];
         return sql_data(T_PRODUCT_SIZES.' s', $joins, $select, $where);
     }
+
+
+    /*public function delete($table, $where) {
+        //get details
+        $sql = $this->sql($this->company_id);
+        $row = $this->common_model->get_row($sql['table'], $where['id'], 'id', 1, $sql['joins'], $sql['select'], $sql['where']);
+        $images = split_us($row->images);
+        // var_dump($images);
+        $run = parent::delete($table, $where);
+        if ($run) {
+            //unlink images
+            unlink_files(company_file_path(PIX_PRODUCTS), $images);
+        }
+    }*/
 
 }

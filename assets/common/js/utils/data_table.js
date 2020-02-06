@@ -131,8 +131,9 @@ function ajax_data_table(table_id, url, columns, column_defs = [], page_length =
     });
 }
 
-function record_image(data, type, row) { 
-    return '<img class="record_image" src='+data+'>'; 
+function record_image(url) { 
+    // var src = image_exists(url) ? url : base_url+'assets/common/img/icons/not_found.png';
+    return '<img class="record_image clickable tm_image" src='+url+'>'; 
 }
 
 function record_image_col(image = 'image_file') {
@@ -141,7 +142,7 @@ function record_image_col(image = 'image_file') {
         searchable: false,
         orderable: false,
         render: function (data, type, row) { 
-            return record_image(data, type, row);
+            return record_image(data);
         }
     };
 }

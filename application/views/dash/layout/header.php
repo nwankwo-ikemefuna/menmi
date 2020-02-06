@@ -12,6 +12,8 @@
     <!-- Datatables BS 4 -->
     <link href="<?php echo base_url(); ?>vendors/datatables_bs4/datatables.min.css" rel="stylesheet" type="text/css" media="all"/>
     <link href="<?php echo base_url(); ?>vendors/datatables_bs4/config.css" rel="stylesheet" type="text/css" media="all"/>
+    <!-- jQuery File Upload -->
+    <link href="<?php echo base_url(); ?>vendors/jquery-upload/css/jquery.fileupload.css" rel="stylesheet" type="text/css" media="all"/>
     <!-- Selectpicker -->
     <link href="<?php echo base_url(); ?>vendors/selectpicker/css/bootstrap-select.min.css" rel="stylesheet" type="text/css" media="all"/>
 
@@ -72,6 +74,7 @@
                             <?php 
                             sidebar_menu('Dashboard', 'user', 'dashboard'); 
                             sidebar_menu_parent_auth(M_PRODUCTS, VIEW, null, 'Products', ['My Products' => 'products', 'Categories' => 'products/cats', 'Sizes' => 'products/sizes'], 'table');
+                            sidebar_menu('Sliders', 'sliders', 'image'); 
                             sidebar_menu('Logout', 'logout', 'sign-out'); 
                             ?>
                         </ul>
@@ -184,11 +187,12 @@
                                 <?php
                                 //flash messages
                                 flash_message('info_msg', 'info');
-                                flash_message('success_msg');
+                                flash_message('success_msg', 'success');
                                 flash_message('error_msg', 'danger'); 
                                 ?>
                             </div>
 
                             <?php 
                             //bulk action options
-                            if (is_array($this->ba_opts)) bulk_action($this->ba_opts, $record_count);
+                            if (is_array($this->ba_opts) && count($this->butts) > 0) 
+                                bulk_action($this->ba_opts, $record_count);

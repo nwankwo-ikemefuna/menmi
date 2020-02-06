@@ -12,13 +12,14 @@ $row = $type == 'edit' ? $row : '';
 		
 //form
 $attrs = ['id' => $type.'_form', 'class' => 'ajax_form', 'data-type' => 'redirect', 'data-redirect' => '_dynamic'];
-echo form_open($this->c_controller.'/'.$type.'_ajax', $attrs);
+echo form_open_multipart($this->c_controller.'/'.$type.'_ajax', $attrs);
+	xform_pre_notice();
 	xform_notice();
 	xform_input('id', 'hidden', adit_value($row, 'id')); ?>
 	<div class="row">
 		<div class="<?php echo grid_col(12, '', 5); ?>">
 			<?php 
-			xform_group_grid('Name', 'name', 'text', adit_value($row, 'name'), true);
+			xform_group_grid('Name', 'name', 'text', adit_value($row, 'name', ''), true);
 			xform_group_grid('Category', 'cat_id', 'select', '', true, 
 				['ajax' => true, 
 					'selected' => adit_value($row, 'cat_id'),
@@ -46,9 +47,15 @@ echo form_open($this->c_controller.'/'.$type.'_ajax', $attrs);
 				['options' => $tags, 'text_col' => 'title', 'blank' => false, 
 					'selected' => json_encode(explode(',', adit_value($row, 'tags'))),
 					'extra' => ['multiple' => '', 'class' => 'select_mult']
-				]);
+				]
+			);
 			xform_group_grid('Colour', 'color', 'select', adit_value($row, 'color'), false, ['options' => $colors, 'text_col' => 'name']);
 			?>
+		</div>
+	</div>
+	<div class="row">
+		<div class="<?php echo grid_col(12); ?>">
+			<?php xform_group_list('Images', 'images[]', 'file', '', $type == 'add', ['multiple' => '', 'help' => 'Allowed types: jpg, jpeg, png, gif. Max 300KB. Up to 6 images allowed']); ?>
 		</div>
 	</div>
 	<?php

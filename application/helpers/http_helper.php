@@ -1,5 +1,26 @@
 <?php 
 
+function xpost($field, $xss_clean = TRUE) {
+	$ci =& get_instance();
+	return $ci->input->post($field, $xss_clean);
+}
+
+function xget($field, $xss_clean = TRUE) {
+	$ci =& get_instance();
+	return $ci->input->get($field, $xss_clean);
+}
+
+function xdump($var = null) {
+    if (isset($var)) {
+        var_dump($var);
+        exit;
+    }
+}
+
+function get_requested_page() {
+	return current_url() . (strlen($_SERVER['QUERY_STRING']) ? '?' . $_SERVER['QUERY_STRING'] : '');
+}
+
 function response_headers(
 	$content_type = 'application/json', 
 	$allow_origin = '*', 

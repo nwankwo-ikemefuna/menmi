@@ -33,11 +33,11 @@ class Core_Controller extends CI_Controller {
 		//module
 		$this->module = '';
 		//table
-		$this->table = '';
+		$this->table = ''; //required esp for bulk action
 		//crud buttons
 		$this->butts = [];
 		//bulk action options
-		$this->ba_opts = null;
+		$this->ba_opts = [];
 		
         //set CSRF
 		$this->set_csrf();
@@ -124,17 +124,24 @@ class Core_Controller extends CI_Controller {
 	}
 
 
-	/**
-	* Function to check that parameter exists
-	* redirect to homepage if param does not exist
-	* @param $param: the data being checked
-	* @param $colum: the column to check the data
-	* @param $table: the table to check the data
-	* @return boolean
-	*/
-	protected function check_param_exists($param, $column, $table) { 
-		$query = $this->db->get_where($table, array($column => $param))->num_rows();
-		return ($query > 0) ? TRUE : redirect(site_url());
+	protected function check_data($table, $param, $where = [], $column = 'id', $redirect = 'error_404') { 
+		$row = $this->common_model->get_row($table, $param, $column, 0, [], '', $where);
+		if ($row > 0) return TRUE;
+		$page = get_requested_page();
+		$this->session->set_flashdata('error_msg', "The resource you tried to access at <b>{$page}</b> was not found. It may not exist, have been deleted, or you may not have permission to view it.");
+		$redirect .= '?page='.$page;
+		redirect($redirect);
+    }
+
+
+    protected function check_company_data($table, $param, $where = [], $column = 'id', $redirect = 'error_404') { 
+    	$where = array_merge($where, ['company_id' => $this->company_id]);
+		$found = $this->common_model->get_row($table, $param, $column, 0, [], '', $where);
+		if ($found) return TRUE;
+		$page = get_requested_page();
+		$this->session->set_flashdata('error_msg', "The resource you tried to access at <b>{$page}</b> was not found. It may not exist, have been deleted, or you may not have permission to view it.");
+		$redirect .= '?page='.$page;
+		redirect($redirect);
     }
 
 	

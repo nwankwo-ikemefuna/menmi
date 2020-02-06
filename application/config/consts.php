@@ -15,18 +15,23 @@ foreach ($tables as $table) {
 
 //Modules
 $modules = $CI->common_model->get_rows(T_MODULES);
-$modules_const = [];
 foreach ($modules as $module) {
+	//module
 	$const_module = 'M_' . strtoupper($module->name);
 	if ( ! defined($const_module)) {
-		$module_id = intval($module->id);
-		define($const_module, $module_id);
-		$modules_const[$const_module] = $module_id;
+		define($const_module, $module->id);
+	}
+	//pix dir
+	$const_pix = 'PIX_' . strtoupper($module->name);
+	if ( ! defined($const_pix)) {
+		define($const_pix, $module->pix_dir);
+	}
+	//doc dir
+	$const_doc = 'DOC_' . strtoupper($module->name);
+	if ( ! defined($const_doc)) {
+		define($const_doc, $module->doc_dir);
 	}
 } 
-//array of modules
-// define('MODULES', $modules_const);
-
 
 //Product Tags
 $tags = $CI->common_model->get_rows(T_TAGS);
@@ -37,6 +42,18 @@ foreach ($tags as $tag) {
 		$tag_id = intval($tag->id);
 		define($const_tag, $tag_id);
 		$tags_const[$const_tag] = $tag_id;
+	}
+} 
+
+//Page Slider Categories
+$sliders = $CI->common_model->get_rows(T_SLIDER_CATS);
+$sliders_const = [];
+foreach ($sliders as $slider) {
+	$const_slider = 'SLIDER_' . strtoupper($slider->name);
+	if ( ! defined($const_slider)) {
+		$slider_id = intval($slider->id);
+		define($const_slider, $slider_id);
+		$sliders_const[$const_slider] = $slider_id;
 	}
 } 
 
@@ -62,3 +79,4 @@ define('DEL', 4);
 define('SITE_FAVICON', base_url().'assets/common/img/logo/favicon.ico');
 define('SITE_LOGO', base_url().'assets/common/img/logo/favicon.ico');
 define('USER_AVATAR', base_url().'assets/common/img/avatar/generic.png');
+define('IMAGE_404', base_url().'assets/common/img/icons/not_found.png');

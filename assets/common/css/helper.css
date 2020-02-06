@@ -144,7 +144,7 @@ label.form-control-label small {
     display: inline-block !important;
 }
 
-.underline-link, .underline_text {
+.underline, .underline-link, .underline_text {
     text-decoration: underline !important;
 }
 
@@ -3261,3 +3261,30 @@ Pagination Styles
 .more_link {
     display: block;
 }
+
+.file_preview {
+    margin-top: 20px;
+}
+.preview_thumb {
+    min-width: 100px;
+    max-width: 150px;
+    border: 2px solid #f2f2f2;
+}
+.img_view_thumb {
+    min-width: 200px;
+    max-width: 250px;
+    border: 2px solid #f2f2f2;
+}
+.modal_image {
+    max-width: 100%;
+    height: auto;
+}
+/* 
+.file_preview_area .card-columns {
+  @include media-breakpoint-only(lg) {
+    column-count: 6;
+  }
+  @include media-breakpoint-only(xl) {
+    column-count: 5;
+  }
+} */

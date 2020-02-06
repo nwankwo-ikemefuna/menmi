@@ -28,25 +28,183 @@ jQuery(document).ready(function ($) {
 	    });
 	}
 
-	//bulk action: disable action button if no bulk action type is selected
-    if ($('.ba_apply').length) $('.ba_apply').prop('disabled', true);
-    $('[name="ba_option"]').change(function () {
-    	$('.ba_apply').prop('disabled', ! Boolean($(this).val()));
-    });
-    
-    //bulk action: select all checkbox items if select all is checked
-    $('.ba_check_all').change(function(){  
-        $('.ba_record').prop('checked', $(this).prop('checked'));
-    });
-    
-    $('.ba_record').change(function(){ 
-        if(false == $(this).prop('checked')){ 
-            $('.ba_check_all').prop('checked', false); 
-        }
-        if ($('.ba_record:checked').length == $('.ba_record').length ){
-            $('.ba_check_all').prop('checked', true);
-        }
+
+    $(document).ready(function(){
+        $('.file_input').on('change', function(){ 
+            if (window.File && window.FileReader && window.FileList && window.Blob) //check File API supported browser
+            {
+                var parent = $(this).closest('.file_preview_area');
+                $(parent).find('.file_preview').html(''); //clear html of output element
+                var data = $(this)[0].files; //this file data 
+
+                $.each(data, function(i, file){ 
+                    if(/(\.|\/)(gif|jpe?g|png)$/i.test(file.type)){ //check supported file type
+                        var fRead = new FileReader(); //new filereader
+                        fRead.onload = (function(file){ //trigger function on successful read
+                        return function(e) {
+                            var card = 
+                            `<div class="card preview_thumb">
+                              <img src="${e.target.result}" class="card-img-top" title="${file.name}">
+                              <div class="card-body">
+                                <p class="card-text hide">${file.name}</p>
+                              </div>
+                            </div>`;
+                            $(parent).find('.file_preview').append(card); //append image to output element
+                        };
+                        })(file);
+                        fRead.readAsDataURL(file); //URL representing the file's data.
+                    } else {
+                        var ext = file.name.split('.').pop();
+                        var src = file_preview_src(ext);
+                        var card = 
+                        `<div class="card preview_thumb">
+                          <img src="${src}" class="card-img-top" title="${file.name}">
+                          <div class="card-body">
+                            <p class="card-text hide">${file.name}</p>
+                          </div>
+                        </div>`;
+                        $(parent).find('.file_preview').append(card); //append image to output element
+                    }
+                });
+                
+            }else{
+                alert("Your browser doesn't support File API!"); //if File API is absent
+            }
+        });
     });
 
+    function file_preview_src(ext) {
+        var path = base_url+'assets/common/img/icons/';
+        switch (ext.toLowerCase()) {
+            case 'pdf':
+                return path += 'pdf.png';
+                break;
+            case 'doc':
+            case 'docx':
+                return path += 'word.png';
+                break;
+            case 'xls':
+            case 'xlsx':
+            case 'ods':
+                return path += 'excel.png';
+                break;
+            case 'pptm':
+            case 'ppsm':
+                return path += 'ppt.png';
+                break;
+            case 'zip':
+            case 'rar':
+                return path += 'zip.png';
+                break;
+            case 'mp2':
+            case 'mp3':
+            case 'wav':
+            case 'wma':
+            case 'acc':
+            case 'amr':
+                return path += 'audio.png';
+                break;
+            case 'mp4':
+            case 'avi':
+            case 'mpg':
+            case '3gp':
+            case 'mov':
+            case 'mkv':
+            case 'ogv':
+            case 'flv':
+                return path += 'video.png';
+                break;
+            case 'exe':
+                return path += 'exe.png';
+                break;
+            default:
+                return path += 'file.png';
+                break;
+        }
+    }
 
 });
+
+function image_exists(url){
+    var http = new XMLHttpRequest();
+    http.open('HEAD', url, false);
+    http.send();
+    return http.status != 404;
+}
+
+function clone_row() {
+    `<table class="table table-striped table-hover table-sm">
+        <thead class="text-white bg-light-dark">
+            <tr>
+                <th style="min-width: 150px">Role</th>
+                <th>Parent</th>
+                <th>Code</th>
+                <th>Slots</th>
+                <th>Use</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            $slots = json_decode($row_TDept['cat_txt'], true);
+            foreach ($roles as $role) {
+                $slot = isset($slots[$catID]) ? $slots[$catID] : 0;
+                ?>
+                <tr class="roles_row">
+                    <td class="name">
+                        <?= $role['category_name'] ?>
+                        <input type="hidden" name="role_idx[]" value="<?= $role['catID'] ?>">
+                        <input type="hidden" name="category_name[]">
+                    </td>
+                    <td class="parent">
+                        <?= $role['catname'] ?>
+                        <input type="hidden" name="parent_id[]">
+                    </td>
+                    <td class="code">
+                        <?= $role['code'] ?>
+                        <input type="hidden" name="code[]">
+                    </td>
+                    <td class="slots">
+                        <div class="input-group">
+                            <input type="number" name="cat_inf[]" class="form-control" min="0" max="<?= $role['cat_inf'] ?>">
+                            <div class="input-group-append">
+                                <span class="input-group-text">out of <?= $role['cat_inf'] ?></span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="use">
+                        <input type="hidden" name="use[]" value="0">
+                        <input type="checkbox" name="use[]" value="1" <?= $slot == 1 ? 'checked' : '' ?>>
+                    </td>
+                </tr>
+                <?php
+            } ?>
+            <tr>
+                <td colspan="5">
+                    <button type="button" class="btn btn-primary" id="add_role">Add New</button>
+                </td>
+            </tr>   
+        </tbody>
+    </table>`;
+
+    $('#add_role').on('click', function() {
+        var total_rows = $('.roles_row').length;
+        var last_row = total_rows-1;
+        var clone = $('.roles_row').eq(last_row).clone();
+        clone.find('.name').html('<input type="hidden" name="role_idx[]"><input type="text" name="category_name[]" class="form-control" style="width: 100%">');
+        let roles = '<?= json_encode($roles) ?>';
+        let parent = '<select name="parent_id[]" class="form-control">';
+        $.each(JSON.parse(roles), function(i, role) {
+            parent += `<option value="${role.category_id}">${role.category_name}</option>`;
+        });
+        parent += '</select>';
+        clone.find('.parent').html(parent);
+        clone.find('.code').html('<input type="text" name="code[]" class="form-control" style="width: 100px">');
+        clone.find('.slots').html('<input type="number" name="cat_inf[]" class="form-control">');
+        clone.find('.use').html('<input type="hidden" name="use[]" value="0"><i class="fa fa-remove text-danger cursor-pointer remove_row"></i>');
+        clone.find('.role_id').val('');
+        $('.roles_row').eq(last_row).after(clone);
+    });
+    $(document).on('click', '.remove_row', function() {
+        var parent = $(this).closest('.roles_row').remove();
+    });
+}

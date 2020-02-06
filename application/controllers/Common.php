@@ -35,15 +35,17 @@ class Common extends Core_controller {
 
 
     private function tg_details() {
-        $table = $this->input->post('tb', TRUE);
-        $id = $this->input->post('id', TRUE); 
-        $model = $this->input->post('md', TRUE).'_model'; 
-        return ['table' => $table, 'id' => $id, 'model' => $model];
+        $table = xpost('tb');
+        $id = xpost('id'); 
+        $model = xpost('md').'_model'; 
+        $model_method = xpost('cmm');
+        $where = xpost('where');
+        return ['table' => $table, 'id' => $id, 'model' => $model, 'cmm' => $model_method, 'where' => $where];
     }
 
 
     private function ba_record_idx() {
-        $record_idx = $this->input->post('id', TRUE);
+        $record_idx = xpost('id');
         if ( ! strlen($record_idx)) json_response('No record selected', false);
         $ba_record_idx = explode(',', $record_idx);
         return $ba_record_idx;
@@ -75,7 +77,8 @@ class Common extends Core_controller {
         $this->validate_input(DEL, null, false);
         $tg = $this->tg_details();
         $model = $tg['model'];
-        $this->$model->update($tg['table'], ['trashed' => 1], ['company_id' => $this->session->user_company_id]);
+        $where = is_array($tg['where']) && ! empty($tg['where']) ? array_merge($tg['where'], ['trashed' => 1]) : ['trashed' => 1];
+        $this->$model->update($tg['table'], ['trashed' => 1], $where);
         json_response_db();
     }
 
@@ -93,7 +96,8 @@ class Common extends Core_controller {
         $this->validate_input(DEL, null, false);
         $tg = $this->tg_details();
         $model = $tg['model'];
-        $this->$model->update($tg['table'], ['trashed' => 0], ['company_id' => $this->session->user_company_id]);
+        $where = is_array($tg['where']) && ! empty($tg['where']) ? array_merge($tg['where'], ['trashed' => 1]) : ['trashed' => 1];
+        $this->$model->update($tg['table'], ['trashed' => 0], $where);
         json_response_db();
     }
 
@@ -110,22 +114,33 @@ class Common extends Core_controller {
     }
 
 
-    public function delete_ajax() { 
-        $this->validate_input(DEL, null);
+    private function delete($where) {
         $tg = $this->tg_details();
         $model = $tg['model'];
-        $this->$model->delete($tg['table'], ['id' => $tg['id'], 'trashed' => 1]);
+        $files = xpost('files');
+        //if files is set, use delete with files method
+        if (is_array($files) && ! empty($files)) {
+            $this->$model->delete_with_files($tg['table'], $where, $files);
+        } else {
+            //is custom model method set? use default 'delete' otherwise
+            $method = strlen($tg['cmm']) ? $tg['cmm'] : 'delete';
+            $this->$model->$method($tg['table'], $where);
+        }
+    }
+
+
+    public function delete_ajax() { 
+        $this->validate_input(DEL, null);
+        $this->delete(['id' => xpost('id'), 'trashed' => 1]);
         json_response_db();
     }
 
 
-    public function bulk_delete_ajax() { 
+    public function bulk_delete_ajax() {
         $this->validate_input(DEL, null);
-        $tg = $this->tg_details();
-        $model = $tg['model'];
         $ba_record_idx = $this->ba_record_idx();
         foreach ($ba_record_idx as $id) {
-            $this->$model->delete($tg['table'], ['id' => $id, 'trashed' => 1]);
+            $this->delete(['id' => $id, 'trashed' => 1]);
         }
         json_response_db();
     }
@@ -134,8 +149,11 @@ class Common extends Core_controller {
     public function clear_trash_ajax() { 
         $this->validate_input(DEL, null, false);
         $tg = $this->tg_details();
-        $model = $tg['model'];
-        $this->$model->delete($tg['table'], ['company_id' => $this->session->user_company_id, 'trashed' => 1]);
+        $where = is_array($tg['where']) && ! empty($tg['where']) ? array_merge($tg['where'], ['trashed' => 1]) : ['trashed' => 1];
+        $rows = $this->db->get_where($tg['table'], $where)->result();
+        foreach ($rows as $row) {
+            $this->delete(['id' => $row->id, 'trashed' => 1]);
+        }
         json_response_db();
     }
     

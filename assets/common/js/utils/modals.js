@@ -7,11 +7,15 @@ jQuery(document).ready(function ($) {
         $('#m_confirm_action .modal-title').text(title); 
         $('#m_confirm_action .modal-body .msg').html(msg); 
         $('#m_confirm_action').modal('show');
-        var id = $(obj).data('id');
-        var tb = $(obj).data('tb');
-        var mod = $(obj).data('mod');
-        var md = $(obj).data('md');
-        ajax_post_btn_data(ajax_url, mod, md, tb, id, 'confirm_btn', 'm_confirm_action', success_msg);
+        var id = $(obj).data('id'),
+            tb = $(obj).data('tb'),
+            mod = $(obj).data('mod'),
+            md = $(obj).data('md'),
+            cmm = $(obj).attr('data-cmm') ? $(obj).data('cmm') : '',
+            files = $(obj).attr('data-files') ? $(obj).data('files') : {},
+            where = $(obj).attr('data-where') ? $(obj).data('where') : {};
+        var post_data = {mod: mod, md: md, tb: tb, id: id, cm: cmm, files: files, where: where};
+        ajax_post_btn_data(ajax_url, post_data, 'confirm_btn', 'm_confirm_action', success_msg);
     }
     
     //trash record
@@ -44,8 +48,36 @@ jQuery(document).ready(function ($) {
         confirm_actions(this, 'common/clear_trash_ajax', 'Clear Trash', 'Sure to clear trash? This action cannot be undone! To permanently delete only selected records, use the Bulk Action feature.', 'Trash cleared successfully');
     });
 
+    //view image
+    $(document).on( "click", ".tm_image", function() {
+        $('#m_img_view .modal-title').text($(this).attr('title')); 
+        var img = $('<img/>').attr({src: $(this).attr('src'), title: $(this).attr('title'), class: 'modal_image img-responsive'});
+        $('#m_img_view .modal-body').empty().html(img);
+        $('#m_img_view').modal('show');
+    });
+
 
     //bulk action
+    //bulk action: disable action button if no bulk action type is selected
+    if ($('.ba_apply').length) $('.ba_apply').prop('disabled', true);
+    $('[name="ba_option"]').change(function () {
+        $('.ba_apply').prop('disabled', ! Boolean($(this).val()));
+    });
+    
+    //bulk action: select all checkbox items if select all is checked
+    $('.ba_check_all').change(function(){  
+        $('.ba_record').prop('checked', $(this).prop('checked'));
+    });
+    
+    $('.ba_record').change(function(){ 
+        if(false == $(this).prop('checked')){ 
+            $('.ba_check_all').prop('checked', false); 
+        }
+        if ($('.ba_record:checked').length == $('.ba_record').length ){
+            $('.ba_check_all').prop('checked', true);
+        }
+    });
+
     var ba_modal = '',
         ba_val = '';
     $(document).on( "change", '[name="ba_option"]', function() {
@@ -54,36 +86,48 @@ jQuery(document).ready(function ($) {
         ba_val = $(this).val();
     });
     $(".ba_apply").click(function(){
+        //get checked records
+        var record_idx = checked_records();
+        var _records = record_idx.length + ' ' + (record_idx.length == 1 ? 'record' : 'records');
+        if (record_idx.length) {
+            $('#ba_selected_msg').removeClass('text-danger').addClass('text-success').text(`${_records} selected`);
+        } else {
+            $('#ba_selected_msg').removeClass('text-success').addClass('text-danger').text('No record selected');
+            return false;
+        }
+        
         //if trash, restore or delete, use common url to process form
         let ba_mod = $(this).data('mod'),
             ba_md = $(this).data('md'),
             ba_tb = $(this).data('tb'),
             m_title = '',
             m_msg = '';
-            //get checked records
-            var record_idx = checked_records();
+        var post_data = {mod: ba_mod, md: ba_md, tb: ba_tb, id: record_idx.join()};
         switch (ba_val) {
 
             case 'Trash':
                 m_title = 'Bulk Trash';
                 m_msg = 'Sure to trash the selected records?';
-                ajax_post_btn_data('common/bulk_trash_ajax', ba_mod, ba_md, ba_tb, record_idx, 'ba_confirm_btn', 'm_confirm_ba', 'Records trashed successfully');
+                ajax_post_btn_data('common/bulk_trash_ajax', post_data, 'ba_confirm_btn', 'm_confirm_ba', 'Records trashed successfully');
                 break;
 
             case 'Restore':
                 m_title = 'Bulk Restore';
                 m_msg = 'Sure to restore the selected records?';
-                ajax_post_btn_data('common/bulk_restore_ajax', ba_mod, ba_md, ba_tb, record_idx, 'ba_confirm_btn', 'm_confirm_ba', 'Records trashed successfully');
+                ajax_post_btn_data('common/bulk_restore_ajax', post_data, 'ba_confirm_btn', 'm_confirm_ba', 'Records trashed successfully');
                 break;
 
             case 'Delete':
+                //check files exist for the records. Files are same for all records, so we get for one.
+                var files = $('.delete_record').eq(0).attr('data-files') ? {files: $('.delete_record').eq(0).data('files')} : {};
+                post_data = {...post_data, ...files};
                 m_title = 'Bulk Delete';
                 m_msg = 'Sure to permanently delete the selected records? This action cannot be undone!';
-                ajax_post_btn_data('common/bulk_delete_ajax', ba_mod, ba_md, ba_tb, record_idx, 'ba_confirm_btn', 'm_confirm_ba', 'Records trashed successfully');
+                ajax_post_btn_data('common/bulk_delete_ajax', post_data, 'ba_confirm_btn', 'm_confirm_ba', 'Records trashed successfully');
                 break;
 
         }
-        $('#'+ba_modal+ ' .modal-title').text(m_title);
+        $('#'+ba_modal+ ' .modal-title').text(`${m_title} (${_records})`);
         $('#'+ba_modal+ ' .modal-body .ba_msg').text(m_msg);
         $('#'+ba_modal).modal('show');
     });

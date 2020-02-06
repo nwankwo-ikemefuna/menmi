@@ -1,8 +1,10 @@
 <?php 
+//next order 
+$next_order = $this->common_model->next_order(T_PRODUCT_CATS);
 $fields = [
 	['name' => 'id', 'type' => 'hidden'],
 	['name' => 'name', 'label' => 'Name', 'required' => true],
-	['name' => 'order', 'label' => 'Order', 'type' => 'number', 'required' => true, 'value' => 10, 'extra' => ['min' => 0]]
+	['name' => 'order', 'label' => 'Order', 'type' => 'number', 'required' => true, 'value' => $next_order, 'extra' => ['min' => 0]]
 ];
 
 $item = 'Product Category';
