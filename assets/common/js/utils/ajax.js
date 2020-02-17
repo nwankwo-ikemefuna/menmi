@@ -28,10 +28,11 @@ jQuery(document).ready(function ($) {
                     }
                     break;
 
-                //redirect
+                //alert, redirect
+                case 'js_alert':
                 case 'redirect':
                     var redirect = obj.attr('data-redirect') ? obj.data('redirect') : '_self';
-                    ajax_post_form(form_data, url, redirect, msg, notice);
+                    ajax_post_form(form_data, url, type, redirect, msg, notice);
                     break;
             }
         } else {
@@ -134,7 +135,7 @@ function get_select_options(url, selectfield, current_val) {
     });
 }
 
-function ajax_post_form(form_data, url, redirect_url = '', success_msg = 'Successful', notice_elem = 'status_msg') {
+function ajax_post_form(form_data, url, fm_type, redirect_url = '', success_msg = 'Successful', notice_elem = 'status_msg') {
     $.ajax({
         url: url, 
         type: 'POST',
@@ -152,21 +153,37 @@ function ajax_post_form(form_data, url, redirect_url = '', success_msg = 'Succes
         }
     }).done(function(jres) {
         if (jres.status) {
-            status_box(notice_elem, success_msg, 'success');
+            if (fm_type == 'js_alert') {
+                alert(jQuery(success_msg).text());
+            } else {
+                status_box(notice_elem, success_msg, 'success');
+            }
             setTimeout(function() { 
-                if (redirect_url == '_self') {
-                    //self redirect
-                    location.reload();
-                } else if (redirect_url == '_dynamic') {
-                    //dynamic redirect
-                    $(location).attr('href', base_url+jres.body.msg.redirect);
-                } else {
-                    //as provided
-                    $(location).attr('href', redirect_url);
+                switch (redirect_url) {
+                    case '_void':
+                        //no redirect
+                        //do nothing
+                        break;
+                    case '_self':
+                        //self redirect
+                        location.reload();
+                        break;
+                    case '_dynamic':
+                        //dynamic redirect
+                        $(location).attr('href', base_url+jres.body.msg.redirect);
+                        break;
+                    default:
+                        //as provided
+                        $(location).attr('href', redirect_url);
+                        break;
                 }
             }, 3000);  
         } else {
-            status_box(notice_elem, jres.error, 'danger');
+            if (fm_type == 'js_alert') {
+                alert(jQuery(jres.error).text());
+            } else {
+                status_box(notice_elem, jres.error, 'danger');
+            }
         }
     });
 }
@@ -242,6 +259,39 @@ function ajax_post_btn_data(url, post_data, btn_id, modal_id = '', success_msg =
             }
         });
     });
+}
+
+function paginate(url, elem, row_render, pagination = 'pagination', succ_callbk = null, err_callbk = null) {
+  $('#'+pagination).on('click', 'ul li a', function(e){
+    e.preventDefault(); 
+    var page_num = $(this).attr('data-ci-pagination-page');
+    paginate_data(url, elem, row_render, pagination, page_num, {}, succ_callbk, succ_callbk, err_callbk);
+  });
+}
+
+function paginate_data(url, elem, row_render, paginate_elem = 'pagination', page_num = 0, data = {}, succ_callbk = null, err_callbk = null) {
+  $.ajax({
+    url: base_url+url+'/'+page_num,
+    type: 'POST',
+    dataType: 'json',
+    data: data
+  }).done(function(jres) {
+    $('#'+paginate_elem).html(jres.body.msg.pagination);
+    $('#'+elem).empty();
+    if (jres.status) {
+      var accum = '';
+      $.each(jres.body.msg.records, (i, row) => {
+          if ( typeof row_render == "function" )
+            accum += row_render(row);
+      });
+      $('#'+elem).html(accum);
+      if ( typeof succ_callbk == "function" ) 
+        succ_callbk(jres);
+    } 
+  }).fail(function(jres) {
+    if ( typeof err_callbk == "function" ) 
+        err_callbk(jres);
+  });
 }
 
 function status_box(elem, msg, type = 'success', delay = 10000) {

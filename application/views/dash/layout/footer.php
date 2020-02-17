@@ -42,21 +42,26 @@ modal_footer(false);
 
 <!-- Vendors -->
 <!-- Regular guys -->
-<script src="<?php echo base_url(); ?>vendors/jquery.min.js"></script>
-<script src="<?php echo base_url(); ?>vendors/popper.min.js"></script>
-<script src="<?php echo base_url(); ?>vendors/bootstrap/bootstrap.min.js"></script>
+<script src="<?php echo base_url(); ?>vendors/portal/jquery.min.js"></script>
+<script src="<?php echo base_url(); ?>vendors/portal/popper.min.js"></script>
+<script src="<?php echo base_url(); ?>vendors/portal/bootstrap/bootstrap.min.js"></script>
 <!-- Selectpicker -->
-<script src="<?php echo base_url(); ?>vendors/selectpicker/js/bootstrap-select.min.js"></script>
+<script src="<?php echo base_url(); ?>vendors/portal/selectpicker/js/bootstrap-select.min.js"></script>
 <!-- Datatables BS 4 -->
-<script src="<?php echo base_url(); ?>vendors/datatables_bs4/datatables.min.js"></script>
+<script src="<?php echo base_url(); ?>vendors/portal/datatables_bs4/datatables.min.js"></script>
 <!-- jQuery File Upload -->
-<script src="<?php echo base_url(); ?>vendors/jquery-upload/js/vendor/jquery.ui.widget.js"></script>
-<script src="<?php echo base_url(); ?>vendors/jquery-upload/js/jquery.fileupload.js"></script>
+<script src="<?php echo base_url(); ?>vendors/portal/jquery-upload/js/vendor/jquery.ui.widget.js"></script>
+<script src="<?php echo base_url(); ?>vendors/portal/jquery-upload/js/jquery.fileupload.js"></script>
+<!-- Tags Input -->
+<script src="<?php echo base_url(); ?>vendors/portal/jquery-tagsinput/src/jquery.tagsinput.js"></script>
 
 <!-- Template scripts -->
 <script src="<?php echo base_url(); ?>assets/portal/template/js/main.js"></script>
 <script src="<?php echo base_url(); ?>assets/portal/template/js/settings.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/portal/template/js/charts.js"></script>
+
+<!-- Portal Common scripts -->
+<script src="<?php echo base_url(); ?>assets/portal/custom/js/dash/common.js"></script>
 
 <!-- General Custom scripts -->
 <script src="<?php echo base_url(); ?>assets/common/js/general.js"></script>

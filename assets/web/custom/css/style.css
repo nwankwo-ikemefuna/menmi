@@ -1,0 +1,20 @@
+.sidebar .product_categories {
+	max-height: 150px;
+	overflow-y: auto;
+}
+.sidebar .product_colors {
+	height: 50px;
+	overflow-y: auto
+}
+.price_input {
+	margin-top: 20px;
+}
+.price_input input {
+	display: inline-block;
+	max-width: 120px;
+}
+.equal_cols {
+	display: flex;
+	display: -webkit-flex;
+	flex-wrap: wrap;
+}

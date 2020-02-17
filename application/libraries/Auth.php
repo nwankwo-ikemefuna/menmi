@@ -45,11 +45,13 @@ class Auth {
 				$data[$field_key] = $row->$field;
 			}
 		}
-		//other others
+		//others
+		$photo = base_url(get_file(company_file_path(PIX_USERS, $row->photo), USER_AVATAR));
 		$data = array_merge($data, [
 			'user_loggedin' => TRUE,
 			'user_company' => $row->company,
 			'user_fullname' => $row->full_name,
+			'user_photo' => $photo,
 		]);
 		return $data;
     } 

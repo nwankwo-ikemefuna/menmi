@@ -14,7 +14,7 @@ class Slider_model extends Core_Model {
 
 
     public function sql($company_id) {
-    	$select = "s.id, s.name, s.message, s.tag, s.image, s.url, s.btn_text, s.cat_id, cat.title AS category, s.order,".
+    	$select = "s.id, s.name, s.image, s.url, s.cat_id, cat.title AS category, s.order,".
     	file_select(COMPANY_PIX_DIR, 'm.pix_dir', 's.image', 'image_file');
         $joins = [
         	T_MODULES.' m' => ['m.id = '.M_SLIDERS, 'inner'],
@@ -28,7 +28,7 @@ class Slider_model extends Core_Model {
     public function cats_sql($company_id) {
         $select = 'cat.id, cat.name, cat.title, cat.order, COUNT(s.cat_id) AS slider_count';
         $joins = [T_SLIDERS.' s' => ['s.cat_id = cat.id']];
-        return sql_data(T_SLIDER_CATS.' cat', $joins, $select, [], ['s.order' => 'asc']);
+        return sql_data(T_SLIDER_CATS.' cat', $joins, $select, [], ['cat.order' => 'asc']);
     }
 
 }

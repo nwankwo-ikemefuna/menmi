@@ -1,8 +1,8 @@
 <!-- Vendors -->
 <!-- Regular guys -->
-<script src="<?php echo base_url(); ?>vendors/jquery.min.js"></script>
-<script src="<?php echo base_url(); ?>vendors/popper.min.js"></script>
-<script src="<?php echo base_url(); ?>vendors/bootstrap/bootstrap.min.js"></script>
+<script src="<?php echo base_url(); ?>vendors/portal/jquery.min.js"></script>
+<script src="<?php echo base_url(); ?>vendors/portal/popper.min.js"></script>
+<script src="<?php echo base_url(); ?>vendors/portal/bootstrap/bootstrap.min.js"></script>
 
 <!-- Template scripts -->
 <script src="<?php echo base_url(); ?>assets/portal/template/js/main.js"></script>

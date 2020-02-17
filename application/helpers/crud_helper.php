@@ -1,11 +1,11 @@
 <?php 
 
-function mod_view_page($id, $page = 'view') {
+function mod_view_page($id = '', $page = 'view') {
     $ci =& get_instance();
     return $ci->c_controller.'/'.$page.'/'.$id;
 }
 
-function mod_edit_page($id, $page = 'edit') {
+function mod_edit_page($id = '', $page = 'edit') {
     $ci =& get_instance();
     return $ci->c_controller.'/'.$page.'/'.$id;
 }
@@ -127,8 +127,9 @@ function table_crud_butts($module, $model, $usergroups, $table, $trashed, $keys 
     if (array_key_exists('view', $show)) {
         $type = _crud_butt_param($show, 'view', 'type', 'url');
         $icon = _crud_butt_param($show, 'view', 'icon', 'eye');
+        $qry = _crud_butt_param($show, 'view', 'qry', '');
         if ($type == 'url') {
-            $url = _crud_butt_param($show, 'view', 'url', $ci->c_controller.'/view/$'.$offset);
+            $url = _crud_butt_param($show, 'view', 'url', $ci->c_controller.'/view/$'.$offset.$qry);
             $butts .= ajax_view_btn($module, $usergroups, ['url' => $url, 'with_text' => $with_text, 'icon' => $icon]) . ' ';
         } else { //modal
             $modal = _crud_butt_param($show, 'view', 'modal', 'm_view');
@@ -139,8 +140,9 @@ function table_crud_butts($module, $model, $usergroups, $table, $trashed, $keys 
     if (array_key_exists('edit', $show)) {
         $type = _crud_butt_param($show, 'edit', 'type', 'url');
         $icon = _crud_butt_param($show, 'edit', 'icon', 'edit');
+        $qry = _crud_butt_param($show, 'edit', 'qry', '');
         if ($type == 'url') {
-            $url = _crud_butt_param($show, 'edit', 'url', $ci->c_controller.'/edit/$'.$offset);
+            $url = _crud_butt_param($show, 'edit', 'url', $ci->c_controller.'/edit/$'.$offset.$qry);
             $butts .= ajax_edit_btn($module, $usergroups, ['url' => $url, 'with_text' => $with_text, 'icon' => $icon]) . ' ';
         } else { //modal
             $modal = _crud_butt_param($show, 'edit', 'modal', 'm_edit');
@@ -240,7 +242,7 @@ function page_crud_butts($module, $usergroups, $butts, $record_id = null, $recor
                         return $btn.' '.$restore_all.' '.$clear_all.' '.$refresh_btn;
                     } else {
                         if ($ci->page == 'index') {
-                            $query_string = '?trashed=1';
+                            $query_string = query_param('trashed', 1);
                             $url = $isset_url ? $butt['url'].$query_string : $ci->c_controller.$query_string;
                             $icon = $isset_icon ? $butt['icon'] : 'trash';
                             $btn = link_button('Trashed', $url, $icon, $bg, 'View trashed records');

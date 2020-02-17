@@ -1,9 +1,4 @@
 <?php 
-
-function q_obj(bool $ajax) {
-	return $ajax ? 'datatables' : 'db';
-}
-
 function full_name_select($tbl_alias = '', $with_alias = true, $alias = 'full_name') {
 	$tbl_alias = strlen($tbl_alias) ? "{$tbl_alias}." : '';
 	$select = "TRIM(
@@ -34,7 +29,7 @@ function datetime_select($field, $alias = '', $full_month = false) {
 	return "DATE_FORMAT({$field}, '%D %{$month}, %Y at %h:%i %p') {$as_alias}";
 }
 
-function price_select($code_col, $price_col, $alias = 'price', $precision = 0) {
+function price_select($code_col, $price_col, $alias = 'price') {
 	return "CONCAT('&#', {$code_col}, ';', {$price_col}) AS {$alias}";
 }
 

@@ -1,8 +1,15 @@
 <?php 
 
-function xpost($field, $xss_clean = TRUE) {
+function xpost($field, $default = NULL, $xss_clean = TRUE) {
 	$ci =& get_instance();
-	return $ci->input->post($field, $xss_clean);
+	$data = !empty($ci->input->post($field, $xss_clean)) ? $ci->input->post($field, $xss_clean) : $default;
+	return $data;
+}
+
+function xpost_txt($field, $xss_clean = TRUE) {
+	$ci =& get_instance();
+	$data = !empty($ci->input->post($field, $xss_clean)) ? nl2br_except_pre(ucfirst($ci->input->post($field, $xss_clean))) : $default;
+	return $data;
 }
 
 function xget($field, $xss_clean = TRUE) {
@@ -10,11 +17,18 @@ function xget($field, $xss_clean = TRUE) {
 	return $ci->input->get($field, $xss_clean);
 }
 
-function xdump($var = null) {
-    if (isset($var)) {
-        var_dump($var);
-        exit;
-    }
+function xpostget($field, $xss_clean = TRUE) {
+	$ci =& get_instance();
+	return $ci->input->post_get($field, $xss_clean);
+}
+
+function xgetpost($field, $xss_clean = TRUE) {
+	$ci =& get_instance();
+	return $ci->input->get_post($field, $xss_clean);
+}
+
+function query_param($key, $val) {
+	return (empty($_GET) ? '?' : '&').$key.'='.$val;
 }
 
 function get_requested_page() {
@@ -43,7 +57,8 @@ function json_response($data = null, $status = true, $code = HTTP_OK) {
     exit;
 }
 
-function json_response_db() {
+function json_response_db($is_edit = false) {
 	$ci =& get_instance();
-	return $ci->db->affected_rows() > 0 ? json_response() : json_response('Sorry, something went wrong. If issue persists, report to site administrator', false);
+	$error = $is_edit ? 'No changes detected' : 'Sorry, something went wrong. If issue persists, report to site administrator';
+	return $ci->db->affected_rows() > 0 ? json_response() : json_response($error, false);
 }

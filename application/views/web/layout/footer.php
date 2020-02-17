@@ -1,5 +1,8 @@
+	
+	<?php if ($this->show_sidebar) require 'sidebar.php'; ?>
+	
 	<!-- Footer -->
-	<footer>
+	<footer class="m-t-50">
 	  <div class="container">
 	    <div class="row">
 	      <div class="footer-newsletter">
@@ -9,12 +12,15 @@
 	              <h3 class="">Sign up for newsletter</h3>
 	              <span>Get the latest deals and special offers</span></div>
 	            <div class="col-md-5 col-sm-7">
-	              <form id="newsletter-validate-detail" method="post" action="#">
-	                <div class="newsletter-inner">
-	                  <input class="newsletter-email" name='Email' placeholder='Enter Your Email'/>
-	                  <button class="button subscribe" type="submit" title="Subscribe">Subscribe</button>
-	                </div>
-	              </form>
+	            	<?php 
+	            	$attrs = ['id' => 'newsletter_sub_form', 'class' => 'ajax_form', 'data-type' => 'js_alert', 'data-redirect' => '_void', 'data-msg' => "Thank you for your subscription."];
+	            	echo form_open('web/newsletter_sub_ajax', $attrs); ?>
+		                <div class="newsletter-inner">
+		                  <input class="newsletter-email" name="email" placeholder='Enter Your Email' required />
+		                  <button class="button subscribe" type="submit" title="Subscribe">Subscribe</button>
+		                </div>
+		                <?php
+	              echo form_close(); ?>
 	            </div>
 	            <div class="col-md-4 col-sm-12">
 	              <div class="social">
@@ -57,60 +63,57 @@
 	        </div>
 	      </div>
 	      <div class="col-sm-6 col-md-4 col-xs-12 col-lg-3">
-	        <div class="footer-logo"><a href="index.html"><img src="<?php echo base_url(); ?>assets/web/template/images/footer-logo.png" alt="fotter logo"></a> </div>
 	        <div class="footer-content">
+	          <h3 class="links-title">Our Contact</h3>
 	          <div class="email"> <i class="fa fa-envelope"></i>
-	            <p><?php echo $this->session->company_email_1; ?>?></p>
+	            <p><?php echo $this->session->company_email_1; ?></p>
 	          </div>
 	          <div class="phone"> <i class="fa fa-phone"></i>
 	            <p><?php echo $this->session->company_phone_1; ?></p>
 	          </div>
 	          <div class="address"> <i class="fa fa-map-marker"></i>
-	            <p><?php echo $this->session->company_address_hq; ?></p>
+	            <p><?php echo $this->session->company_address_1; ?></p>
 	          </div>
 	        </div>
 	      </div>
 	      <div class="col-sm-6 col-md-3 col-xs-12 col-lg-3 collapsed-block">
 	        <div class="footer-links">
-	          <h3 class="links-title">Information<a class="expander visible-xs" href="#TabBlock-1">+</a></h3>
+	          <h3 class="links-title">Shopping<a class="expander visible-xs" href="#TabBlock-1">+</a></h3>
 	          <div class="tabBlock" id="TabBlock-1">
 	            <ul class="list-links list-unstyled">
-	              <li><a href="#s">Delivery Information</a></li>
-	              <li><a href="#">Discount</a></li>
-	              <li><a href="sitemap.html">Sitemap</a></li>
-	              <li><a href="#">Privacy Policy</a></li>
-	              <li><a href="faq.html">FAQs</a></li>
-	              <li><a href="#">Terms &amp; Condition</a></li>
+	              <li><a href="<?php echo base_url('shop'); ?>">Shop</a></li>
+	              <li><a href="<?php echo base_url('shop/cart'); ?>">Shopping Cart</a></li>
+	              <li><a href="<?php echo base_url('shop/delivery_info'); ?>">Delivery Info</a></li>
+	              <li><a href="<?php echo base_url('shop/return_policy'); ?>">Return Policy</a></li>
 	            </ul>
 	          </div>
 	        </div>
 	      </div>
 	      <div class="col-sm-6 col-md-3 col-xs-12 col-lg-3 collapsed-block">
 	        <div class="footer-links">
-	          <h3 class="links-title">Insider<a class="expander visible-xs" href="#TabBlock-3">+</a></h3>
+	          <h3 class="links-title">Site Map<a class="expander visible-xs" href="#TabBlock-3">+</a></h3>
 	          <div class="tabBlock" id="TabBlock-3">
 	            <ul class="list-links list-unstyled">
-	              <li> <a href="sitemap.html"> Sites Map </a> </li>
-	              <li> <a href="#">News</a> </li>
-	              <li> <a href="#">Trends</a> </li>
-	              <li> <a href="about_us.html">About Us</a> </li>
-	              <li> <a href="contact_us.html">Contact Us</a> </li>
-	              <li> <a href="#">My Orders</a> </li>
+	              <li><a href="<?php echo base_url(); ?>">Home</a> </li>
+	              <li><a href="<?php echo base_url('blog'); ?>">Blog</a></li>
+	              <li><a href="<?php echo base_url('about'); ?>">About</a></li>
+	              <li><a href="<?php echo base_url('contact'); ?>">Contact</a></li>
 	            </ul>
 	          </div>
 	        </div>
 	      </div>
 	      <div class="col-sm-6 col-md-2 col-xs-12 col-lg-3 collapsed-block">
 	        <div class="footer-links">
-	          <h3 class="links-title">Service<a class="expander visible-xs" href="#TabBlock-4">+</a></h3>
+	          <h3 class="links-title">Account<a class="expander visible-xs" href="#TabBlock-4">+</a></h3>
 	          <div class="tabBlock" id="TabBlock-4">
 	            <ul class="list-links list-unstyled">
-	              <li> <a href="account_page.html">Account</a> </li>
-	              <li> <a href="wishlist.html">Wishlist</a> </li>
-	              <li> <a href="shopping_cart.html">Shopping Cart</a> </li>
-	              <li> <a href="#">Return Policy</a> </li>
-	              <li> <a href="#">Special</a> </li>
-	              <li> <a href="#">Lookbook</a> </li>
+	            	<?php if ($this->session->user_usergroup == CUSTOMER) { ?>
+	              		<li><a href="<?php echo base_url('user'); ?>">Customer Dashboard</a></li>
+	              	<?php } else { ?>
+	              		<li><a href="<?php echo base_url('register'); ?>">Register</a></li>
+	              		<li><a href="<?php echo base_url('login'); ?>">Login</a></li>
+	              	<?php } ?>
+	              <li><a href="<?php echo base_url('shop/cart'); ?>">Shopping Cart</a></li>
 	            </ul>
 	          </div>
 	        </div>
@@ -133,37 +136,33 @@
 	<a href="#" id="back-to-top" title="Back to top"><i class="fa fa-angle-up"></i></a> 
 	<!-- End Footer -->
 
-	<!--Newsletter Popup Start -->
-	<div id="myModal" class="modal fade hide">
-	  <div class="modal-dialog newsletter-popup">
-	    <div class="modal-content">
-	      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	      <div class="modal-body">
-	      <div class="left hidden-xs"><img src="<?php echo base_url(); ?>assets/web/template/images/newsletter-bg.png" alt="img"></div>
-	      <div class="right">
-	        <h2 class="modal-title">Newsletter</h2>
-	        <form id="newsletter-form" method="post" action="#">
-	          <div class="content-subscribe">
-	            <div class="form-subscribe-header">
-	              <label>Register now to get updates on discount & coupons</label>
-	            </div>
-	            <div class="input-box">
-	              <input type="text" class="input-text newsletter-subscribe" title="Sign up for our newsletter" name="email" placeholder="Enter your email address">
-	            </div>
-	            <div class="actions">
-	              <button class="button-subscribe" title="Subscribe" type="submit">Subscribe</button>
-	            </div>
-	          </div>
-	        </form>
-	        <div class="subscribe-bottom">
-	          <input name="notshowpopup" id="notshowpopup" type="checkbox">
-	          Don’t show this popup again </div></div>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-	<!--End of Newsletter Popup-->
 </div><!--/#page-->
+
+
+<!-- mobile menu -->
+<div id="jtv-mobile-menu" class="jtv-mobile-menu">
+  <ul>
+    <li class=""><a href="<?php echo base_url(); ?>">Home</a>
+    </li>
+    <li><a href="<?php echo base_url('shop'); ?>">Shop</a></li>
+    <li><a href="#">Categories</a>
+	    <ul>
+	      	<?php
+	      	if (count($product_cats) > 0) { 
+	        	foreach ($product_cats as $row) { ?>
+	          		<li><a href="<?php echo base_url('shop?cat_id='.$row->id); ?>"><?php echo $row->name; ?></a>
+	          		<?php
+	        	} 
+	      	} ?>  
+	    </ul>
+	</li>
+	<li><a href="<?php echo base_url('about'); ?>">About</a></li>
+	<li><a href="<?php echo base_url('contact'); ?>">Contact</a></li>
+	<li><a href="<?php echo base_url('blog'); ?>">Blog</a></li>
+	<li><a href="<?php echo base_url('register'); ?>">Register</a></li>
+	<li><a href="<?php echo base_url('login'); ?>">Login</a></li>
+  </ul>
+</div>
 
 
 <!-- Template scripts -->
@@ -171,6 +170,9 @@
 <script src="<?php echo base_url(); ?>assets/web/template/js/jquery.min.js"></script> 
 <!-- Latest compiled and minified JavaScript --> 
 <script src="<?php echo base_url(); ?>assets/web/template/js/bootstrap.min.js"></script> 
+<script src="<?php echo base_url(); ?>vendors/web/datatables_bs3/datatables.min.js"></script> 
+<!-- Selectpicker -->
+<script src="<?php echo base_url(); ?>vendors/portal/selectpicker/js/bootstrap-select.min.js"></script>
 <!-- owl.carousel.min js --> 
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/web/template/js/owl.carousel.min.js"></script> 
 <!-- Mean Menu js --> 
@@ -191,96 +193,9 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/web/template/js/jquery.nivo.slider.js"></script> 
 
 <!-- General Custom scripts -->
+<script src="<?php echo base_url(); ?>assets/common/js/general.js"></script>
+<script src="<?php echo base_url(); ?>assets/common/js/utils/data_table.js"></script>
 <script src="<?php echo base_url(); ?>assets/common/js/utils/ajax.js"></script>
-
-<!-- nivo slider js --> 
-<script type='text/javascript'>
-  jQuery(document).ready(function(){
-    jQuery('#rev_slider_6').show().revolution({
-      dottedOverlay: 'none',
-      delay: 5000,
-      startwidth: 1170,
-      startheight: 520,
-
-      hideThumbs: 200,
-      thumbWidth: 200,
-      thumbHeight: 50,
-      thumbAmount: 2,
-
-      navigationType: 'thumb',
-      navigationArrows: 'solo',
-      navigationStyle: 'round',
-
-      touchenabled: 'on',
-      onHoverStop: 'on',
-      
-      swipe_velocity: 0.7,
-      swipe_min_touches: 1,
-      swipe_max_touches: 1,
-      drag_block_vertical: false,
-  
-      spinner: 'spinner0',
-      keyboardNavigation: 'off',
-
-      navigationHAlign: 'center',
-      navigationVAlign: 'bottom',
-      navigationHOffset: 0,
-      navigationVOffset: 20,
-
-      soloArrowLeftHalign: 'left',
-      soloArrowLeftValign: 'center',
-      soloArrowLeftHOffset: 20,
-      soloArrowLeftVOffset: 0,
-
-      soloArrowRightHalign: 'right',
-      soloArrowRightValign: 'center',
-      soloArrowRightHOffset: 20,
-      soloArrowRightVOffset: 0,
-
-      shadow: 0,
-      fullWidth: 'on',
-      fullScreen: 'off',
-
-      stopLoop: 'off',
-      stopAfterLoops: -1,
-      stopAtSlide: -1,
-
-      shuffle: 'off',
-
-      autoHeight: 'off',
-      forceFullWidth: 'on',
-      fullScreenAlignForce: 'off',
-      minFullScreenHeight: 0,
-      hideNavDelayOnMobile: 1500,
-  
-      hideThumbsOnMobile: 'off',
-      hideBulletsOnMobile: 'off',
-      hideArrowsOnMobile: 'off',
-      hideThumbsUnderResolution: 0,
-
-      hideSliderAtLimit: 0,
-      hideCaptionAtLimit: 0,
-      hideAllCaptionAtLilmit: 0,
-      startWithSlide: 0,
-      fullScreenOffsetContainer: ''
-    });
-  });
-</script> 
-<!-- Hot Deals Timer 1--> 
-<script type="text/javascript">
-  var dthen1 = new Date("11/25/17 11:59:00 PM");
-  start = "08/04/16 03:02:11 AM";
-  start_date = Date.parse(start);
-  var dnow1 = new Date(start_date);
-  if(CountStepper>0)
-      ddiff= new Date((dnow1)-(dthen1));
-  else
-      ddiff = new Date((dthen1)-(dnow1));
-  gsecs1 = Math.floor(ddiff.valueOf()/1000);
-  
-  var iid1 = "countbox_1";
-  CountBack_slider(gsecs1,"countbox_1", 1);
-</script>
 
 <?php
 //custom page-specific scripts
@@ -295,7 +210,9 @@ if ($this->page_scripts) {
 <script>
     //pass vars to javascript
     var base_url = "<?php echo base_url(); ?>",
-    	c_controller = "<?php echo $this->c_controller; ?>";
+    	c_controller = "<?php echo $this->c_controller; ?>",
+    	current_page = "<?php echo $current_page; ?>",
+    	trashed = 0;
 </script>
 
 </body>

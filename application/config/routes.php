@@ -54,8 +54,11 @@ $route['404_override'] = 'errors/error_404';
 $route['forbidden'] = 'errors/forbidden';
 $route['translate_uri_dashes'] = FALSE;
 
+//Web
+$route['about'] = 'web/about';
+$route['contact'] = 'web/contact';
+
 //Login
 $route['login'] = 'guest';
-//Logout
 $route['logout'] = 'guest/logout';
 

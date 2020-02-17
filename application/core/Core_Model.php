@@ -26,6 +26,19 @@ class Core_Model extends CI_Model {
     }
 
 
+    private function joins($joins, $obj = 'db') {
+        if ( ! is_array($joins) || empty($joins)) return;
+        foreach ($joins as $j_table => $j_cond) {
+            $j_on = $j_cond[0]; //join ON
+            //check if type of join is set, else use left 
+            $j_type = isset($j_cond[1]) && strlen($j_cond[1]) ? $j_cond[1] : 'left'; 
+            //escape?
+            $j_esc = isset($j_cond[2]) && strlen($j_cond[2]) ? $j_cond[2] : NULL; 
+            $this->$obj->join($j_table, $j_on, $j_type, $j_esc);
+        }
+    }
+
+
     /**
      * get row details
      * @param  string       $table    [table name, could contain an alias]
@@ -38,8 +51,8 @@ class Core_Model extends CI_Model {
      * @param  bool         $ajax     [whether to use db or datatables class]
      * @return void
      */
-    private function prepare_query($table, $trashed = 0, $joins = [], $select = '', $where = [], $order = [], $group_by = '', $limit = '', $offset = 0, $ajax = false) {
-        $obj = q_obj($ajax);
+    private function prepare_query($table, $trashed = 0, $joins = [], $select = '', $where = [], $order = null, $group_by = '', $limit = '', $offset = 0, $ajax = false) {
+        $obj = $ajax ? 'datatables' : 'db';
         $alias = $this->table_alias($table);
         $date_created_sel = datetime_select($alias.'.date_created', 'created_on');
         $date_updated_sel = datetime_select($alias.'.date_updated', 'updated_on');
@@ -53,24 +66,14 @@ class Core_Model extends CI_Model {
         }
         $this->$obj->select($select);
         $this->$obj->from($table);
-        //joins
-        if (is_array($joins) && ! empty($joins)) {
-            foreach ($joins as $j_table => $j_cond) {
-                $j_on = $j_cond[0]; //join ON
-                //check if type of join is set, else use left 
-                $j_type = isset($j_cond[1]) && strlen($j_cond[1]) ? $j_cond[1] : 'left'; 
-                //escape?
-                $j_esc = isset($j_cond[2]) && strlen($j_cond[2]) ? $j_cond[2] : NULL; 
-                $this->$obj->join($j_table, $j_on, $j_type, $j_esc);
-            }
-        }
+        $this->joins($joins, $obj);
         //general where
         $this->$obj->where($alias.'.trashed', $trashed);
         //other where
         if (is_array($where) && ! empty($where)) {
             foreach ($where as $field => $value) {
-                //is $value an empty string? 
-                if ($value === '') {
+                //is $value an empty string or explicitly set as null? 
+                if ($value === '' || $value === null) {
                     //escape is necessary incase where clause contains sql functions such as FIND_IN_SET(), etc
                     //eg: 'FIND_IN_SET(t.user_id, "3,1,2")' => ''
                     $this->$obj->where($field, NULL, false);
@@ -84,27 +87,17 @@ class Core_Model extends CI_Model {
             foreach ($order as $field => $direction) {
                 $this->db->order_by($field, $direction);
             }
+        } elseif ($order == 'rand' || $order == 'rand()') {
+            $this->db->order_by("RAND()");
         } else {
             $this->db->order_by($alias.'.date_created', 'desc');
         }
         //group by
-        $group_by = strlen($group_by) ? $group_by : $alias.'.id';
-        $this->$obj->group_by($group_by);
+        if ($group_by !== '-') {
+            $group_by = strlen($group_by) ? $group_by : $alias.'.id';
+            $this->$obj->group_by($group_by);
+        }
         if (strlen($limit)) $this->$obj->limit($limit, $offset);
-    }
-
-
-    /**
-     * get row details by a column (quick fetch)
-     * @return object
-     */
-    public function get_qrow($table, $id, $by = '', $trashed = 0, $return = 'object') {
-        $alias = $this->table_alias($table);
-        $by = strlen($by) ? $by : 'id';
-        $where[$alias.'.'.$by] = $id;
-        $this->prepare_query($table, $trashed, [], '', $where);
-        $return = $return == 'object' ? 'row' : 'row_array';
-        return $this->db->get()->$return();
     }
 
 
@@ -118,7 +111,7 @@ class Core_Model extends CI_Model {
             $by = strlen($by) ? $by : 'id';
             $where[$alias.'.'.$by] = $id;
         }
-        $this->prepare_query($table, $trashed, $joins, $select, $where, $group_by);
+        $this->prepare_query($table, $trashed, $joins, $select, $where, null, $group_by);
         $return = $return == 'object' ? 'row' : 'row_array';
         return $this->db->get()->$return();
     }
@@ -147,6 +140,51 @@ class Core_Model extends CI_Model {
         //actions column
         $this->datatables->add_column('actions', $buttons, join(',', $keys));
         return $this->datatables->generate();
+    }
+
+
+    /**
+     * get aggregate value using functions such as MIN, MAX, SUM, AVG, etc
+     * @return string
+     */
+    public function get_aggr_row($table, $type, $field, $where = [], $trashed = 0, $group_by = '') {
+        // var_dump(func_get_args());
+        $select = 'select_'.$type;
+        $this->db->$select($field);
+        $alias = $this->table_alias($table);
+        if ( ! array_key_exists($alias.'trashed', $where))
+            $this->db->where($alias.'.trashed', $trashed);
+        $this->db->where($where);
+        $this->db->group_by($group_by);
+        return $this->db->get($table)->row()->$field;
+    }
+
+
+    /**
+     * get record count
+     * @return int
+     */
+    public function count_rows($table, $where = [], $trashed = 0) {
+        // var_dump(func_get_args()); die;
+        $alias = $this->table_alias($table);
+        if ( ! array_key_exists($alias.'trashed', $where))
+            $this->db->where($alias.'.trashed', $trashed);
+        $this->db->where($where);
+        return $this->db->count_all_results($table);
+    }
+
+
+    public function get_unique_row($table, $field, $is_edit = false, $edit_id = '', $where = []) {
+        $param = xpost($field);
+        $where = array_merge([$field => $param], $where);
+        //if edit, exclude the row being edited
+        if ($is_edit) {
+            //if edit id is not supplied, get from post
+            $edit_id = strlen($edit_id) ? $edit_id : xpost('id');
+            $where = array_merge(['id !=' => $edit_id], $where);
+        } 
+        $this->db->where($where);
+        return $this->db->count_all_results($table) > 0;
     }
 
 

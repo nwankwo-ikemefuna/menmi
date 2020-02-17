@@ -168,3 +168,45 @@ function sort_array(array $arr, array $sort_order) {
     }
     return $sorted;
 }
+
+function print_color($code, $name = '', $pos = 'right', $icon = 'square') {
+    if ( ! strlen($code)) return;
+    $color = '<i class="fa fa-'.$icon.'" style="color: '.$code.'"></i> ';
+    //if name is not set, use only color
+    if ( ! strlen($name)) return $color;
+    $color = $pos == 'left' ? $color.' '.$name : $name.' '.$color;
+    return $color;
+}
+
+function print_colors($codes, $names = '', $pos = 'left', $icon = 'square', $return = 'string') {
+    if ( ! strlen($codes)) return;
+    $colors_arr = [];
+    //if names is not set, use only colors
+    if ( ! strlen($names)) {
+        $colors = split_us($codes);
+        foreach ($colors as $code) {
+            $colors_arr[] = print_color($code, '', $pos, $icon);
+        }
+        return $return == 'array' ? $colors_arr : join(' ', $colors_arr);
+    } 
+    $colors = array_combine(split_us($codes), split_us($names));
+    foreach ($colors as $code => $name) {
+        $colors_arr[] = print_color($code, $name, $pos, $icon);
+    }
+    return $return == 'array' ? $colors_arr : join(', ', $colors_arr);
+}
+
+function rating_stars($rating) {
+    $diff = 5 - $rating; $rated = ''; $unrated = '';
+    //rated
+    for ($i = 0; $i < $rating; $i++) {
+        $rated .= '<i class="fa fa-star"></i>'; 
+    }
+    //unrated
+    if ($diff > 0) {
+        for ($i = 0; $i < $diff; $i++) {
+            $unrated .= '<i class="fa fa-star-o"></i>'; 
+        }
+    }
+    return '<span class="rating">'.$rated.$unrated.'</span>';
+}

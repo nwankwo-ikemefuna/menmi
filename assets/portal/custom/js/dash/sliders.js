@@ -4,12 +4,11 @@ jQuery(document).ready(function ($) {
     var columns = [
         record_image_col(),
         {data: 'name'},
-        {data: 'message'},
-        {data: 'tag'},
-        {data: 'btn_text'},
         {data: 'url'},
         {data: 'category'},
         {data: 'order'}
     ];
-    ajax_data_table('sliders_table', c_controller+'/data_ajax', columns);
+    var cat_id = $('[name="cat_id"]').val();
+    cat_id = cat_id === "undefined" || cat_id == '' ? 0 : cat_id;
+    ajax_data_table('sliders_table', c_controller+'/data_ajax/'+cat_id, columns);
 });

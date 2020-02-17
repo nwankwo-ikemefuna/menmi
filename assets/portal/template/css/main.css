@@ -93,10 +93,10 @@ body {
     padding: 0;
     color: #707788;
     background: #f4f8fb;
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 400;
     line-height: 1.471;
-    font-family: 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif
+    font-family: 'Roboto', 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif
 }
 
 .page-link {
@@ -2567,8 +2567,8 @@ screen and (min-width:576px) and (-ms-high-contrast:none) {
 }
 
 .nav-md .sidebar .scroll-wrapper .site-logo img {
-    max-width: 100%;
-    height: 20px
+    max-width: 100px;
+    max-height: 70px
 }
 
 .nav-md .sidebar .scroll-wrapper .menu-section .nav.child-menu li.child-menu-title {
@@ -3090,7 +3090,8 @@ screen and (min-width:576px) and (-ms-high-contrast:none) {
     -ms-flex-direction: column;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
-    flex-direction: column
+    flex-direction: column;
+    margin-top: 15px;
 }
 
 .sidebar .scroll-wrapper .profile .profile-pic {

@@ -28,7 +28,6 @@ jQuery(document).ready(function ($) {
 	    });
 	}
 
-
     $(document).ready(function(){
         $('.file_input').on('change', function(){ 
             if (window.File && window.FileReader && window.FileList && window.Blob) //check File API supported browser
@@ -125,11 +124,72 @@ jQuery(document).ready(function ($) {
 
 });
 
+function url_title(str) {
+    return text.toLowerCase().replace(/ /g, '-').replace(/[-]+/g, '-').replace(/[^\w-]+/g, '');
+}
+
 function image_exists(url){
     var http = new XMLHttpRequest();
     http.open('HEAD', url, false);
     http.send();
     return http.status != 404;
+}
+
+function rating_stars(rating) {
+  var diff = 5 - rating, rated = '', unrated = '';
+  //rated
+  for (var i = 0; i < rating; i++) {
+    rated += '<i class="fa fa-star"></i>'; 
+  }
+  //unrated
+  if (diff > 0) {
+      for (var i = 0; i < diff; i++) {
+        unrated += '<i class="fa fa-star-o"></i>'; 
+      }
+  }
+  return '<span class="rating">'+rated+unrated+'</span>';
+}
+
+function print_color(code, name = '', pos = 'right', icon = 'square') {
+    if (code == '') return '';
+    var color = '<i class="fa fa-'+icon+'" style="color: '+code+'"></i> ';
+    //if name is not set, use only color
+    if ( ! name.length) return color;
+    color = pos == 'left' ? (color+' '+name) : (name+' '+color);
+    return color;
+}
+
+function print_colors(codes, names = '', pos = 'left', icon = 'square', $return = 'string') {
+    if (codes == null) return '';
+    var colors_arr = [];
+    //if names is not set, use only colors
+    if (names == '') {
+        var colors = codes.split(',');
+        $.each(colors, function(i, code) {
+            colors_arr.push(print_color(code, '', pos, icon));
+        });
+        return $return == 'array' ? colors_arr : colors_arr.join(' ');
+    } 
+    //combine array in code => name pairs
+    var colors = Object.assign(...codes.split(',').map((k, i) => ({[k]: names.split(',')[i]})));
+    console.log(colors);
+    $.each(colors, function(code, name) {
+        colors_arr.push(print_color(code, name, pos, icon));
+    });
+    return $return == 'array' ? colors_arr : colors_arr.join(', ');
+}
+
+function range_slider(id, min = 0, max = 100, val_min = 100, val_max = 1000) {
+    $('#'+id).slider({
+        range: true,
+        min: min,
+        max: max,
+        values: [val_min, val_max],
+        slide: function(e, ui) {
+            $(this).closest('.slider-range').find('.price_min').val(ui.values[0]);
+            $(this).closest('.slider-range').find('.price_max').val(ui.values[1]);
+        }
+  });
 }
 
 function clone_row() {
@@ -208,3 +268,5 @@ function clone_row() {
         var parent = $(this).closest('.roles_row').remove();
     });
 }
+
+

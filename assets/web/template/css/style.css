@@ -3615,7 +3615,6 @@ nav {
 	margin: 0;
 	padding: 0 14px;
 	vertical-align: middle;
-	width: 110px;
 	border: 1px #eee solid;
 	border-radius: 0px;
 	-webkit-appearance: none;
@@ -3629,9 +3628,6 @@ nav {
 	text-indent: 0.01px;
 	text-overflow: '';
 	cursor: pointer
-}
-.sorter .short-by.page select {
-	width: 65px
 }
 .view-mode {
 	float: left;
@@ -4294,12 +4290,13 @@ h2.saider-bar-title {
 }
 .color-area {
 	margin-bottom: 18px;
-	overflow: hidden
+	overflow-y: hidden
 }
 .color ul li {
 	border: 0 none;
 	float: left;
-	margin-right: 5px
+	margin-right: 5px;
+	margin-bottom: 5px;
 }
 .color ul li a {
 	clear: both;
@@ -4312,7 +4309,7 @@ h2.saider-bar-title {
 	width: 20px;
 	border: 1px solid #e0e0e0
 }
-.color ul li:nth-child(2) a {
+/* .color ul li:nth-child(2) a {
 	background: #e32b00
 }
 .color ul li:nth-child(3) a {
@@ -4326,7 +4323,7 @@ h2.saider-bar-title {
 }
 .color ul li:nth-child(6) a {
 	background: #FFFFFF
-}
+} */
 .size-area {
 	overflow: hidden
 }
@@ -4551,7 +4548,7 @@ button.button.button-clear:hover {
 	z-index: 1;
 	font-weight: 600;
 }
-ul.products-grid {
+.products-grid {
 	padding: 0;
 	margin: 0
 }

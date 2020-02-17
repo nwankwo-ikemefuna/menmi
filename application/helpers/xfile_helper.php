@@ -11,7 +11,7 @@ Date Modified: 31/12/2019
 */ 
 
 function get_file($file, $default = null) {
-    return file_exists($file) ? $file : $default;
+    return is_file($file) && file_exists($file) ? $file : $default;
 }
 
 function company_file_path($upload_ir = '', $file = '', $type = 'pix') {
@@ -116,7 +116,7 @@ function image_thumbnail($src, $title, $footer = '') { ?>
     <div class="card img_view_thumb">
         <img src="<?php echo $src; ?>" class="card-img-top clickable tm_image" title="<?php echo $title; ?>">
         <?php 
-        if (Strlen($footer)) { ?>
+        if (strlen($footer)) { ?>
             <div class="footer"><?php echo $footer; ?></div>
             <?php
         } ?>
@@ -135,12 +135,12 @@ function unlink_files(string $path, $files) {
     if (is_array($files)) {
         foreach ($files as $file) {
             $file_path = $path.'/'.$file;
-            if ( ! file_exists($file_path)) continue;
+            if ( ! is_file($file_path) || ! file_exists($file_path)) continue;
             unlink($file_path);
         }
     } else {
         $file_path = $path.'/'.$files;
-        if (file_exists($file_path)) 
+        if (is_file($file_path) && file_exists($file_path)) 
             unlink($file_path);
     }
 }

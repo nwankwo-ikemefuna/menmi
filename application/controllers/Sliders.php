@@ -20,35 +20,58 @@ class Sliders extends Core_controller {
 		$this->max_slider_images = 6;
 	}
 
+
+	private function qry_str() {
+		//is cat set in url?
+		$cat_id = xget('cat_id');
+		if ( ! strlen($cat_id)) return '';
+		$this->check_data(T_SLIDER_CATS, $cat_id, [], 'id', 'sliders');
+		return strlen($cat_id) ? '?cat_id='.$cat_id : '';
+	}
+
 	
 	public function index() {
 		$this->table = T_SLIDERS;
+		$cat_id = xget('cat_id');
+		$qry_str = $this->qry_str();
 		//buttons
-		$this->butts = ['add', 'list' => ['files' => ['image' => company_file_path(PIX_SLIDERS)]], 'where' => ['company_id' => $this->company_id]];
-		// $this->ba_opts = ['delete'];
+		$this->butts = ['add' => ['url' => 'sliders/add'.$qry_str], 'list' => ['url' => 'sliders'.$qry_str, 'files' => ['image' => company_file_path(PIX_SLIDERS)]], 'where' => ['company_id' => $this->company_id]];
+		$this->ba_opts = ['delete'];
 		$sql = $this->slider_model->sql($this->company_id);
-		$count = count($this->common_model->get_rows($sql['table'], $this->trashed, $sql['joins'], $sql['select'], $sql['where']));
-		$this->dash_header('Sliders', $count);
+		//if cat is set, append to where clause
+		$where = strlen($cat_id) ? array_merge($sql['where'], ['s.cat_id' => $cat_id]) : $sql['where'];
+		$count = $this->common_model->count_rows($sql['table'], $where, $this->trashed);
+		$title = 'Slider';
+		if (strlen($cat_id)) {
+			$sql = $this->slider_model->cats_sql($this->company_id);
+			$row = $this->common_model->get_row($sql['table'], $cat_id);
+			$title .= ': '.$row->title;
+		}
+		$this->dash_header($title, $count);
 		$this->load->view('dash/sliders/index');
 		$this->dash_footer();
 	}
 
 
-	public function data_ajax($trashed = 0) { 
+	public function data_ajax($cat_id = '', $trashed = 0) { 
 		response_headers();
-		$butts = ['view' => '', 'edit' => '', 'delete' => ['cmm' => 'delete/id']];
-		$butts = ['view' => '', 'edit' => '', 'delete' => ['files' => ['image' => company_file_path(PIX_SLIDERS)]]];
+		$cat_id = intval($cat_id);
+		$qry_str = $cat_id != 0 ? ['qry' => query_param('cat_id', $cat_id)] : '';
+		$butts = ['view' => $qry_str, 'edit' => $qry_str, 'delete' => ['files' => ['image' => company_file_path(PIX_SLIDERS)]]];
         $keys = ['id'];
         $buttons = table_crud_butts($this->module, $this->model, null, T_SLIDERS, $trashed, $keys, $butts);
         $sql = $this->slider_model->sql($this->company_id);
-		echo $this->common_model->get_rows_ajax($sql['table'], $keys, $buttons, $trashed, $sql['joins'], $sql['select'], $sql['where']);
+        //if cat is set, append to where clause
+        $where = $cat_id != 0 ? array_merge($sql['where'], ['s.cat_id' => $cat_id]) : $sql['where'];
+		echo $this->common_model->get_rows_ajax($sql['table'], $keys, $buttons, $trashed, $sql['joins'], $sql['select'], $where);
 	}
 
 
 	public function view($id) { 
 		$this->check_company_data(T_SLIDERS, $id);
+		$qry_str = $this->qry_str();
 		//buttons
-		$this->butts = ['add',  'edit', 'list'];
+		$this->butts = ['add' => ['url' => 'sliders/add'.$qry_str], 'edit' => ['url' => 'sliders/edit/'.$id.$qry_str], 'list' => ['url' => 'sliders'.$qry_str]];
 		$sql = $this->slider_model->sql($this->company_id);
 		$row = $this->common_model->get_row($sql['table'], $id, 'id', $this->trashed, $sql['joins'], $sql['select'], $sql['where']);
 		$this->dash_header($row->name, '', $id);
@@ -59,8 +82,9 @@ class Sliders extends Core_controller {
 
 
 	public function add() {
+		$qry_str = $this->qry_str();
 		//buttons
-		$this->butts = ['list', 'save' => ['form' => 'add_form']];
+		$this->butts = ['list' => ['url' => 'sliders'.$qry_str], 'save' => ['form' => 'add_form']];
 		$this->dash_header('Add Slider');
 		$this->load->view('dash/sliders/add');
 		$this->dash_footer();
@@ -69,8 +93,9 @@ class Sliders extends Core_controller {
 
 	public function edit($id) {
     	$this->check_company_data(T_SLIDERS, $id);
+    	$qry_str = $this->qry_str();
 		//buttons
-		$this->butts = ['add', 'view', 'list', 'save' => ['form' => 'edit_form']];
+		$this->butts = ['add' => ['url' => 'sliders/add'.$qry_str], 'view' => ['url' => 'sliders/view/'.$id.$qry_str], 'list' => ['url' => 'sliders'.$qry_str], 'save' => ['form' => 'edit_form']];
 		$sql = $this->slider_model->sql($this->company_id);
 		$row = $this->common_model->get_row($sql['table'], $id, 'id', $this->trashed, $sql['joins'], $sql['select'], $sql['where']);
 		$data['row'] = $row;
@@ -84,10 +109,7 @@ class Sliders extends Core_controller {
 		$this->auth->module_restricted($this->module, ADD, ADMIN, true);
         $this->form_validation->set_rules('cat_id', 'Category', 'trim|required');
         $this->form_validation->set_rules('name', 'Name', 'trim|required');
-        $this->form_validation->set_rules('message', 'Message', 'trim|required');
-        $this->form_validation->set_rules('tag', 'Tag', 'trim|required');
-        $this->form_validation->set_rules('btn_text', 'Button Text', 'trim|required');
-        $this->form_validation->set_rules('url', 'URL', 'trim|required');
+        $this->form_validation->set_rules('url', 'URL', 'trim');
         $this->form_validation->set_rules('order', 'Order', 'trim|required');
         if ($this->form_validation->run() === FALSE)
             json_response(validation_errors(), false);
@@ -95,10 +117,7 @@ class Sliders extends Core_controller {
             'company_id' => $this->company_id,
             'cat_id' => xpost('cat_id'),
             'name' => ucwords(xpost('name')),
-            'message' => ucfirst(xpost('message')),
-            'tag' => ucwords(xpost('tag')),
-            'btn_text' => ucwords(xpost('btn_text')),
-            'url' => prep_url(xpost('url')),
+            'url' => strlen(xpost('url')) ? prep_url(xpost('url')) : NULL,
             'order' => xpost('order')
         ];
         return $data;

@@ -3,7 +3,8 @@
 $next_order = $this->common_model->next_order(T_PRODUCT_SIZES);
 $fields = [
 	['name' => 'id', 'type' => 'hidden'],
-	['name' => 'name', 'label' => 'Name', 'required' => true],
+	['name' => 'short_name', 'label' => 'Short Name', 'required' => true],
+	['name' => 'name', 'label' => 'Full Name', 'required' => true],
 	['name' => 'order', 'label' => 'Order', 'type' => 'number', 'required' => true, 'value' => $next_order, 'extra' => ['min' => 0]]
 ];
 

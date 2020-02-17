@@ -46,8 +46,9 @@ foreach ($tags as $tag) {
 } 
 
 //Page Slider Categories
-$sliders = $CI->common_model->get_rows(T_SLIDER_CATS);
+$sliders = $CI->common_model->get_rows(T_SLIDER_CATS, 0, [], '', [], ['order' => 'asc']);
 $sliders_const = [];
+$sess_sliders = [];
 foreach ($sliders as $slider) {
 	$const_slider = 'SLIDER_' . strtoupper($slider->name);
 	if ( ! defined($const_slider)) {
@@ -55,7 +56,9 @@ foreach ($sliders as $slider) {
 		define($const_slider, $slider_id);
 		$sliders_const[$const_slider] = $slider_id;
 	}
+	$sess_sliders[$slider->id] = $slider->title;
 } 
+$CI->session->set_userdata('SLIDER_CATS', $sess_sliders);
 
 //User groups
 $usergroups = $CI->common_model->get_rows(T_USER_GROUPS);
@@ -76,7 +79,7 @@ define('EDIT', 3);
 define('DEL', 4);
 
 //Misc
-define('SITE_FAVICON', base_url().'assets/common/img/logo/favicon.ico');
-define('SITE_LOGO', base_url().'assets/common/img/logo/favicon.ico');
-define('USER_AVATAR', base_url().'assets/common/img/avatar/generic.png');
-define('IMAGE_404', base_url().'assets/common/img/icons/not_found.png');
+define('SITE_FAVICON', 'assets/common/img/logo/favicon.ico');
+define('SITE_LOGO', 'assets/common/img/logo/favicon.ico');
+define('USER_AVATAR', 'assets/common/img/avatar/generic.png');
+define('IMAGE_404', 'assets/common/img/icons/not_found.png');

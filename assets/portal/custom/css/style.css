@@ -53,3 +53,10 @@ input:read-only {
 .view_label {
 	font-weight: 600;
 }
+.rating {
+	color: #999;
+	font-size: 12px
+}
+.rating .fa-star {
+	color: #FC0
+}

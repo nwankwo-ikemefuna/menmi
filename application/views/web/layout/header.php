@@ -7,6 +7,10 @@
   <!-- Plugins styles -->
   <link href="<?php echo base_url(); ?>assets/web/template/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all" />
   <link href="<?php echo base_url(); ?>assets/web/template/css/animate.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="<?php echo base_url(); ?>vendors/web/datatables_bs3/datatables.min.css" rel="stylesheet" type="text/css" media="all" />
+  <!-- Selectpicker -->
+  <link href="<?php echo base_url(); ?>vendors/portal/selectpicker/css/bootstrap-select.min.css" rel="stylesheet" type="text/css" media="all"/>
+  <link href="<?php echo base_url(); ?>assets/web/template/css/jquery-ui.min.css" rel="stylesheet" type="text/css" media="all" />
   <link href="<?php echo base_url(); ?>assets/web/template/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all" />
   <link href="<?php echo base_url(); ?>assets/web/template/css/simple-line-icons.css" rel="stylesheet" type="text/css" media="all" />
   <link href="<?php echo base_url(); ?>assets/web/template/css/meanmenu.min.css" rel="stylesheet" type="text/css" media="all" />
@@ -21,6 +25,7 @@
 
   <!-- Custom styles -->
   <link href="<?php echo base_url(); ?>assets/common/css/helper.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="<?php echo base_url(); ?>assets/web/custom/css/style.css" rel="stylesheet" type="text/css" media="all" />
 </head>
 
 <body class="cms-index-index cms-home-page">
@@ -39,14 +44,28 @@
           <div class="col-xs-12 col-sm-4 col-md-4 col-md-4 top-search"> 
             <!-- Search -->
             <div id="search">
-              <form>
+              <?php
+              //general attrs
+              $gs_attrs = ['class' => 'ajax_form', 'data-type' => 'redirect', 'data-redirect' => '_dynamic'];
+              if ($this->c_controller == 'blog') {
+                $gs_action = 'blog/search_ajax';
+                $gs_attrs['id'] = 'blog_search_form';
+                $gs_name = 'blog_search';
+                $gs_placeholder = 'Search blog';
+              } else {
+                $gs_action = 'shop/search_ajax';
+                $gs_attrs['id'] = 'shop_search_form';
+                $gs_name = 'shop_search';
+                $gs_placeholder = 'Search shop';
+              } 
+              echo form_open($gs_action, $gs_attrs); ?>
                 <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Search" name="search">
-                  <button class="btn-search" type="button"><i class="fa fa-search"></i></button>
+                  <input type="text" class="form-control" placeholder="<?php echo $gs_placeholder; ?>" name="<?php echo $gs_name; ?>" required>
+                  <button class="btn-search" type="submit"><i class="fa fa-search"></i></button>
                 </div>
-              </form>
+                <?php
+              echo form_close(); ?>
             </div>
-            
             <!-- End Search --> 
           </div>
           <!-- Header Logo -->
@@ -54,11 +73,10 @@
             <div class="mm-toggle-wrap hidden-lg hidden-md hidden-sm">
               <div class="mm-toggle"> <i class="fa fa-align-justify"></i><span class="mm-label">Menu</span> </div>
             </div>
-            <div class="logo"><a title="e-commerce" href="index.html"><img alt="e-commerce" src="<?php echo base_url(); ?>assets/web/template/images/logo.png"></a> </div>
+            <div class="logo"><a title="<?php echo $this->session->company_name; ?>" href="<?php echo base_url(); ?>"><img alt="<?php echo $this->session->company_name; ?>" src="<?php echo $this->session->company_logo_site; ?>"></a></div>
           </div>
           <div class="col-lg-4 col-sm-4 col-xs-12 top-cart"> 
             <!-- Begin shopping cart trigger  -->
-              
            <div class="top-cart-contain">
               <div class="mini-cart">
                 <div data-toggle="dropdown" data-hover="dropdown" class="basket dropdown-toggle">
@@ -108,16 +126,24 @@
             <div class="col-md-12">
               <div class="main-menu">
                 <ul class="hidden-xs">
-                  <li class="active custom-menu"><a href="index.html">Home</a>
-                  <li class="custom-menu"><a href="blog.html">Blog</a>
+                  <li class="custom-menu"><a href="<?php echo base_url(); ?>">Home</a></li>
+                  <li><a href="<?php echo base_url('shop'); ?>">Shop</a></li>
+                  <li class="custom-menu"><a href="#">Categories</a>
                     <ul class="dropdown">
-                      <li> <a href="blog_right_sidebar.html"> Blog &ndash; Right Sidebar </a></li>
-                      <li> <a href="blog_left_sidebar.html"> Blog &ndash; Left Sidebar </a></li>
-                      <li><a href="blog_full_width.html"> Blog &ndash; Full-Width </a></li>
-                      <li><a href="single_post.html"> Single post </a> </li>
+                      <?php
+                      if (count($product_cats) > 0) { 
+                        foreach ($product_cats as $row) { ?>
+                          <li><a href="<?php echo base_url('shop?cat_id='.$row->id); ?>"><?php echo $row->name; ?></a>
+                          <?php
+                        } 
+                      } ?>  
                     </ul>
                   </li>
-                  <li><a href="contact_us.html">Contact</a></li>
+                  <li><a href="<?php echo base_url('about'); ?>">About</a></li>
+                  <li><a href="<?php echo base_url('contact'); ?>">Contact</a></li>
+                  <li><a href="<?php echo base_url('blog'); ?>">Blog</a></li>
+                  <li><a href="<?php echo base_url('register'); ?>">Register</a></li>
+                  <li><a href="<?php echo base_url('login'); ?>">Login</a></li>
                 </ul>
               </div>
             </div>
@@ -127,3 +153,41 @@
     </nav>
   </header>
   <!-- end header --> 
+  
+  <?php
+  if ($this->show_bcrumbs) { ?>
+    <!-- Breadcrumbs -->
+    <div class="breadcrumbs">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12">
+            <ul>
+              <li class="home"> <a title="Go Home" href="<?php echo base_url(); ?>">Home</a><span>&raquo;</span></li>
+              <?php
+              if (count($this->bcrumbs)) { 
+                foreach ($this->bcrumbs as $title => $url) { ?>
+                  <li> <a href="<?php echo base_url($url); ?>"><?php echo $title; ?></a><span>&raquo;</span></li>
+                  <?php
+                } 
+              } ?>
+              <li><strong><?php echo $page_title; ?></strong></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <?php 
+  } ?>
+  <!-- Breadcrumbs End --> 
+
+
+<?php 
+if ($this->show_sidebar) { ?>
+  <!-- Main Container -->
+  <div class="main-container col2-<?php echo $this->session->company_shop_sidebar_position; ?>-layout">
+    <div class="container">
+      <div class="row">
+        <div class="col-main col-sm-9 col-xs-12 <?php echo $this->session->company_shop_sidebar_position == 'left' ? 'col-sm-push-3' : ''; ?>">
+          <div class="page-title"><h2><?php echo $page_title; ?></h2></div>
+<?php }
+

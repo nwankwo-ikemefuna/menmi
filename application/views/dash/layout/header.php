@@ -6,16 +6,16 @@
     
     <!-- Vendors -->
     <!-- Bootstrap -->
-    <link href="<?php echo base_url(); ?>vendors/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="<?php echo base_url(); ?>vendors/portal/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" media="all"/>
     <!-- Font Awesome 4.7 -->
-    <link href="<?php echo base_url(); ?>vendors/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="<?php echo base_url(); ?>vendors/portal/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all"/>
     <!-- Datatables BS 4 -->
-    <link href="<?php echo base_url(); ?>vendors/datatables_bs4/datatables.min.css" rel="stylesheet" type="text/css" media="all"/>
-    <link href="<?php echo base_url(); ?>vendors/datatables_bs4/config.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="<?php echo base_url(); ?>vendors/portal/datatables_bs4/datatables.min.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="<?php echo base_url(); ?>vendors/portal/datatables_bs4/config.css" rel="stylesheet" type="text/css" media="all"/>
     <!-- jQuery File Upload -->
-    <link href="<?php echo base_url(); ?>vendors/jquery-upload/css/jquery.fileupload.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="<?php echo base_url(); ?>vendors/portal/jquery-upload/css/jquery.fileupload.css" rel="stylesheet" type="text/css" media="all"/>
     <!-- Selectpicker -->
-    <link href="<?php echo base_url(); ?>vendors/selectpicker/css/bootstrap-select.min.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="<?php echo base_url(); ?>vendors/portal/selectpicker/css/bootstrap-select.min.css" rel="stylesheet" type="text/css" media="all"/>
 
     <!-- Template styles -->
     <link href="<?php echo base_url(); ?>assets/portal/template/css/main.css" rel="stylesheet" type="text/css" media="all" />
@@ -34,8 +34,9 @@
         <!-- sidebar -->
         <div class="sidebar">
             <div class="scroll-wrapper">
-                <div class="navbar nav-title site_title">
-                    <a href="<?php echo base_url(); ?>" class="text-white">
+                <div class="navbar nav-title">
+                    <a class="site-title navbar-brand site-logo" title="<?php echo $this->session->company_name; ?>" href="<?php echo base_url(); ?>"><img alt="<?php echo $this->session->company_name; ?>" src="<?php echo $this->session->company_logo_portal; ?>"></a> 
+                    <a href="<?php echo base_url(); ?>" class="text-white hide">
                         <h5><?php echo $this->session->company_short_name; ?></h5>
                     </a>
                 </div>
@@ -48,10 +49,10 @@
                 <!-- menu profile quick info -->
                 <div class="profile clearfix">
                     <div class="profile-pic">
-                        <img src="<?php echo USER_AVATAR; ?>" alt="Profile picture" class="rounded-circle profile-img">
+                        <img src="<?php echo $this->session->user_photo; ?>" alt="Profile picture" class="rounded-circle profile-img">
                     </div>
                     <div class="profile-info">
-                        <h2><?php echo $this->session->user_firstname; ?></h2>
+                        <h2><?php echo $this->session->user_first_name; ?></h2>
                     </div>
                 </div>
                 <!-- /menu profile quick info -->
@@ -73,8 +74,14 @@
                         <ul class="nav side-menu flex-column">
                             <?php 
                             sidebar_menu('Dashboard', 'user', 'dashboard'); 
-                            sidebar_menu_parent_auth(M_PRODUCTS, VIEW, null, 'Products', ['My Products' => 'products', 'Categories' => 'products/cats', 'Sizes' => 'products/sizes'], 'table');
-                            sidebar_menu('Sliders', 'sliders', 'image'); 
+                            sidebar_menu_parent_auth(M_SETTINGS, VIEW, ADMIN, 'Settings', ['Company Profile' => 'settings', 'Site Settings' => 'settings/site'], 'wrench');
+                            sidebar_menu_parent_auth(M_PRODUCTS, VIEW, null, 'Products', ['Products' => 'products', 'Categories' => 'products/cats', 'Sizes' => 'products/sizes', 'Tags' => 'products/tags'], 'table');
+                            $slider_menus = [];
+                            foreach ($this->session->SLIDER_CATS as $id => $name) {
+                                $slider_menus[$name] = 'sliders?cat_id='.$id;
+                            }
+                            $slider_menus['All'] = 'sliders';
+                            sidebar_menu_parent_auth(M_SLIDERS, VIEW, null, 'Sliders', $slider_menus, 'image');
                             sidebar_menu('Logout', 'logout', 'sign-out'); 
                             ?>
                         </ul>
@@ -112,8 +119,8 @@
                         </li>
                         <li class="profile-dropdown dropdown">
                             <a href="javascript:void(0)" class="user-profile dropdown-toggle ripple" data-toggle="dropdown" aria-expanded="false">
-                                <img src="<?php echo USER_AVATAR; ?>" alt="Profile picture" class="rounded-circle">
-                                <span class="d-none d-sm-block"><?php echo $this->session->user_firstname; ?></span>
+                                <img src="<?php echo $this->session->user_photo; ?>" alt="Profile picture" class="rounded-circle">
+                                <span class="d-none d-sm-block"><?php echo $this->session->user_first_name; ?></span>
                                 <span class="fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu float-right">
@@ -121,10 +128,10 @@
                                     <button type="button" class="close btn btn-circle"><i class="fa fa-close"></i></button>
                                     <div class="profile clearfix">
                                         <div class="profile-pic">
-                                            <img src="<?php echo USER_AVATAR; ?>" alt="Profile picture" class="rounded-circle profile-img">
+                                            <img src="<?php echo $this->session->user_photo; ?>" alt="Profile picture" class="rounded-circle profile-img">
                                         </div>
                                         <div class="profile-info">
-                                            <h2><?php echo $this->session->user_firstname; ?></h2>
+                                            <h2><?php echo $this->session->user_first_name; ?></h2>
                                         </div>
                                     </div>
                                 </li>

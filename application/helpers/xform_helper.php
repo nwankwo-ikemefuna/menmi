@@ -92,7 +92,8 @@ function xform_select($name, $value = '', $required = false, $extra = [], $ajax 
     if (array_key_exists('blank', $extra) && !$extra['blank']) {
         $blank = '';
     } else {
-        $blank = '<option value="">Select</option>';
+        $blank_text = input_key_isset($extra, 'blank_text', 'Select');
+        $blank = '<option value="">'.$blank_text.'</option>';
     }
     $elem .= $blank;
     $elem .= $options;
@@ -290,13 +291,15 @@ function xform($action, $fields, $attrs = [], $butt_text = 'Save', $butt_form = 
     echo form_close();
 }
 
-function adit_value($row, $field, $default = '') {
+function adit_value($row, $field, $default = '', $strip_tags = false, $allow_tags = '') {
     $ci =& get_instance();
-    if ( !empty($row)) return $row->$field;
+    if ( !empty($row)) {
+        return $strip_tags ? strip_tags($row->$field, $allow_tags) : $row->$field;
+    }
     return $default;
 }
 
-function ajax_form_modal(array $data, array $fields, $butt_attrs = ['class' => 'btn btn-theme']) {
+function ajax_form_modal(array $data, array $fields, $butt_attrs = ['class' => 'btn btn-theme pull-left']) {
     $form_class = input_key_isset($data, 'class', 'ajax_form');
     $reload = input_key_isset($data, 'reload', 1);
     $notice = input_key_isset($data, 'notice', 'm_status_msg');

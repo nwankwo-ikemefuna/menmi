@@ -21,6 +21,7 @@ class Core_Controller extends CI_Controller {
 		$this->set_company_info();
 		$this->company_id = $this->session->company_id;
 		$this->company_curr = $this->session->company_currency;
+		$this->company_name = $this->session->company_name;
 		$this->site_name = $this->session->company_name;
 		$this->site_description = $this->session->company_short_description;
 		//get current controller class 
@@ -38,6 +39,10 @@ class Core_Controller extends CI_Controller {
 		$this->butts = [];
 		//bulk action options
 		$this->ba_opts = [];
+		//sidebar and breadcrumbs
+		$this->show_sidebar = true;
+		$this->show_bcrumbs = true;
+		$this->bcrumbs = [];
 		
         //set CSRF
 		$this->set_csrf();
@@ -46,16 +51,11 @@ class Core_Controller extends CI_Controller {
 
 	private function set_company_info() {
 		$id = 1;
-		//if (isset($_SESSION['company_id'])) return;
-		$select = 'c.*, cu.name AS curr_name, cu.code AS curr_code, ' . full_name_select('u');
-		$joins = [
-			T_USERS.' u' => ['c.owner_id = u.id'], 
-			T_CURRENCIES.' cu' => ['c.curr_id = cu.id']
-		];
-		$row = $this->common_model->get_row(T_COMPANIES.' c', $id, '', $this->trashed, $joins, $select);
+		$sql = $this->company_model->sql($id);
+		$row = $this->common_model->get_row($sql['table'], $id, 'id', 0, $sql['joins'], $sql['select'], $sql['where'], $sql['group_by']);
+		if ( ! $row) return;
 		$fields = $tables = $this->db->list_fields(T_COMPANIES);
 		$data = [];
-		if ( ! $row) return;
 		//create keys from column names with prefix: company_
 		foreach ($fields as $field) {
 			$field_key = 'company_' . $field;
@@ -63,11 +63,17 @@ class Core_Controller extends CI_Controller {
 				$data[$field_key] = $row->$field;
 			}
 		}
-		//other others
 		$data = array_merge($data, [
 			'company_currency' => get_currency_symbol($row->curr_code),
 			'company_currency_name' => $row->curr_name,
-			'company_owner_fullname' => $row->full_name
+			'company_owner_fullname' => $row->full_name,
+			'company_home_slider' => $row->home_slider,
+			'company_shop_slider' => $row->shop_slider,
+			'company_sidebar_slider' => $row->sidebar_slider,
+			'company_shop_sidebar_position' => $row->shop_sidebar_position,
+			'company_blog_sidebar_position' => $row->blog_sidebar_position,
+			'company_logo_site' => $row->s_logo,
+			'company_logo_portal' => $row->p_logo
 		]);
 		$this->session->set_userdata($data);
 	}
@@ -88,12 +94,15 @@ class Core_Controller extends CI_Controller {
 
 	protected function web_header($page_title) {
 		$data['page_title'] = $page_title;
+		$sql = $this->product_model->cats_sql($this->company_id);
+        $data['product_cats'] = $this->common_model->get_rows($sql['table'], 0, $sql['joins'], $sql['select'], $sql['where'], $sql['order']);
 		return $this->load->view('web/layout/header', $data);
 	}
 	
 
-	protected function web_footer() {
-		return $this->load->view('web/layout/footer');
+	protected function web_footer($current_page = '') {
+		$data['current_page'] = $current_page;
+		return $this->load->view('web/layout/footer', $data);
 	}
 	
 	
@@ -103,8 +112,9 @@ class Core_Controller extends CI_Controller {
 	}
 	
 
-	protected function guest_footer() {
-		return $this->load->view('guest/layout/footer');
+	protected function guest_footer($current_page = '') {
+		$data['current_page'] = $current_page;
+		return $this->load->view('guest/layout/footer', $data);
 	}
 
 
@@ -119,14 +129,30 @@ class Core_Controller extends CI_Controller {
 	}
 	
 
-	protected function dash_footer() {
-		return $this->load->view('dash/layout/footer');
+	protected function dash_footer($current_page = '') {
+		$data['current_page'] = $current_page;
+		return $this->load->view('dash/layout/footer', $data);
+	}
+
+
+	public function unique_data($table, $field, $is_edit = false, $edit_id = '', $where = []) {
+		$found = $this->common_model->get_unique_row($table, $field, $is_edit, $edit_id, $where);
+		if ( ! $found) return TRUE;
+		json_response(xpost($field).' already exists!', false);
+	}
+
+
+	public function company_unique_data($table, $field, $is_edit = false, $edit_id = '', $where = []) {
+		$where = array_merge(['company_id' => $this->company_id], $where);
+		$found = $this->common_model->get_unique_row($table, $field, $is_edit, $edit_id, $where);
+		if ( ! $found) return TRUE;
+		json_response(xpost($field).' already exists!', false);
 	}
 
 
 	protected function check_data($table, $param, $where = [], $column = 'id', $redirect = 'error_404') { 
-		$row = $this->common_model->get_row($table, $param, $column, 0, [], '', $where);
-		if ($row > 0) return TRUE;
+		$found = $this->common_model->get_row($table, $param, $column, 0, [], '', $where);
+		if ($found) return TRUE;
 		$page = get_requested_page();
 		$this->session->set_flashdata('error_msg', "The resource you tried to access at <b>{$page}</b> was not found. It may not exist, have been deleted, or you may not have permission to view it.");
 		$redirect .= '?page='.$page;
