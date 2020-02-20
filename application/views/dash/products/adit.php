@@ -3,9 +3,6 @@
 //app tags
 $sql = $this->common_model->tags_sql();
 $tags = $this->common_model->get_rows($sql['table'], 0, $sql['joins'], $sql['select'], $sql['where']);
-//custom tags
-$sql = $this->product_model->tags_sql($this->company_id);
-$p_tags = $this->common_model->get_rows($sql['table'], 0, $sql['joins'], $sql['select'], $sql['where']);
 //colours
 $colors = $this->common_model->get_colors();
 
@@ -23,20 +20,17 @@ echo form_open_multipart($this->c_controller.'/'.$type.'_ajax', $attrs);
 			<?php 
 			xform_group_grid('Name', 'name', 'text', adit_value($row, 'name', ''), true);
 			xform_group_grid('Category', 'cat_id', 'select', '', true, 
-				['ajax' => true, 
+				[
+					'ajax' => true, 
 					'selected' => adit_value($row, 'cat_id'),
-					'extra' => ['class' => 'ajax_select', 'data-url' => $this->c_controller.'/cats_select_ajax']
+					'extra' => ['class' => 'ajax_select', 'data-url' => $this->c_controller.'/cat_select_ajax']
 				], [], [], 
-				['append' => modal_input_button('add_cat', $this->c_controller.'/cats_select_ajax', 'cat_id')]
+				['append' => modal_input_button('add_cat', $this->c_controller.'/cat_select_ajax', 'cat_id')]
 			);
 			xform_group_grid('Barcode', 'barcode', 'text', adit_value($row, 'barcode'));
 			xform_group_grid('Serial No', 'serial_no', 'text', adit_value($row, 'serial_no'));
 			$stock_append = $type == 'edit' ? ['append' => input_group_text(number_format($row->stock).' total')] : [];
 			xform_group_grid($type == 'edit' ? 'New Stock' : 'Stock', 'stock', 'number', 0, $type == 'add', ['min' => 0],  [], [], $stock_append);
-			?>
-		</div>
-		<div class="<?php echo grid_col(12, '', '5?2'); ?>">
-			<?php
 			xform_group_grid('Size', 'size', 'select', adit_value($row, 'size'), true, 
 				[
 					'ajax' => true, 
@@ -45,6 +39,10 @@ echo form_open_multipart($this->c_controller.'/'.$type.'_ajax', $attrs);
 				], [], [], 
 				['append' => modal_input_button('add_size', $this->c_controller.'/size_select_ajax', 'size')]
 			);
+			?>
+		</div>
+		<div class="<?php echo grid_col(12, '', '5?2'); ?>">
+			<?php
 			xform_group_grid('Price', 'price', 'number', adit_value($row, 'price'), true, ['min' => 0], [], [], ['prepend' => input_group_text($this->company_curr)]);
 			xform_group_grid('Old Price', 'price_old', 'number', adit_value($row, 'price_old'), false, ['min' => 0], [], [], ['prepend' => input_group_text($this->company_curr)]);
 			xform_group_grid('Tags', 'tags[]', 'select', '', false, 
@@ -56,11 +54,11 @@ echo form_open_multipart($this->c_controller.'/'.$type.'_ajax', $attrs);
 			);
 			xform_group_grid('Custom Tags', 'p_tags[]', 'select', adit_value($row, 'p_tags'), true, 
 				[
-					'options' => $p_tags, 'text_col' => 'name', 'blank' => false, 'ajax' => true, 
-					'selected' => adit_value($row, 'p_tags'),
-					'extra' => ['class' => 'ajax_select', 'data-url' => $this->c_controller.'/tags_select_ajax']
+					'ajax' => true, 
+					'selected' => json_encode(explode(',', adit_value($row, 'p_tags'))),
+					'extra' => ['multiple' => '', 'class' => 'ajax_select select_mult', 'data-url' => $this->c_controller.'/tag_select_ajax']
 				], [], [], 
-				['append' => modal_input_button('add_tag', $this->c_controller.'/tags_select_ajax', 'p_tags')]
+				['append' => modal_input_button('add_tag', $this->c_controller.'/tag_select_ajax', 'p_tags[]')]
 			);
 			xform_group_grid('Colours', 'colors[]', 'select', '', false, 
 				['options' => $colors, 'blank' => false, 

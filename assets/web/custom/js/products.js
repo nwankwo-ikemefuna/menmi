@@ -1,21 +1,34 @@
 jQuery(document).ready(function ($) {
     "use strict"; 
 
-    //object to hold fetched cat products
-    var cat_prods = {};
+    //product categories
+    var cat_prods = {},
+        prod_cat_id = '',
+    cat_prods_callback = function(jres) {
+      if (jres.status) {
+          var cols = '';
+          var products = {[prod_cat_id]: jres.body.msg};
+          //push to product object
+          cat_prods = {...cat_prods, ...products};
+          $.each(jres.body.msg, (i, row) => {
+              cols += product_grid_widget(row, 'col-md-3 col-sm-6');
+          });
+          $('#catprods').html(cols);
+      } 
+    };
     $(document).on( "click", ".prod_cat", function() {
         $('#productTabContent').fadeTo( "slow", 0.33 );
-        var cat_id = $(this).data('id');
-        if ((cat_id in cat_prods)) {  
+        prod_cat_id = $(this).data('id');
+        if ((prod_cat_id in cat_prods)) {  
             var widget = '';
             //products for this cat already fetched, don't go to server
-            var products = cat_prods[cat_id];
+            var products = cat_prods[prod_cat_id];
             $.each(products, (i, row) => {
                 widget += product_grid_widget(row, 'col-md-3 col-sm-6');
             });
             $('#catprods').html(widget);
         } else {
-            cat_products(cat_id);
+            fetch_data_ajax('shop/cat_products_ajax', {cat_id: prod_cat_id}, 'POST', cat_prods_callback);
         }
         $('#productTabContent').fadeTo( "fast", 1);
     });
@@ -24,28 +37,8 @@ jQuery(document).ready(function ($) {
       //cat
       var first_cat_obj = $('.prod_cat')[0];
       var first_cat_id = $(first_cat_obj).data('id');
-      if (!(first_cat_id in cat_prods)) cat_products(first_cat_id);
-    }
-    function cat_products(cat_id) {
-        $.ajax({
-            url: base_url+'shop/cat_products_ajax',
-            type: 'POST',
-            data: {cat_id: cat_id},
-            dataType: 'json',
-            beforeSend: function() {},
-            complete: function() {}
-        }).done(function(jres) {
-            if (jres.status) {
-                var cols = '';
-                var products = {[cat_id]: jres.body.msg};
-                //push to product object
-                cat_prods = {...cat_prods, ...products};
-                $.each(jres.body.msg, (i, row) => {
-                    cols += product_grid_widget(row, 'col-md-3 col-sm-6');
-                });
-                $('#catprods').html(cols);
-            } 
-        });
+      if (!(first_cat_id in cat_prods))
+        fetch_data_ajax('shop/cat_products_ajax', {cat_id: first_cat_id}, 'POST', cat_prods_callback);
     }
 
     //object to hold our post data
@@ -143,7 +136,6 @@ jQuery(document).ready(function ($) {
       paginate_data(url, elem, prods_col, pagination, 0, post_data, prod_succ_callbk);
       console.log('post_data', post_data);
     });
-    
     //clear filter
     $(document).on('click', '#clear_filter', function() {
       if ( ! $.isEmptyObject(post_data)) {
@@ -184,10 +176,10 @@ jQuery(document).ready(function ($) {
       }
     }
 
-
     function product_grid_widget(row, item_class = '') {
-      var amount_old = row.amount_old.length ? `<p class="old-price"> <span class="price-label">Regular Price:</span><span class="price">${row.amount_old}</span></p>` : '';
-      var url = base_url+'shop/view/'+row.id+'/'+url_title(row.name);
+      console.log('in cart', row.in_cart);
+      var url = base_url+'shop/view/'+row.id+'/'+url_title(row.name),
+          amount_old = row.amount_old.length ? `<p class="old-price"> <span class="price-label">Regular Price:</span><span class="price">${row.amount_old}</span></p>` : '';
       return `
       <div class="product-item p-b-10 ${item_class}">
         <div class="item-inner">
@@ -220,14 +212,83 @@ jQuery(document).ready(function ($) {
             <div class="box-hover">
               <div class="product-item-actions">
                 <div class="pro-actions">
-                  <button class="action add-to-cart basket_product" type="button" title="Add to Cart" data-id="${row.id}"><span>Add to Cart</span></button>
+                  <button class="action add-to-cart basket_product" type="button" title="Add to Cart" data-id="${row.id}" data-qty="0" data-in_cart="${row.in_cart}" ${row.in_cart == 1 ? 'disabled' : ''}><span>Add to Cart</span></button>
                 </div>
-                
               </div>
             </div>
           </div>
         </div>
       </div>`;
+    }
+
+    //shopping cart
+    var cart_prods = function(row) {
+      var url = base_url+'shop/view/'+row.id+'/'+url_title(row.name);
+      return `
+      <li class="item odd"> <a href="${url}" title="${row.name}" class="product-image"><img src="${row.image_file}" alt="${row.name}" width="65"></a>
+        <div class="product-details">
+          <a href="${url}" title="Remove this item" class="remove_cart_product"><i class="pe-7s-trash text-danger"></i></a>
+          <p class="product-name"><a href="${url}">${row.name}</a></p>
+          <span class="price">${row.amount}</span>
+        </div>
+      </li>`;
+    },
+    cart_prods_callback = function(jres) {
+      if (jres.status) {
+        if (jres.body.msg.total == 0) {
+          $('.cart_prods').html('<h6 class="text-danger text-center">Your cart is empty! Start shopping now.</h6>');
+          $('.cart_actions').prop('disabled', true);
+        } else {
+          var accum = '';
+          $.each(jres.body.msg.products, (i, row) => {
+              accum += cart_prods(row);
+          });
+          $('.cart_prods').html(accum);
+          $('.cart_prods_total').html(jres.body.msg.total_formatted);
+          $('.cart_total_price').html(jres.body.msg.total_price);
+          $('.cart_actions').prop('disabled', false);
+          $('#m_cart_prods .modal-title').html(`My Cart (${jres.body.msg.total_formatted})`);
+        }
+      }
+    };
+    //add to cart
+    var cart_url = base_url+'shop/cart_ajax';
+    $(document).on('click', '.basket_product', function() {
+      var id = $(this).data('id'),
+          qty = $(this).data('qty'),
+          in_cart = $(this).data('in_cart');
+      //does item already exist in cart?
+      if (Boolean(in_cart)) return false;
+      //cart modal
+      $('#m_cart_prods .cart_update_info').text('Item added to cart successfully').fadeIn('slow').delay(5000).fadeOut('slow');
+      $('#m_cart_prods').modal('show');
+      fetch_data_ajax(cart_url, {id: id, qty: qty, type: 'add'}, 'POST', cart_prods_callback);
+      //update in cart to true
+      $(this).prop('disabled', true);
+    });
+    //remove from cart
+    $(document).on('click', '.remove_cart_product', function() {
+      var id = $(this).data('id');
+      fetch_data_ajax(cart_url, {id: id, type: 'remove'}, 'POST', cart_prods_callback);
+      console.log('deleted id', id);
+      console.log('orders', order);
+    });
+    //update cart
+    $(document).on('click', '.update_cart', function() {
+      var new_order = {};
+      $.each(jres.body.msg.products, (i, row) => {
+          var id = $(this).data('id'),
+            qty = $(this).data('qty'),
+            order = {[id]: qty};
+          new_order.push(order);
+      });
+      fetch_data_ajax(cart_url, {id: id, type: 'update'}, 'POST', cart_prods_callback);
+      console.log('new order', new_order);
+    });
+
+    //show cart on page load
+    if ($('.cart_prods').length) {
+      fetch_data_ajax(cart_url, {}, 'POST', cart_prods_callback);
     }
 
 });
@@ -239,7 +300,7 @@ function qty_select(type, stock) {
     if (!isNaN(qty) && qty > 0) result.value--;
     return false;
   } else { //inc
-    if (!isNaN(qty) && qty <= stock) result.value++;
+    if (!isNaN(qty) && qty < stock) result.value++;
     return false;
   }
 }

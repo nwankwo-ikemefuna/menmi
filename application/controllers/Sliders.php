@@ -41,13 +41,16 @@ class Sliders extends Core_controller {
 		//if cat is set, append to where clause
 		$where = strlen($cat_id) ? array_merge($sql['where'], ['s.cat_id' => $cat_id]) : $sql['where'];
 		$count = $this->common_model->count_rows($sql['table'], $where, $this->trashed);
+		//add up max data of all cats
+		$max_data = array_sum(MAX_SLIDER_CAT);
 		$title = 'Slider';
 		if (strlen($cat_id)) {
 			$sql = $this->slider_model->cats_sql($this->company_id);
 			$row = $this->common_model->get_row($sql['table'], $cat_id);
 			$title .= ': '.$row->title;
+			$max_data = MAX_SLIDER_CAT[$cat_id];
 		}
-		$this->dash_header($title, $count);
+		$this->dash_header($title, $count, '', $max_data);
 		$this->load->view('dash/sliders/index');
 		$this->dash_footer();
 	}
@@ -125,17 +128,20 @@ class Sliders extends Core_controller {
 
 
 	public function add_ajax() {
+		$this->company_max_data(T_SLIDERS, MAX_SLIDER_CAT[xpost('cat_id')], ['cat_id' => xpost('cat_id')]);
+		$data = $this->adit_form();
 		//upload image
 		$upload = upload_file('image', ['path' => company_file_path(PIX_SLIDERS), 'ext' => 'jpg|jpeg|png|gif', 'size' => 1000]);
 		if ( ! $upload['status']) 
         	json_response(join_us($upload['error']), false);
-        $data = array_merge($this->adit_form(), ['image' => $upload['file_name']]);
+        $data = array_merge($data, ['image' => $upload['file_name']]);
 		$id = $this->common_model->insert(T_SLIDERS, $data);
         json_response(['redirect' => mod_view_page($id)]);
     }
 
 
     public function edit_ajax() {
+    	$data = $this->adit_form();
 		$id = xpost('id');
 		$sql = $this->slider_model->sql($this->company_id);
 		$row = $this->common_model->get_row($sql['table'], $id, 'id', $this->trashed, $sql['joins'], $sql['select'], $sql['where']);
@@ -153,7 +159,7 @@ class Sliders extends Core_controller {
 			//image wasn't uploaded, retain current
 			$image = $row->image;
 		}
-        $data = array_merge($this->adit_form(), ['image' => $image]);
+        $data = array_merge($data, ['image' => $image]);
 		$this->slider_model->update(T_SLIDERS, $data, ['id' => $id]);
         json_response(['redirect' => mod_view_page($id)]);
     }

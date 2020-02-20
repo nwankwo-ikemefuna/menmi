@@ -32,7 +32,7 @@ class Web extends Core_controller {
         $where = array_merge($sql['where'], ['FIND_IN_SET('.TAG_FEATURED.', p.tags)' => '']);
         $data['featured_products'] = $this->common_model->get_rows($sql['table'], 0, $sql['joins'], $sql['select'], $where, $sql['order'], '', 12);
         $sql = $this->product_model->cats_sql($this->company_id);
-        $data['product_cats'] = $this->common_model->get_rows($sql['table'], 0, $sql['joins'], $sql['select'], $sql['where'], $sql['order'], '', 10);
+        $data['product_cats'] = $this->common_model->get_rows($sql['table'], 0, $sql['joins'], $sql['select'], $sql['where'], 'rand', '', 6);
         $this->load->view('web/index', $data);
         $this->web_footer('home');
     }

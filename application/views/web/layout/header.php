@@ -75,37 +75,23 @@
             </div>
             <div class="logo"><a title="<?php echo $this->session->company_name; ?>" href="<?php echo base_url(); ?>"><img alt="<?php echo $this->session->company_name; ?>" src="<?php echo $this->session->company_logo_site; ?>"></a></div>
           </div>
+
           <div class="col-lg-4 col-sm-4 col-xs-12 top-cart"> 
             <!-- Begin shopping cart trigger  -->
            <div class="top-cart-contain">
               <div class="mini-cart">
                 <div data-toggle="dropdown" data-hover="dropdown" class="basket dropdown-toggle">
-                <div id="shopping-cart-trigger"> <a href="shopping_cart.html" class="cart-icon" title="Shopping Bag"> <i class="fa fa-cart"></i> Cart<span class="cart-num">2</span> </a> </div>
+                <div id="shopping-cart-trigger"> <a href="<?php echo base_url('shop/cart'); ?>" class="cart-icon" title="Shopping Bag"> <i class="fa fa-cart"></i> Cart<span class="cart-num cart_prods_total">0</span> </a> </div>
                  </div>
                 <div>
                   <div class="top-cart-content">
-                    <div class="block-subtitle hidden">Recently added item(s)</div>
-                    <ul id="cart-sidebar" class="mini-products-list">
-                      <li class="item odd"> <a href="shopping_cart.html" title="Ipsums Dolors Untra" class="product-image"><img src="<?php echo base_url(); ?>assets/web/template/images/products/img07.jpg" alt="Lorem ipsum dolor" width="65"></a>
-                        <div class="product-details"> <a href="#" title="Remove This Item" class="remove-cart"><i class="pe-7s-trash"></i></a>
-                          <p class="product-name"><a href="shopping_cart.html">Lorem ipsum dolor sit amet Consectetur</a> </p>
-                          <strong>1</strong> x <span class="price">$20.00</span> </div>
-                      </li>
-                      <li class="item even"> <a href="shopping_cart.html" title="Ipsums Dolors Untra" class="product-image"><img src="<?php echo base_url(); ?>assets/web/template/images/products/img11.jpg" alt="Lorem ipsum dolor" width="65"></a>
-                        <div class="product-details"> <a href="#" title="Remove This Item" class="remove-cart"><i class="pe-7s-trash"></i></a>
-                          <p class="product-name"><a href="shopping_cart.html">Consectetur utes anet adipisicing elit</a> </p>
-                          <strong>1</strong> x <span class="price">$230.00</span> </div>
-                      </li>
-                      <li class="item last odd"> <a href="shopping_cart.html" title="Ipsums Dolors Untra" class="product-image"><img src="<?php echo base_url(); ?>assets/web/template/images/products/img10.jpg" alt="Lorem ipsum dolor" width="65"></a>
-                        <div class="product-details"> <a href="#" title="Remove This Item" class="remove-cart"><i class="pe-7s-trash"></i></a>
-                          <p class="product-name"><a href="shopping_cart.html">Sed do eiusmod tempor incidist</a> </p>
-                          <strong>2</strong> x <span class="price">$420.00</span> </div>
-                      </li>
+                    <ul id="cart-sidebar" class="mini-products-list cart_prods">
+                      <!-- Render cart products via ajax -->
                     </ul>
-                    <div class="top-subtotal">Subtotal: <span class="price">$520.00</span></div>
+                    <div class="top-subtotal">Subtotal: <span class="price"><?php echo $this->company_curr; ?><span class="cart_total_price">0.00</span></span></div>
                     <div class="actions">
-                      <button class="btn-checkout" type="button" onClick="location.href='checkout.html'"><span>Checkout</span></button>
-                      <button class="view-cart" type="button" onClick="location.href='shopping_cart.html'"><span>View Cart</span></button>
+                      <button class="btn-checkout cart_actions" type="button" onClick="location.href='<?php echo base_url('shop/checkout'); ?>'"><span>Checkout</span></button>
+                      <button class="view-cart cart_actions" type="button" onClick="location.href='<?php echo base_url('shop/cart'); ?>'"><span>View Cart</span></button>
                     </div>
                   </div>
                 </div>

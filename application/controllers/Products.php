@@ -88,9 +88,10 @@ class Products extends Core_controller {
         $this->form_validation->set_rules('stock', 'Stock', 'trim|required|is_natural');
         $this->form_validation->set_rules('price', 'Price', 'trim|required|is_natural');
         $this->form_validation->set_rules('price_old', 'Old Price', 'trim|is_natural');
-        $this->form_validation->set_rules('size', 'Size', 'trim');
-        $this->form_validation->set_rules('colors', 'Colours', 'trim');
-        $this->form_validation->set_rules('tags', 'Tags', 'trim');
+        $this->form_validation->set_rules('size', 'Size', 'trim|required');
+        $this->form_validation->set_rules('colors[]', 'Colours', 'trim');
+        $this->form_validation->set_rules('tags[]', 'Tags', 'trim');
+        $this->form_validation->set_rules('p_tags[]', 'Product Tags', 'trim|required');
         if ($this->form_validation->run() === FALSE)
             json_response(validation_errors(), false);
         //if edit, add new stock to current
@@ -107,7 +108,8 @@ class Products extends Core_controller {
             'price_old' => xpost('price_old'),
             'size' => xpost('size'),
             'colors' => join_us(xpost('colors')),
-            'tags' => join_us(xpost('tags'))
+            'tags' => join_us(xpost('tags')),
+            'p_tags' => join_us(xpost('p_tags'))
         ];
         return $data;
     }
@@ -192,7 +194,7 @@ class Products extends Core_controller {
 		$this->butts = ['add_m' => ['modal' => 'add_cat'], 'list' => ['url' => $this->c_controller.'/cats']];
 		$sql = $this->product_model->cats_sql($this->company_id);
 		$count = $this->common_model->count_rows($sql['table'], $sql['where'], $this->trashed);
-		$this->dash_header('Product Categories', $count);
+		$this->dash_header('Product Categories', $count, '', MAX_PRODUCT_CATS);
 		$this->load->view('dash/products/cats/index');
 		$this->dash_footer();
 	}
@@ -210,7 +212,7 @@ class Products extends Core_controller {
 	}
 
 
-	public function cats_select_ajax() { 
+	public function cat_select_ajax() { 
         $sql = $this->product_model->cats_sql($this->company_id);
 		$data = $this->common_model->get_rows($sql['table'], $this->trashed, $sql['joins'], $sql['select'], $sql['where']);
         json_response($data);
@@ -233,6 +235,7 @@ class Products extends Core_controller {
 
 
 	public function add_cat_ajax() {
+		$this->company_max_data(T_PRODUCT_CATS, MAX_PRODUCT_CATS);
 		$this->company_unique_data(T_PRODUCT_CATS, 'name');
 		$data = $this->cat_form();
 		$this->common_model->insert(T_PRODUCT_CATS, $data);
@@ -259,7 +262,7 @@ class Products extends Core_controller {
 		$this->butts = ['add_m' => ['modal' => 'add_size'], 'list' => ['url' => $this->c_controller.'/sizes']];
 		$sql = $this->product_model->sizes_sql($this->company_id);
 		$count = $this->common_model->count_rows($sql['table'], $sql['where'], $this->trashed);
-		$this->dash_header('Product Sizes', $count);
+		$this->dash_header('Product Sizes', $count, '', MAX_PRODUCT_SIZES);
 		$this->load->view('dash/products/sizes/index');
 		$this->dash_footer();
 	}
@@ -302,6 +305,7 @@ class Products extends Core_controller {
 
 
 	public function add_size_ajax() {
+		$this->company_max_data(T_PRODUCT_SIZES, MAX_PRODUCT_SIZES);
 		$this->company_unique_data(T_PRODUCT_SIZES, 'short_name');
 		$this->company_unique_data(T_PRODUCT_SIZES, 'name');
 		$data = $this->size_form();
@@ -330,7 +334,7 @@ class Products extends Core_controller {
 		$this->butts = ['add_m' => ['modal' => 'add_tag'], 'list' => ['url' => $this->c_controller.'/tags']];
 		$sql = $this->product_model->tags_sql($this->company_id);
 		$count = $this->common_model->count_rows($sql['table'], $sql['where'], $this->trashed);
-		$this->dash_header('Product Tags', $count);
+		$this->dash_header('Product Tags', $count, '', MAX_PRODUCT_TAGS);
 		$this->load->view('dash/products/tags/index');
 		$this->dash_footer();
 	}
@@ -373,6 +377,7 @@ class Products extends Core_controller {
 
 
 	public function add_tag_ajax() {
+		$this->company_max_data(T_PRODUCT_TAGS, MAX_PRODUCT_TAGS);
 		$this->company_unique_data(T_PRODUCT_TAGS, 'short_name');
 		$this->company_unique_data(T_PRODUCT_TAGS, 'name');
 		$data = $this->tag_form();

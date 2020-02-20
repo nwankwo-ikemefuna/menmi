@@ -6973,7 +6973,6 @@ label[for="rememberme"] {
 ========================================*/
 .modal-dialog {
 	background: #ffffff;
-	width: 50%;
 }
 .modal-dialog .modal-body .myclose {
 	font-size: 40px;

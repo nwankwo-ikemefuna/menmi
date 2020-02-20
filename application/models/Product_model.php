@@ -31,11 +31,43 @@ class Product_model extends Core_Model {
             T_PRODUCT_SIZES.' s' => ['s.id = p.size'],
             T_CURRENCIES.' curr' => ['curr.id = comp.curr_id', 'inner'],
             T_TAGS.' t' => ['FIND_IN_SET(`t`.`id`, `p`.`tags`) > 0', 'left', false],
-            T_PRODUCT_TAGS.' pt' => ['FIND_IN_SET(`pt`.`id`, `p`.`tags`) > 0', 'left', false],
+            T_PRODUCT_TAGS.' pt' => ['FIND_IN_SET(`pt`.`id`, `p`.`p_tags`) > 0', 'left', false],
             T_COLORS.' c' => ['FIND_IN_SET(`c`.`id`, `p`.`colors`) > 0', 'left', false]
         ];
         $where = ['p.company_id' => $company_id];
         return sql_data(T_PRODUCTS.' p', $joins, $select, $where);
+    }
+
+
+    public function cats_sql($company_id) {
+        $select = 'cat.id, cat.name, cat.order, COUNT(p.cat_id) AS product_count';
+        $joins = [T_PRODUCTS.' p' => ['p.cat_id = cat.id']];
+        $where = ['cat.company_id' => $company_id];
+        return sql_data(T_PRODUCT_CATS.' cat', $joins, $select, $where, ['cat.order' => 'asc']);
+    }
+
+
+    public function sizes_sql($company_id) {
+        $select = 's.id, s.short_name, s.name, s.order, COUNT(p.size) AS product_count';
+        $joins = [T_PRODUCTS.' p' => ['p.size = s.id']];
+        $where = ['s.company_id' => $company_id];
+        return sql_data(T_PRODUCT_SIZES.' s', $joins, $select, $where, ['s.order' => 'asc']);
+    }
+
+
+    public function colors_sql($company_id) {
+        $select = "c.id, c.name, c.order, CONCAT('#', code) AS color_code, COUNT(p.colors) AS product_count";
+        $joins = [T_PRODUCTS.' p' => ['FIND_IN_SET(`c`.`id`, `p`.`colors`) > 0', 'inner', false]];
+        $where = ['p.company_id' => $company_id];
+        return sql_data(T_COLORS.' c', $joins, $select, $where, ['c.order' => 'asc'], 'c.id');
+    }
+
+
+    public function tags_sql($company_id) {
+        $select = "t.id, t.short_name, t.name, t.order, COUNT(DISTINCT p.p_tags) AS product_count";
+        $joins = [T_PRODUCTS.' p' => ['FIND_IN_SET(`t`.`id`, `p`.`p_tags`) > 0', 'left', false]];
+        $where = ['t.company_id' => $company_id];
+        return sql_data(T_PRODUCT_TAGS.' t', $joins, $select, $where, ['t.order' => 'asc'], 't.id');
     }
 
 
@@ -107,15 +139,9 @@ class Product_model extends Core_Model {
             $where = array_merge($where, $this_where);
         } 
         //colors
-        //TODO: check
         if ( ! empty(xpost('colors'))) {
             $colors = xpost('colors');
-            $this_where = [];
-            foreach ($colors as $color) {
-                $this_where[] = "FIND_IN_SET({$color}, p.colors) > 0";
-            }
-            $this_where = join(" OR ", $this_where);
-            $this_where = '('.$this_where.')';
+            $this_where = find_in_set_mult($colors, 'p.colors');
             $where = array_merge($where, [$this_where => null]);
         } 
         //sorting
@@ -125,35 +151,31 @@ class Product_model extends Core_Model {
     }
 
 
-    public function cats_sql($company_id) {
-        $select = 'cat.id, cat.name, cat.order, COUNT(p.cat_id) AS product_count';
-        $joins = [T_PRODUCTS.' p' => ['p.cat_id = cat.id']];
-        $where = ['cat.company_id' => $company_id];
-        return sql_data(T_PRODUCT_CATS.' cat', $joins, $select, $where, ['cat.order' => 'asc']);
+    public function related($company_id, $id, $tags) {
+        if ( ! strlen($tags)) return;
+        $sql = $this->sql($company_id);
+        $this_where = find_in_set_mult($tags, 'p.p_tags');
+        $where = array_merge($sql['where'], ['p.id !=' => $id, $this_where => null]);
+        return $this->get_rows($sql['table'], 0, $sql['joins'], $sql['select'], $where, 'rand', '', 8);
     }
 
 
-    public function sizes_sql($company_id) {
-        $select = 's.id, s.short_name, s.name, s.order, COUNT(p.size) AS product_count';
-        $joins = [T_PRODUCTS.' p' => ['p.size = s.id']];
-        $where = ['s.company_id' => $company_id];
-        return sql_data(T_PRODUCT_SIZES.' s', $joins, $select, $where, ['s.order' => 'asc']);
-    }
-
-
-    public function colors_sql($company_id) {
-        $select = "c.id, c.name, c.order, CONCAT('#', code) AS color_code, COUNT(p.colors) AS product_count";
-        $joins = [T_PRODUCTS.' p' => ['FIND_IN_SET(`c`.`id`, `p`.`colors`) > 0', 'inner', false]];
-        $where = ['p.company_id' => $company_id];
-        return sql_data(T_COLORS.' c', $joins, $select, $where, ['c.order' => 'asc'], 'c.id');
-    }
-
-
-    public function tags_sql($company_id) {
-        $select = "t.id, t.short_name, t.name, t.order, COUNT(DISTINCT p.p_tags) AS product_count";
-        $joins = [T_PRODUCTS.' p' => ['FIND_IN_SET(`t`.`id`, `p`.`p_tags`) > 0', 'left', false]];
-        $where = ['t.company_id' => $company_id];
-        return sql_data(T_PRODUCT_TAGS.' t', $joins, $select, $where, ['t.order' => 'asc'], 't.id');
+    public function cart($company_id) {
+        //TODO: fetch cart from db
+        $cart = $this->session->tempdata('cart_products');
+        // var_dump($cart); die;
+        if (empty($cart)) return [];
+        $sql = $this->sql($this->company_id);
+        $product_idx = join_us(array_keys($cart));
+        $this_where = "FIND_IN_SET(p.id, '{$product_idx}') > 0";
+        $where = array_merge($sql['where'], [$this_where => null]);
+        $limit = strlen(xpost('limit')) ? xpost('limit') : '';
+        $products = $this->get_rows($sql['table'], 0, $sql['joins'], $sql['select'], $where,  $sql['order'], '', $limit, 0, 'array');
+        $data = [];
+        foreach ($products as $row) {
+            $data[] = array_merge($row, ['qty' => $cart[$row['id']]]);
+        }
+        return $data;
     }
 
 }

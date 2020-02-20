@@ -47,3 +47,5 @@ if ($this->session->company_shop_slider == 1 && count($shop_sliders) > 0) { ?>
 </div>
 <div id="pagination" class="pagination-area m-b-20">
 </div>
+
+<?php cart_modal(); ?>

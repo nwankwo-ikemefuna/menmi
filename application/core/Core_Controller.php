@@ -35,6 +35,8 @@ class Core_Controller extends CI_Controller {
 		$this->module = '';
 		//table
 		$this->table = ''; //required esp for bulk action
+		//max data 
+		$this->max_data = '';
 		//crud buttons
 		$this->butts = [];
 		//bulk action options
@@ -118,12 +120,13 @@ class Core_Controller extends CI_Controller {
 	}
 
 
-	protected function dash_header($page_title, $record_count = '', $crud_rec_id = null, $meta_tags = '') {
+	protected function dash_header($page_title, $record_count = '', $crud_rec_id = '', $max_data = '', $meta_tags = '') {
 		//unset user login request data
 		$this->auth->unset_request_data();
 		$data['page_title'] = $page_title;
 		$data['record_count'] = $record_count;
 		$data['crud_rec_id'] = $crud_rec_id;
+		$data['max_data'] = $max_data;
 		$data['meta_tags'] = $meta_tags;
 		return $this->load->view('dash/layout/header', $data);
 	}
@@ -147,6 +150,15 @@ class Core_Controller extends CI_Controller {
 		$found = $this->common_model->get_unique_row($table, $field, $is_edit, $edit_id, $where);
 		if ( ! $found) return TRUE;
 		json_response(xpost($field).' already exists!', false);
+	}
+
+
+	public function company_max_data($table, $max, $where = []) {
+		if ($max == -1) return TRUE; //not limited
+		$where = array_merge(['company_id' => $this->company_id], $where);
+		$count = $this->common_model->count_rows($table, $where, -1);
+		if ($count < $max) return TRUE;
+		json_response('Limit exceeded!', false);
 	}
 
 

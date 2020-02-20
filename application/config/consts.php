@@ -8,9 +8,7 @@ $CI =& get_instance();
 $tables = $CI->db->list_tables();
 foreach ($tables as $table) {
 	$const_table = 'T_' . strtoupper($table);	
-	if ( ! defined($const_table)) {
-		define($const_table, $table);
-	}
+	define($const_table, $table);
 } 
 
 //Modules
@@ -18,19 +16,16 @@ $modules = $CI->common_model->get_rows(T_MODULES);
 foreach ($modules as $module) {
 	//module
 	$const_module = 'M_' . strtoupper($module->name);
-	if ( ! defined($const_module)) {
-		define($const_module, $module->id);
-	}
+	define($const_module, $module->id);
+	//max data allowed
+	$data_max = 'MAX_' . strtoupper($module->name);
+	define($data_max, $module->max);
 	//pix dir
 	$const_pix = 'PIX_' . strtoupper($module->name);
-	if ( ! defined($const_pix)) {
-		define($const_pix, $module->pix_dir);
-	}
+	define($const_pix, $module->pix_dir);
 	//doc dir
 	$const_doc = 'DOC_' . strtoupper($module->name);
-	if ( ! defined($const_doc)) {
-		define($const_doc, $module->doc_dir);
-	}
+	define($const_doc, $module->doc_dir);
 } 
 
 //Product Tags
@@ -38,35 +33,34 @@ $tags = $CI->common_model->get_rows(T_TAGS);
 $tags_const = [];
 foreach ($tags as $tag) {
 	$const_tag = 'TAG_' . strtoupper($tag->name);
-	if ( ! defined($const_tag)) {
-		$tag_id = intval($tag->id);
-		define($const_tag, $tag_id);
-		$tags_const[$const_tag] = $tag_id;
-	}
+	$tag_id = intval($tag->id);
+	define($const_tag, $tag_id);
+	$tags_const[$const_tag] = $tag_id;
 } 
 
 //Page Slider Categories
 $sliders = $CI->common_model->get_rows(T_SLIDER_CATS, 0, [], '', [], ['order' => 'asc']);
 $sliders_const = [];
+$sliders_max = [];
 $sess_sliders = [];
 foreach ($sliders as $slider) {
 	$const_slider = 'SLIDER_' . strtoupper($slider->name);
-	if ( ! defined($const_slider)) {
-		$slider_id = intval($slider->id);
-		define($const_slider, $slider_id);
-		$sliders_const[$const_slider] = $slider_id;
-	}
+	$slider_id = intval($slider->id);
+	define($const_slider, $slider_id);
+	//max data allowed
+	$sliders_max[$slider_id] = $slider->max;
+	//sliders session 
+	$sliders_const[$const_slider] = $slider_id;
 	$sess_sliders[$slider->id] = $slider->title;
 } 
 $CI->session->set_userdata('SLIDER_CATS', $sess_sliders);
+define('MAX_SLIDER_CAT', $sliders_max);
 
 //User groups
 $usergroups = $CI->common_model->get_rows(T_USER_GROUPS);
 foreach ($usergroups as $group) {
 	$const_group = strtoupper($group->name);
-	if ( ! defined($const_group)) {
-		define($const_group, $group->id);
-	}
+	define($const_group, $group->id);
 } 
 
 define('COMPANY_PIX_DIR', 'uploads/companies/'.$CI->session->company_id.'/images');
@@ -77,6 +71,9 @@ define('VIEW', 1);
 define('ADD', 2);
 define('EDIT', 3);
 define('DEL', 4);
+
+//cart time to live
+define('CART_TTL', 60*60*24*7); //7 days
 
 //Misc
 define('SITE_FAVICON', 'assets/common/img/logo/favicon.ico');

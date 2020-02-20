@@ -37,10 +37,17 @@ function file_select($path, $file_dir_col, $file_col, $alias = 'file', $default 
 	return "CONCAT('/{$path}', '/', {$file_dir_col}, '/', {$file_col}) AS {$alias}";
 }
 
-function trashed_record_list() {
-	return (int) (isset($_GET['trashed']) && $_GET['trashed'] == 1);
-}
-
 function sql_data($table, $joins, $select, $where, $order = [], $group_by = '') {
 	return ['table' => $table, 'joins' => $joins, 'select' => $select, 'where' => $where, 'order' => $order, 'group_by' => $group_by];
+}
+
+function find_in_set_mult($params, $field) {
+	$params_arr = is_array($params) ? $params : split_us($params);
+	$where = [];
+    foreach ($params_arr as $param) {
+        $where[] = "FIND_IN_SET({$param}, {$field}) > 0";
+    }
+    $where = join(" OR ", $where);
+    $where = '('.$where.')';
+    return $where;
 }

@@ -124,8 +124,14 @@ jQuery(document).ready(function ($) {
 
 });
 
+//render thumbnail image in big image box
+$(document).on('click', '.cloud_small_image', function(){
+    $('.cloud_big_image').prop('src', $(this).prop('src'));
+});
+
+
 function url_title(str) {
-    return text.toLowerCase().replace(/ /g, '-').replace(/[-]+/g, '-').replace(/[^\w-]+/g, '');
+    return str.toLowerCase().replace(/ /g, '-').replace(/[-]+/g, '-').replace(/[^\w-]+/g, '');
 }
 
 function image_exists(url){

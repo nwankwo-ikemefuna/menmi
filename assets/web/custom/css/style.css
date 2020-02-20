@@ -18,3 +18,18 @@
 	display: -webkit-flex;
 	flex-wrap: wrap;
 }
+/*cart modal*/
+#m_cart_prods .modal-header .close {
+	font-size: 25px;
+}
+#m_cart_prods .modal-title {
+	color: #fff;
+	font-size: 16px;
+}
+#m_cart_prods .cart_prods {
+	max-height: 300px;
+	overflow: auto;
+}
+#m_cart_prods .cart_actions.view-cart {
+	float: none !important;
+}

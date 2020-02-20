@@ -191,6 +191,9 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/web/template/js/main.js"></script> 
 <!-- nivo slider -->
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/web/template/js/jquery.nivo.slider.js"></script> 
+<!-- cloud zoom -->
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/web/template/js/cloud-zoom.js"></script> 
+
 
 <!-- General Custom scripts -->
 <script src="<?php echo base_url(); ?>assets/common/js/general.js"></script>

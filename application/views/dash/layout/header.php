@@ -161,12 +161,13 @@
                         </h4>
                     </div>
                     <?php
+                    //record count [with max data]
                     if (strlen($record_count)) {
-                        $_affix = $record_count === 1 ? '' : 's'; ?>
+                        $_affix = intval($record_count) === 1 ? '' : 's'; ?>
                         <div class="<?php echo grid_col(12, '', 4); ?>">
                             <h4 class="page-title pull-right">
                                 <?php
-                                echo number_format($record_count) . ' record' . $_affix; ?>
+                                echo number_format(intval($record_count)) . ' record' . $_affix . (strlen($max_data) && $max_data != -1 ? ' <small class="text-danger">(max: '.number_format(intval($max_data)).')</small>' : ''); ?>
                             </h4>
                         </div>
                         <?php

@@ -1,7 +1,7 @@
 jQuery(function() {
         "use strict"
-		
-		
+        
+        
         jQuery(".zoom-img").imagezoomsl({
             zoomrange: [0, 3]
         })
@@ -448,7 +448,7 @@ jQuery(function() {
             } catch (e) {}
             return this.each(function() {
                 var relOpts, opts;
-                eval("var	a = {" + jQuery(this).attr("rel") + "}"), relOpts = a, jQuery(this).is(".cloud-zoom") ? (opts = jQuery.extend({}, jQuery.fn.CloudZoom.defaults, options), opts = jQuery.extend({}, opts, relOpts), jQuery(this).css({
+                eval("var   a = {" + jQuery(this).attr("rel") + "}"), relOpts = a, jQuery(this).is(".cloud-zoom") ? (opts = jQuery.extend({}, jQuery.fn.CloudZoom.defaults, options), opts = jQuery.extend({}, opts, relOpts), jQuery(this).css({
                     position: "relative",
                     display: "block"
                 }), jQuery("img", jQuery(this)).css({
@@ -459,7 +459,7 @@ jQuery(function() {
                 }))
             }), this
         }
-    }(jQuery), jQuery(function(A) {
+    }(jQuery)/*, jQuery(function(A) {
         "use strict";
         var e = (A(".container"), A(".products-list"), A(".quick-view:not(.fancybox)"), A(".product-view-ajax")),
             t = (A(".product-view-container", e), A(".ajax-loader", e), A(".layar", e), function(e) {
@@ -504,5 +504,5 @@ jQuery(function() {
         a.length > 0 && a.each(function() {});
         var i = A(".products-list-small .slides");
         i.length > 0
-    });
-	
+    })*/;
+    

@@ -68,7 +68,9 @@ class Core_Model extends CI_Model {
         $this->$obj->from($table);
         $this->joins($joins, $obj);
         //general where
-        $this->$obj->where($alias.'.trashed', $trashed);
+        //are we considering trashed?
+        if ($trashed != -1) 
+            $this->$obj->where($alias.'.trashed', $trashed);
         //other where
         if (is_array($where) && ! empty($where)) {
             foreach ($where as $field => $value) {
@@ -97,7 +99,8 @@ class Core_Model extends CI_Model {
             $group_by = strlen($group_by) ? $group_by : $alias.'.id';
             $this->$obj->group_by($group_by);
         }
-        if (strlen($limit)) $this->$obj->limit($limit, $offset);
+        if (strlen($limit)) 
+            $this->$obj->limit($limit, $offset);
     }
 
 
@@ -152,8 +155,11 @@ class Core_Model extends CI_Model {
         $select = 'select_'.$type;
         $this->db->$select($field);
         $alias = $this->table_alias($table);
-        if ( ! array_key_exists($alias.'trashed', $where))
-            $this->db->where($alias.'.trashed', $trashed);
+        if ( ! array_key_exists($alias.'trashed', $where)) {
+            //are we considering trashed?
+            if ($trashed != -1)
+                $this->db->where($alias.'.trashed', $trashed);
+        }
         $this->db->where($where);
         $this->db->group_by($group_by);
         return $this->db->get($table)->row()->$field;
@@ -167,8 +173,11 @@ class Core_Model extends CI_Model {
     public function count_rows($table, $where = [], $trashed = 0) {
         // var_dump(func_get_args()); die;
         $alias = $this->table_alias($table);
-        if ( ! array_key_exists($alias.'trashed', $where))
-            $this->db->where($alias.'.trashed', $trashed);
+        if ( ! array_key_exists($alias.'trashed', $where)) {
+            //are we considering trashed?
+            if ($trashed != -1)
+                $this->db->where($alias.'.trashed', $trashed);
+        }
         $this->db->where($where);
         return $this->db->count_all_results($table);
     }
@@ -176,6 +185,7 @@ class Core_Model extends CI_Model {
 
     public function get_unique_row($table, $field, $is_edit = false, $edit_id = '', $where = []) {
         $param = xpost($field);
+        if ( ! strlen($param)) return true;
         $where = array_merge([$field => $param], $where);
         //if edit, exclude the row being edited
         if ($is_edit) {

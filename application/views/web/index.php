@@ -178,3 +178,5 @@ if ($this->session->company_home_slider == 1 && count($sliders) > 0) { ?>
     </div>
   </div>
 </div>
+
+<?php cart_modal(); ?>

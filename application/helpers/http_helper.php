@@ -31,6 +31,10 @@ function query_param($key, $val) {
 	return (empty($_GET) ? '?' : '&').$key.'='.$val;
 }
 
+function trashed_record_list() {
+	return (int) (isset($_GET['trashed']) && $_GET['trashed'] == 1);
+}
+
 function get_requested_page() {
 	return current_url() . (strlen($_SERVER['QUERY_STRING']) ? '?' . $_SERVER['QUERY_STRING'] : '');
 }
@@ -61,4 +65,22 @@ function json_response_db($is_edit = false) {
 	$ci =& get_instance();
 	$error = $is_edit ? 'No changes detected' : 'Sorry, something went wrong. If issue persists, report to site administrator';
 	return $ci->db->affected_rows() > 0 ? json_response() : json_response($error, false);
+}
+
+function scandir_recursive($dir) {
+    $result = [];
+    foreach(scandir($dir) as $filename) {
+        //remove annoying dots
+        if (in_array($filename[0], ['.', '..'])) continue;
+        $path = $dir . DIRECTORY_SEPARATOR . $filename;
+        if (is_dir($path)) {
+        	//if dir, run through
+            foreach (scandir_recursive($path) as $childFilename) {
+                $result[] = $filename . DIRECTORY_SEPARATOR . $childFilename;
+            }
+        } else {
+            $result[] = $filename;
+        }
+    }
+    return $result;
 }
