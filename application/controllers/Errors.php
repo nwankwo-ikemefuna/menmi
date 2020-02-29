@@ -20,14 +20,14 @@ class Errors extends Core_controller {
     * Route: error404
     */
     public function error_404() { 
-        $this->guest_header('404: Page Not Found');
+        $this->guest_header('404');
         $this->load->view('errors/html/error_404');
         $this->guest_footer();
     }   
 
 
     public function forbidden() { 
-        $this->guest_header('403: Forbidden');
+        $this->guest_header('403');
         $this->load->view('errors/html/error_403');
         $this->guest_footer();
     }   

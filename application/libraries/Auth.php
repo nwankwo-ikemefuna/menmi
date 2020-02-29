@@ -31,27 +31,25 @@ class Auth {
 
 
     public function login_data($id) {
-    	$select = 'u.*, c.name AS company, ' . full_name_select('u');
-    	$joins = [T_COMPANIES.' c' => ['u.company_id = c.id']];
-		$row = $this->ci->common_model->get_row(T_USERS.' u', $id, 'id', 0, $joins, $select);
+    	$sql = $this->ci->user_model->sql();
+		$row = $this->ci->common_model->get_row($sql['table'], $id, 'id', 0, $sql['joins'], $sql['select'], $sql['where']);
 		$fields = $tables = $this->ci->db->list_fields(T_USERS);
 		$data = [];
 		if ( ! $row) return;
-		$hide_me = ['password'];
+		$exclude = [];
 		//create keys from column names with prefix: user_
 		foreach ($fields as $field) {
+			//exclude us please
+			if (in_array($field, $exclude)) continue;
 			$field_key = 'user_' . $field;
-			if ( ! isset($_SESSION[$field_key]) && ! in_array($field, $hide_me)) {
-				$data[$field_key] = $row->$field;
-			}
+			$data[$field_key] = $row->$field;
 		}
 		//others
-		$photo = base_url(get_file(company_file_path(PIX_USERS, $row->photo), USER_AVATAR));
 		$data = array_merge($data, [
 			'user_loggedin' => TRUE,
-			'user_company' => $row->company,
 			'user_fullname' => $row->full_name,
-			'user_photo' => $photo,
+			'user_group_title' => $row->user_group_title,
+			'user_company' => $row->company
 		]);
 		return $data;
     } 
@@ -100,13 +98,34 @@ class Auth {
 	* redirect to login page if user is not logged
 	* @return boolean
 	*/
-	public function login_restricted($redirect = 'login') {
-		if ($this->ci->session->user_loggedin) return TRUE;
+	public function login_restricted($usergroup = null, $redirect = 'login') {
+		//all
+		if ($this->ci->session->user_loggedin && ! empty($usergroup)) return TRUE;
+		//specific usergroup
+		if ($this->ci->session->user_loggedin && user_group($usergroup)) return TRUE;
+		//all usergroups
+		if ($this->ci->session->user_loggedin && $usergroup === null) return TRUE;
 		//create a session to hold the current requested page
 		$this->set_request_data();
 		//redirect to login page
 		$this->ci->session->set_flashdata('error_msg', 'You are not logged in. Please login to continue.');
 		$this->logout($redirect);
+	}
+
+
+	/**
+	* Restrict access to pages requiring user to have reset default password
+	* redirect to login page if user is not logged
+	* @return boolean
+	*/
+	public function password_restricted($redirect = 'user/reset_pass') {
+		//all
+		if ($this->ci->session->user_loggedin && $this->ci->session->user_password_set == 1) return TRUE;
+		//create a session to hold the current requested page
+		$this->set_request_data();
+		//redirect to password reset page
+		$this->ci->session->set_flashdata('error_msg', 'You have not reset your default password');
+		redirect($redirect);
 	}
 
 
@@ -233,7 +252,6 @@ class Auth {
             "token_date >= DATE_SUB(CURRENT_TIMESTAMP, INTERVAL {$token_period})" => ''
         ];
         $query = $this->ci->common_model->get_row(T_USERS, $this->ci->session->user_id, 'id', 0, [], '', $where);
-        // echo $this->ci->db->last_query(); die;
         if ($query) return TRUE;
         $this->ci->session->set_flashdata('error_msg', 'Your token is invalid or has expired');
 		$this->logout($redirect);

@@ -248,7 +248,6 @@ ul ul, ol ul {
 small {
 	font-size: 85%;
 	font-weight: normal;
-	text-transform: lowercase;
 	color: #999999
 }
 input:focus {
@@ -895,7 +894,7 @@ select {
 /*4.5 Logo */
 .logo {
 	vertical-align: middle;
-	margin: 30px 0px;
+	margin: 10px 0 10px 100px;
 	text-align: center;
 }
 .menu-sticky .logo {
@@ -1090,7 +1089,7 @@ select {
 	font-size: 13px;
 	background: #f5f5f5
 }
-ul#cart-sidebar {
+ul.cart-sidebar {
 	padding: 3px 15px 6px;
 	margin: auto;
 	max-height: 195px;
@@ -1239,14 +1238,14 @@ ul#cart-sidebar {
 	box-shadow: none;
 	background: none
 }
-#cart-sidebar li {
+.cart-sidebar li {
 	border-bottom: 1px solid #ECECEC;
 	list-style: none;
 	margin-bottom: 8px;
 	overflow: hidden;
 	padding: 8px 0 15px
 }
-#cart-sidebar li.last {
+.cart-sidebar li.last {
 	padding: 5px 0 0;
 	border-bottom: none;
 	margin-bottom: 0
@@ -1974,7 +1973,7 @@ Featured products
 .item-inner:hover .product-thumbnail .add-to-links .action.add-to-wishlist {
 	opacity: 1;
 	top: 34%;
-	left: 34%;
+	left: 43%;
 	z-index: 100;
 }
 .item-inner:hover .product-thumbnail .add-to-links .action.add-to-compare {
@@ -3369,9 +3368,9 @@ footer .footer-links ul li a:hover {
 .footer-content .address {
 	line-height: 1.3em;
 }
-.address i {
+/* .address i {
 	float: left;
-}
+} */
 .address .fa-map-marker:before {
 	font-size: 15px;
 	color: #fff;
@@ -4389,7 +4388,7 @@ button.button.button-clear:hover {
 /*24.7 popular tags */
 .popular-tags-area .tag li a:hover {
 	background: #CF3341;
-	color: #000
+	color: #fff
 }
 .popular-tags-area .tag {
 	padding: 10px 0px 0px
@@ -5119,7 +5118,7 @@ ul.products-list .sale-left {
 button.button.pro-add-to-cart {
 	background: #ff7474;
 	color: #fff;
-	padding: 7px 22px;
+	/*padding: 7px 22px;*/
 	border: 2px #ff7474 solid;
 }
 button.button.pro-add-to-cart:hover {
@@ -5587,7 +5586,6 @@ p.note {
 }
 .cart_summary .qty input {
 	text-align: center;
-	max-width: 64px;
 	margin: 0 auto;
 	border-radius: 0px;
 	border: 1px solid #eaeaea
@@ -5645,7 +5643,6 @@ p.note {
 .totals h3 {
 	border-bottom: 1px solid #ddd;
 	color: #000;
-	font-size: 14px;
 	margin-bottom: 5px;
 	padding: 10px 0;
 }

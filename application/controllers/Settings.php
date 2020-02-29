@@ -12,9 +12,9 @@ class Settings extends Core_controller {
 		parent::__construct();
 		$this->module = M_SETTINGS;
 		$this->model = 'company';
-		$this->auth->login_restricted();
-		$this->auth->token_restricted();
-		$this->auth->module_restricted($this->module, VIEW);
+		$this->auth->login_restricted(ADMIN);
+		$this->auth->password_restricted();
+		$this->auth->module_restricted($this->module, VIEW, ADMIN);
 		$this->page_scripts = ['settings'];
 	}
 
@@ -30,10 +30,10 @@ class Settings extends Core_controller {
 		$this->butts = ['edit' => ['url' => 'settings/edit']];
 		$sql = $this->company_model->sql($this->company_id);
 		$row = $this->common_model->get_row($sql['table'], $id, 'id', 0, $sql['joins'], $sql['select'], $sql['where'], $sql['group_by']);
-		$this->dash_header($row->name, '', $id);
+		$this->portal_header($row->name, '', $id);
 		$data['row'] = $row;
-		$this->load->view('dash/settings/view', $data);
-		$this->dash_footer();
+		$this->load->view('portal/company/settings/view', $data);
+		$this->portal_footer();
 	}
 
 
@@ -44,9 +44,9 @@ class Settings extends Core_controller {
 		$sql = $this->company_model->sql($this->company_id);
 		$row = $this->common_model->get_row($sql['table'], $id, 'id', 0, $sql['joins'], $sql['select'], $sql['where'], $sql['group_by']);
 		$data['row'] = $row;
-		$this->dash_header('Edit Company Settings: '.$row->name, '', $id);
-		$this->load->view('dash/settings/edit', $data);
-		$this->dash_footer();
+		$this->portal_header('Edit Company Settings: '.$row->name, '', $id);
+		$this->load->view('portal/company/settings/edit', $data);
+		$this->portal_footer();
 	}
 
 

@@ -1,0 +1,1749 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"cre",
+				"created_obj〔variable〕"
+			],
+			[
+				"act",
+				"actions"
+			],
+			[
+				"show_",
+				"show_date"
+			],
+			[
+				"check",
+				"checkout"
+			],
+			[
+				"ST_",
+				"ST_PAYMENT_ONLINE"
+			],
+			[
+				"func",
+				"function"
+			],
+			[
+				"st",
+				"stock"
+			],
+			[
+				"fun_ge",
+				"func_get_args"
+			],
+			[
+				"allow",
+				"allow_update"
+			],
+			[
+				"recrds",
+				"$records_arr〔variable〕"
+			],
+			[
+				"succes",
+				"successfully"
+			],
+			[
+				"S",
+				"STAFF"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"pas",
+				"password_set"
+			],
+			[
+				"in",
+				"in_wishlist〔variable〕"
+			],
+			[
+				"cus",
+				"customer_record"
+			],
+			[
+				"cate",
+				"category_id"
+			],
+			[
+				"ord",
+				"order_details"
+			],
+			[
+				"user",
+				"u.usergroup"
+			],
+			[
+				"total",
+				"total_price"
+			],
+			[
+				"tha",
+				"thank_you"
+			],
+			[
+				"chec",
+				"checkout"
+			],
+			[
+				"status",
+				"status_modal"
+			],
+			[
+				"che",
+				"checked"
+			],
+			[
+				"paymen",
+				"payment_method"
+			],
+			[
+				"fet",
+				"fetch_profile_ajax"
+			],
+			[
+				"elem",
+				"elem_type〔variable〕"
+			],
+			[
+				"profile",
+				"profile_succ_callbk〔variable〕"
+			],
+			[
+				"label",
+				"label_extra"
+			],
+			[
+				"cart",
+				"cart_products"
+			],
+			[
+				"countr",
+				"$country_id〔variable〕"
+			],
+			[
+				"tex",
+				"textarea"
+			],
+			[
+				"order",
+				"order_summary"
+			],
+			[
+				"wis",
+				"wishlist_url"
+			],
+			[
+				"in_",
+				"in_wishlist"
+			],
+			[
+				"prod",
+				"$products〔variable〕"
+			],
+			[
+				"prepa",
+				"prepare_items"
+			],
+			[
+				"sor",
+				"source"
+			],
+			[
+				"vi",
+				"viewed"
+			],
+			[
+				"array_ke",
+				"array_key_exists"
+			],
+			[
+				"set",
+				"setTimeout〔function〕"
+			],
+			[
+				"in_s",
+				"in_stock_class〔variable〕"
+			],
+			[
+				"marg",
+				"margin-top\tproperty"
+			],
+			[
+				"Ca",
+				"Categories"
+			],
+			[
+				"viewed",
+				"viewed_products"
+			],
+			[
+				"pro",
+				"$product_idx〔variable〕"
+			],
+			[
+				"produt",
+				"$product_id〔variable〕"
+			],
+			[
+				"product_id",
+				"product_idx"
+			],
+			[
+				"reser",
+				"reserved"
+			],
+			[
+				"sess",
+				"sessionId"
+			],
+			[
+				"cart_prods_pre",
+				"cart_prods_preview_modal"
+			],
+			[
+				"post",
+				"post_data"
+			],
+			[
+				"max-",
+				"max-height\tproperty"
+			],
+			[
+				"stat",
+				"status_modal"
+			],
+			[
+				"qty",
+				"qty_price"
+			],
+			[
+				"produc",
+				"product_idx"
+			],
+			[
+				"in_array",
+				"in_array"
+			],
+			[
+				"product",
+				"$product_idx〔variable〕"
+			],
+			[
+				"join",
+				"join_multiple〔function〕"
+			],
+			[
+				"pa",
+				"$params〔variable〕"
+			],
+			[
+				"par",
+				"params"
+			],
+			[
+				"max",
+				"max-height\tproperty"
+			],
+			[
+				"zip",
+				"zipstream"
+			],
+			[
+				"cat_",
+				"cat_id"
+			],
+			[
+				"json_",
+				"json_encode〔function〕"
+			],
+			[
+				"func_get",
+				"func_get_args"
+			],
+			[
+				"suc",
+				"success_msg〔variable〕"
+			],
+			[
+				"redir",
+				"redirect_url〔argument〕"
+			],
+			[
+				"slider",
+				"slider_menus"
+			],
+			[
+				"sess_",
+				"$sess_sliders〔variable〕"
+			],
+			[
+				"product_ra",
+				"product_ratings"
+			],
+			[
+				"current",
+				"current_page"
+			],
+			[
+				"rat",
+				"rating"
+			],
+			[
+				"pos",
+				"post_data〔variable〕"
+			],
+			[
+				"open",
+				"open_date"
+			],
+			[
+				"form",
+				"form-control"
+			],
+			[
+				"array_key",
+				"array_key_exists〔function〕"
+			],
+			[
+				"price_",
+				"price_min"
+			],
+			[
+				"lowest",
+				"lowest_price"
+			],
+			[
+				"inl",
+				"inline-block\tdisplay"
+			],
+			[
+				"event",
+				"event_id"
+			],
+			[
+				"league",
+				"league_id"
+			],
+			[
+				"b",
+				"body_td"
+			],
+			[
+				"overf",
+				"overflow-y\tproperty"
+			],
+			[
+				"sort",
+				"sort_by"
+			],
+			[
+				"sea",
+				"$search_where〔variable〕"
+			],
+			[
+				"de",
+				"default"
+			],
+			[
+				"type",
+				"typeof〔keyword〕"
+			],
+			[
+				"def",
+				"$default〔variable〕"
+			],
+			[
+				"com",
+				"company_model"
+			],
+			[
+				"re",
+				"required"
+			],
+			[
+				"logo_",
+				"logo_site"
+			],
+			[
+				"company",
+				"company_id"
+			],
+			[
+				"subject_te",
+				"subject_teacher_id"
+			],
+			[
+				"cat",
+				"catype"
+			],
+			[
+				"rec",
+				"record_idx"
+			],
+			[
+				"categor",
+				"category_name"
+			],
+			[
+				"btn",
+				"btnLeagues"
+			],
+			[
+				"allo",
+				"$allow_tags〔variable〕"
+			],
+			[
+				"var",
+				"var_dump"
+			],
+			[
+				"date_",
+				"date_installed"
+			],
+			[
+				"schoo",
+				"school_id"
+			],
+			[
+				"Pay",
+				"Payment"
+			],
+			[
+				"approve",
+				"approve_subsequent_partial_payment〔function〕"
+			],
+			[
+				"amount",
+				"$amount_paid〔variable〕"
+			],
+			[
+				"amou",
+				"amount_paid"
+			],
+			[
+				"appro",
+				"approve_partial_payment"
+			],
+			[
+				"uri",
+				"uri_string"
+			],
+			[
+				"out",
+				"$outstanding〔variable〕"
+			],
+			[
+				"get_student",
+				"get_student_outstanding_fees"
+			],
+			[
+				"coll",
+				"$collapse〔variable〕"
+			],
+			[
+				"s_c",
+				"s_currency_amount"
+			],
+			[
+				"debt",
+				"debts"
+			],
+			[
+				"class",
+				"class_id"
+			],
+			[
+				"row_TDept",
+				"$row_TDepts〔variable〕"
+			],
+			[
+				"locat",
+				"$locations〔variable〕"
+			],
+			[
+				"loca",
+				"locations"
+			],
+			[
+				"init",
+				"initalPos"
+			],
+			[
+				"ini",
+				"initalPos"
+			],
+			[
+				"setC",
+				"setContent"
+			],
+			[
+				"lag",
+				"latLng"
+			],
+			[
+				"lat",
+				"latlng"
+			],
+			[
+				"upd",
+				"update_coords"
+			],
+			[
+				"url",
+				"urldecode"
+			],
+			[
+				"menu",
+				"menu_pth"
+			],
+			[
+				"ses",
+				"session"
+			],
+			[
+				"clear",
+				"clear_trash"
+			],
+			[
+				"su",
+				"successfully"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/C/Users/VALKAY/AppData/Local/Temp/scp53938/var/www/exood/manager/sandbox/ikem/dbsync/data.php",
+			"settings":
+			{
+				"buffer_size": 7439,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/VALKAY/AppData/Local/Temp/scp54187/var/www/exood/manager/sandbox/ikem/dbsync/run.php",
+			"settings":
+			{
+				"buffer_size": 2628,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "xdebug.ini",
+			"settings":
+			{
+				"buffer_size": 149,
+				"encoding": "UTF-8",
+				"line_ending": "Windows",
+				"name": "xdebug.remote_enable=1"
+			}
+		},
+		{
+			"file": "memni.sublime-project",
+			"settings":
+			{
+				"buffer_size": 184,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/C/wamp64/www/exood/manager/sandbox/ikem/dbsync/run_edited.php",
+			"settings":
+			{
+				"buffer_size": 3306,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/C/Users/VALKAY/AppData/Local/Temp/scp43265/var/www/exood/manager/scripts/init.php",
+			"settings":
+			{
+				"buffer_size": 5429,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/VALKAY/AppData/Local/Temp/scp41117/var/www/exood/manager/tmp/CompareSQL/compare-sql.php",
+			"settings":
+			{
+				"buffer_size": 22813,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/VALKAY/AppData/Local/Temp/scp43721/var/www/exood/manager/tmp/CompareSQL/coy.sql",
+			"settings":
+			{
+				"buffer_size": 84161,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/VALKAY/AppData/Local/Temp/scp44532/var/www/exood/manager/sandbox/ikem/dbsync/coy_data.php",
+			"settings":
+			{
+				"buffer_size": 6984,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "",
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Windows",
+				"name": "Xdebug Context",
+				"read_only": true,
+				"scratch": true
+			}
+		},
+		{
+			"contents": "",
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Windows",
+				"name": "Xdebug Watch",
+				"read_only": true,
+				"scratch": true
+			}
+		},
+		{
+			"contents": "",
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Windows",
+				"name": "Xdebug Stack",
+				"read_only": true,
+				"scratch": true
+			}
+		},
+		{
+			"contents": "",
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Windows",
+				"name": "Xdebug Breakpoint",
+				"read_only": true,
+				"scratch": true
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ins",
+				"Package Control: Install Package"
+			],
+			[
+				"Snippet: ",
+				"Snippet: function …"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 274.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi"
+	],
+	"file_history":
+	[
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/README.md",
+		"/C/wamp64/www/exood/manager/sandbox/ikem/dbsync/coy_data (3).php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp42550/var/www/manager/tmp/handshake/initiate.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp10626/var/www/manager/scripts/functions/user_methods.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp07485/var/www/manager/login.php",
+		"/C/wamp64/www/exood/manager/scripts/functions/user_methods.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp09779/var/www/manager/tmp/handshake/http.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp09548/var/www/manager/tmp/handshake/reserve_amt.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp34443/var/www/manager/tmp/handshake/debit_amt.php",
+		"/C/wamp64/www/exood/html/mobile/users/login.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp32202/var/www/manager/tmp/handshake/login.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp38371/var/www/api/lib/api.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp38627/var/www/api/lib/users.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp09021/var/www/manager/logout.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp24860/var/www/manager/logs/error.log",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp00338/var/www/api/lib/swipe/apis/functions/http.php",
+		"/C/wamp64/www/exood/manager/naijalottery/api/lib/swipe/apis/functions/http.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp00328/var/www/api/lib/swipe/apis/index.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/portal/layout/header.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/models/Product_model.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/helpers/query_helper.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/models/Order_model.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/portal/company/orders/index.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/controllers/Orders.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/helpers/template_helper.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/models/Shop_model.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/assets/common/js/utils/data_table.js",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/assets/web/custom/js/shop.js",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/assets/portal/custom/js/sliders.js",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/assets/common/js/utils/ajax.js",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/portal/company/products/tags/index.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/portal/company/products/sizes/index.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/portal/company/products/cats/index.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/config/consts.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/controllers/Products.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/controllers/Settings.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/controllers/Sliders.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/controllers/User.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/core/Core_Controller.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/helpers/crud_helper.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/web/shop/checkout.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/controllers/Shop.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/helpers/user_helper.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/web/shop/view.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp51700/var/www/exood/manager/sandbox/ikem/dbsync/run.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp01236/var/www/manager/tmp/handshake/http.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp00749/var/www/manager/tmp/handshake/debit_amt.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp35814/var/www/exood/manager/sandbox/matthew/exood/acad/assess/ass_struct/edit.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp04736/var/www/exood/manager/sandbox/ikem/dbsync/sample.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp50969/var/www/exood/manager/sandbox/ikem/dbsync/data.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp56284/var/www/exood/manager/scripts/init.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp50567/var/www/exood/manager/sandbox/ikem/dbsync/data.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp37653/var/www/exood/manager/sandbox/matthew/exood/acad/assess/ass_struct/attach.js",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp14837/var/www/exood/manager/sandbox/bayo/exood/dbsync/run.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp27682/var/www/exood/manager/sandbox/matthew/exood/acad/assess/ass_struct/view.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp03954/var/www/manager/tmp/handshake/reserve_amt.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp16459/var/www/exood/manager/sandbox/bayo/exood/acad/index.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/config/http_codes.php",
+		"/C/wamp64/www/naijalottery/api/lib/swipe/apis/index.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp23301/var/www/api/lib/api.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp07519/var/www/api/lib/ussd.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp14470/var/www/exood/manager/sandbox/bayo/exood/dbsync/data.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp40248/var/www/manager/tmp/handshake/sample_response.json",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp33579/var/www/api/lib/users.php",
+		"/C/wamp64/www/exood/manager/acad/assess/ass_struct/view.php",
+		"/C/wamp64/www/exood/manager/library/.htaccess",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp41326/var/www/manager/tmp/handshake/.htaccess",
+		"/C/wamp64/www/naijalottery/api/lib/users.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp40426/var/www/exood/manager/sandbox/bayo/exood/dbsync/.htacces",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp13763/var/www/exood/manager/sandbox/bayo/exood/data.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp13588/var/www/exood/manager/sandbox/bayo/exood/run.php",
+		"/C/Users/VALKAY/Downloads/coy_data (2).php",
+		"/C/wamp64/www/exood/manager/admin/departments/tmpl.php",
+		"/C/wamp64/www/exood/manager/admin/locations/tmpl.php",
+		"/C/wamp64/www/exood/manager/personnel/talent/hierarchy/tmpl.php",
+		"/C/wamp64/www/exood/manager/admin/departments/add.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/libraries/Auth.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/web/layout/nav_menu.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/web/layout/footer.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/web/shop/thank_you.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/portal/account/reset_pass.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/config/autoload.php",
+		"/C/wamp64/www/exood/manager/super_admin/companies/index.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/core/Core_Model.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/libraries/Auth.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/controllers/Guest.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/helpers/product_helper.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/errors/html/error_404.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/portal/guest/layout/header.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/errors/cli/error_404.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/portal/company/products/edit.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/models/User_model.php",
+		"/C/wamp64/www/exood/html/lib/jquery/jquery-1.3.2.js",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/system/helpers/string_helper.php",
+		"/C/wamp64/www/naijalottery/api/lib/ussd.php",
+		"/C/wamp64/www/exood/manager/acad/students/programs/add.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp53650/var/www/exood/manager/scripts/js/utils/request.js",
+		"/C/wamp64/www/naijalottery/api/lib/api.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp43332/var/www/exood/manager/sandbox/matthew/exood/acad/assess/ass_struct/assessment.js",
+		"/C/wamp64/www/exood/manager/naijalottery/api/lib/betomall.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp29104/var/www/exood/manager/sandbox/matthew/exood/acad/assess/view.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp32873/var/www/exood/manager/sandbox/matthew/exood/acad/assess/edit.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp41430/var/www/api/lib/swipe/apis/endpoints/index.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp14092/var/www/api/lib/handshake/http.php",
+		"/C/wamp64/www/exood/manager/acad/students/programs/view.php",
+		"/C/wamp64/www/exood/manager/acad/students/programs/edit.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp22142/var/www/exood/manager/sandbox/matthew/exood/acad/assess/index.php",
+		"/C/wamp64/www/exood/manager/acad/assess/ass_struct/edit.php",
+		"/C/wamp64/www/exood/manager/scripts/js/utils/request.js",
+		"/C/Users/VALKAY/Downloads/coy_data (1).php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp57561/var/www/manager/documents/archive/shelf/1/custom/swipe/events/view.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp54574/var/www/api/lib/handshake/debit_amt.php",
+		"/C/wamp64/www/exood/html/layout/assets/js/main.js",
+		"/C/wamp64/www/exood/html/layout/assets/js/events.js",
+		"/C/wamp64/www/exood/html/layout/assets/js/system_alert.js",
+		"/C/wamp64/www/exood/manager/scripts/functions/inec.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp04982/var/www/manager/documents/archive/shelf/1/custom/swipe/events/settings/update.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp58868/var/www/manager/documents/archive/shelf/1/custom/swipe/events/markets/index.php",
+		"/C/wamp64/www/exood/manager/acad/programs/promotions/api/get_class_students.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp00926/var/www/manager/documents/archive/shelf/1/custom/swipe/events/markets/odds.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp02386/var/www/manager/documents/archive/shelf/1/custom/swipe/events/markets/update.php",
+		"/C/wamp64/www/exood/manager/scripts/init.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/portal/guest/login.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/portal/guest/register.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/web/shop/index.php",
+		"/C/Users/VALKAY/Downloads/coy_data.php",
+		"/C/wamp64/www/exood/manager/assessments/tests/edit.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/portal/company/products/adit.php"
+	],
+	"find":
+	{
+		"height": 42.0
+	},
+	"find_in_files":
+	{
+		"height": 117.0,
+		"where_history":
+		[
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi\\application",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi",
+			"C:\\wamp64\\www\\naijalottery",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi\\application\\controllers",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi\\application",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi\\application\\views\\dash",
+			"C:\\wamp64\\www\\exood",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm",
+			"C:\\wamp64\\www\\exood",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm",
+			"C:\\wamp64\\www\\exood",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi",
+			"C:\\wamp64\\www\\exood\\manager",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi\\system",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm\\application",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi\\application",
+			"C:\\wamp64\\www\\exood",
+			"C:\\wamp64\\www\\exood\\assessments\\tests",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi",
+			"C:\\wamp64\\www\\exood",
+			"C:\\Users\\VALKAY\\Documents\\Web Templates\\laredo",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm\\application",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\profig\\application",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi\\application",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\profig\\application",
+			"C:\\wamp64\\www\\naijalottery\\api\\lib\\swipe\\apis\\endpoints\\bets"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"$_SESSION['COY_INFO']",
+			"setDBH",
+			"COY_INFO",
+			"$u",
+			"$c",
+			"live_odds_update",
+			"reserve_",
+			"handshake",
+			"...",
+			"cols",
+			"col_defs",
+			"prcessed_by",
+			"dash_footer",
+			"dash_header",
+			"PAY_ONLINE",
+			"G_OTHER",
+			"MALE",
+			"s.",
+			"cat",
+			"slider",
+			"T_SLIDERS",
+			"cat_id",
+			"M_SLIDERS",
+			"cls_ids",
+			"cls",
+			"CH_9JALOT",
+			"]}",
+			"{$_SESSION[",
+			"company_users()",
+			"ADMIN, STAFF",
+			"user_group(",
+			"p.",
+			"CART_TTL",
+			"elem",
+			"url",
+			"wishlist",
+			"cls_names",
+			"arms",
+			"fetch_da",
+			"fetch",
+			"equal_to",
+			"cart_total_price",
+			"viewed_products",
+			"cart_total_price",
+			"cart_grand_total_price",
+			"status_box",
+			"status_box(notice_elem",
+			"status_box",
+			"grid_col",
+			"row_TAss_struct",
+			"ass_arm",
+			"ass_ca",
+			"atch_",
+			"atch_0",
+			"bp_head",
+			"bp_box",
+			"mini-box",
+			"bp_box",
+			"cls_ids",
+			"ass_ids",
+			"addGrp()",
+			"mini-box",
+			", '0'",
+			"jquery2dotnet",
+			"table-no",
+			"table-",
+			"company_home_slider",
+			"portal/",
+			"portal/products/",
+			"last_s",
+			"empty_wishlist",
+			"popular-tags-area",
+			"tag=",
+			"tag_msg",
+			"cart_prods_succ_callbk",
+			"add-to-wishlist",
+			"add-to-",
+			"quick",
+			"$row",
+			"quick",
+			"btn_theme_white",
+			"cats_all_link",
+			"$$row",
+			"xrow",
+			"$row->",
+			"$xrow->",
+			", $return",
+			"array",
+			"object",
+			", $return = 'object'",
+			" $return = 'object'",
+			"cat_products_ajax",
+			"feat_products_ajax",
+			"viewed",
+			"logo",
+			"header-c",
+			"logo",
+			"top-cart-contain",
+			"mini-cart",
+			"top-cart",
+			"fa-shopping-cart",
+			"another",
+			"dash/",
+			"form-container",
+			"$this->site_name",
+			"PIX_SETTINGS",
+			"COMPANY_PIX_DIR",
+			"SITE_LOGO",
+			"dash/",
+			"login-container",
+			"stock",
+			"section_50",
+			"prod_cat_active",
+			"cat_products_ajax",
+			"product_grid_widget",
+			"in cart",
+			"prod_cat",
+			".product-item .item-inner .pro-box-info .pro-actions .action.add-to-cart",
+			"catprods",
+			"Description",
+			"tag",
+			".tag li a",
+			"SPECIAL",
+			"SPECIAL ",
+			".address i",
+			"filter_products",
+			"sort_products",
+			"company_id"
+		],
+		"highlight": false,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"portal_footer",
+			"portal_header",
+			"o.",
+			"status",
+			"order",
+			"T_ORDERS",
+			"status",
+			"]",
+			"$_SESSION[",
+			"COMPANY_USERS",
+			"o.",
+			"status_box('.'+notice_elem",
+			"grid_col_b3",
+			",",
+			"",
+			"portal/company/",
+			"portal/company/products/",
+			"$side_row",
+			"$row",
+			"$xrow['",
+			"",
+			"portal/",
+			"section_30",
+			"cart_prods_succ_callbk",
+			"tag",
+			"$xrow",
+			"frmadd",
+			"data_show_list",
+			"data_show_grid",
+			"PIX_SETTINGS",
+			"dash/settings/",
+			"user_first_name",
+			"vendors/portal/",
+			"partners",
+			"outstanding_fees",
+			"row_TPlayers",
+			"row_TConfigs",
+			"row_TSports",
+			"VendorID",
+			"bs_player_settings",
+			"_xpost('",
+			"VendorID",
+			"vendors",
+			"bps",
+			"VendorID",
+			"row_TPlayer",
+			"TPlayers",
+			"'Players'",
+			"employees",
+			"config_data",
+			"",
+			"config_data",
+			"]",
+			"[$id]",
+			"_POST",
+			"",
+			"end_term",
+			"T_SLIDERS",
+			"slider_model",
+			"slider",
+			"slider_model",
+			"SLIDERS",
+			"max_slider_images",
+			"Slider",
+			"slider",
+			"sliders",
+			"Sliders",
+			"SLIDERS",
+			"file_preview",
+			"$file_input",
+			"select_options(",
+			"1",
+			"adit_value($row, ",
+			"T_PRODUCT_SIZES",
+			"T_PRODUCT_CATS",
+			"",
+			"'row'",
+			"product",
+			"PRODUCTS",
+			"row",
+			"insertLog",
+			"logModAccess",
+			"src=\"<?php echo base_url(); ?>assets/web/template/images/",
+			"p.",
+			"t.",
+			"s",
+			" ",
+			",",
+			" ",
+			"",
+			"'",
+			" '",
+			" ",
+			"",
+			"times",
+			"login",
+			"row_TLogs",
+			"xform_input",
+			"$text = $params['with_text'] ?",
+			"$data_attr = data_attrs($params['keys']);",
+			"logEnabled",
+			"MM_update",
+			"MM_insert",
+			"frmlogs",
+			"vendor_id",
+			"isset_url",
+			"isset_icon",
+			"isset_target",
+			"validate_input",
+			"tb",
+			"data-tb",
+			"$sql['where']",
+			"$sql['select']",
+			"$sql['joins']",
+			"$sql['table']",
+			"$ci->auth->vet_access($module, DEL, $usergroups)",
+			"$ci->auth->vet_access($module, EDIT, $usergroups)",
+			"$ci->auth->vet_access($module, ADD, $usergroups)",
+			"$ci->auth->vet_access($module, VIEW, $usergroups)",
+			"$usergroups",
+			"",
+			"module_restricted",
+			"vet_access",
+			"$user",
+			"'user_",
+			"src=\"<?php echo base_url(); ?>assets/web/template/images/",
+			"31/12/2019",
+			"template_model"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 3,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/C/Users/VALKAY/AppData/Local/Temp/scp53938/var/www/exood/manager/sandbox/ikem/dbsync/data.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7439,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6,
+								6
+							]
+						],
+						"settings":
+						{
+							"SL.65.region_keys":
+							[
+							],
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/C/Users/VALKAY/AppData/Local/Temp/scp54187/var/www/exood/manager/sandbox/ikem/dbsync/run.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2628,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								444,
+								444
+							]
+						],
+						"settings":
+						{
+							"SL.67.region_keys":
+							[
+							],
+							"auto_complete": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "xdebug.ini",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 149,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								149,
+								149
+							]
+						],
+						"settings":
+						{
+							"auto_name": "xdebug.remote_enable=1",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "memni.sublime-project",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 184,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								85,
+								85
+							]
+						],
+						"settings":
+						{
+							"auto_complete": true,
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/C/wamp64/www/exood/manager/sandbox/ikem/dbsync/run_edited.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3306,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2003,
+								2003
+							]
+						],
+						"settings":
+						{
+							"SL.68.region_keys":
+							[
+							],
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 900.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 11,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/C/Users/VALKAY/AppData/Local/Temp/scp43265/var/www/exood/manager/scripts/init.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5429,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4715,
+								4715
+							]
+						],
+						"settings":
+						{
+							"SL.90.region_keys":
+							[
+							],
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2040.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "/C/Users/VALKAY/AppData/Local/Temp/scp41117/var/www/exood/manager/tmp/CompareSQL/compare-sql.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 22813,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"SL.74.region_keys":
+							[
+							],
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 12,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "/C/Users/VALKAY/AppData/Local/Temp/scp43721/var/www/exood/manager/tmp/CompareSQL/coy.sql",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 84161,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/SQL/SQL.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "/C/Users/VALKAY/AppData/Local/Temp/scp44532/var/www/exood/manager/sandbox/ikem/dbsync/coy_data.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6984,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6071,
+								6071
+							]
+						],
+						"settings":
+						{
+							"SL.76.region_keys":
+							[
+							],
+							"auto_complete": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 1020.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 9,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"default_dir": "C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi",
+							"syntax": "Packages/Xdebug Client/Xdebug.tmLanguage",
+							"word_wrap": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"default_dir": "C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi",
+							"syntax": "Packages/Xdebug Client/Xdebug.tmLanguage",
+							"word_wrap": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 11,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"default_dir": "C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi",
+							"syntax": "Packages/Xdebug Client/Xdebug.tmLanguage",
+							"word_wrap": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"default_dir": "C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi",
+							"syntax": "Packages/Xdebug Client/Xdebug.tmLanguage",
+							"word_wrap": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 29.0
+	},
+	"input":
+	{
+		"height": 45.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				2,
+				1
+			],
+			[
+				0,
+				1,
+				1,
+				2
+			],
+			[
+				1,
+				1,
+				2,
+				2
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.5,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			0.7,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.SublimeLinter":
+	{
+		"height": 196.0
+	},
+	"output.exec":
+	{
+		"height": 218.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.xdebug":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "memni.sublime-project",
+	"replace":
+	{
+		"height": 75.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+		"xdebug":
+		{
+			"hide_conflict": false,
+			"restore_index":
+			{
+				"105":
+				{
+					"group": 0,
+					"index": 2
+				},
+				"106":
+				{
+					"group": 0,
+					"index": 3
+				},
+				"65":
+				{
+					"group": 0,
+					"index": 0
+				},
+				"67":
+				{
+					"group": 0,
+					"index": 1
+				},
+				"68":
+				{
+					"group": 1,
+					"index": 0
+				},
+				"74":
+				{
+					"group": 1,
+					"index": 2
+				},
+				"75":
+				{
+					"group": 1,
+					"index": 3
+				},
+				"76":
+				{
+					"group": 1,
+					"index": 4
+				},
+				"90":
+				{
+					"group": 1,
+					"index": 1
+				}
+			},
+			"restore_layout":
+			{
+				"cells":
+				[
+					[
+						0,
+						0,
+						1,
+						1
+					],
+					[
+						1,
+						0,
+						2,
+						1
+					]
+				],
+				"cols":
+				[
+					0.0,
+					0.5,
+					1.0
+				],
+				"rows":
+				[
+					0.0,
+					1.0
+				]
+			}
+		}
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 244.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

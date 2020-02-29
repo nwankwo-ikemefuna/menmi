@@ -1,0 +1,30 @@
+{
+	"folders":
+	[
+		{
+			"path": "."
+		},
+		{
+			"path": "C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm"
+		},
+		{
+			"path": "C:\\Users\\VALKAY\\Documents\\Web Templates\\musa"
+		},
+		{
+			"path": "C:\\Users\\VALKAY\\Documents\\Web Templates\\laredo"
+		},
+		{
+			"path": "C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi_old"
+		},
+		{
+			"path": "C:\\wamp64\\www\\exood"
+		}
+	],
+	"settings":
+	{
+		"xdebug":
+		{
+			"url": "http://menmi.com/"
+		}
+	}
+}

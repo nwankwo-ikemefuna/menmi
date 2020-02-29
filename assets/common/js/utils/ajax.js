@@ -5,17 +5,20 @@ var selectfield_name = '';
 jQuery(document).ready(function ($) {
     "use strict"; 
 
+    //process ajax form
     $(document).on( "submit", ".ajax_form", function(e) {
         $(this).off("submit"); //unbind event to prevent multiple firing
         e.preventDefault();
         let obj = $(this);
         var url = obj.attr('action'),
             form_id = obj.attr('id'),
-            type = obj.attr('data-type') ? obj.data('type') : 'modal_dt',
+            type = obj.attr('data-type') ? obj.data('type') : 'none',
             msg = obj.attr('data-msg') ? obj.data('msg') : 'Successful',
             notice = obj.attr('data-notice') ? obj.data('notice') : 'status_msg',
             modal = obj.attr('data-modal') ? obj.data('modal') : null,
-            reload = obj.attr('data-reload') ? Boolean(obj.data('reload')) : true;
+            reload = obj.attr('data-reload') ? Boolean(obj.data('reload')) : true,
+            status_modal = obj.attr('data-status_modal') ? Boolean(obj.data('status_modal')) : false,
+            loading_msg = obj.attr('data-loading_msg') ? obj.data('loading_msg') : 'Processing...Please wait';
         let form_data = new FormData(this);
         if (url.length && form_id.length && type.length) {
             switch (type) {
@@ -24,15 +27,16 @@ jQuery(document).ready(function ($) {
                 case 'modal_dt':
                 case 'modal_sp':
                     if (modal.length) {
-                        ajax_post_form_refresh(form_data, url, modal, type, msg, reload, notice);
+                        ajax_post_form_refresh(form_data, url, modal, type, msg, reload, notice, status_modal, loading_msg);
                     }
                     break;
 
-                //alert, redirect
+                //none, alert, redirect
+                case 'none':
                 case 'js_alert':
                 case 'redirect':
                     var redirect = obj.attr('data-redirect') ? obj.data('redirect') : '_self';
-                    ajax_post_form(form_data, url, type, redirect, msg, notice);
+                    ajax_post_form(form_data, url, type, redirect, msg, notice, status_modal, loading_msg);
                     break;
             }
         } else {
@@ -135,7 +139,7 @@ function get_select_options(url, selectfield, current_val) {
     });
 }
 
-function ajax_post_form(form_data, url, fm_type, redirect_url = '', success_msg = 'Successful', notice_elem = 'status_msg') {
+function ajax_post_form(form_data, url, fm_type, redirect_url = '', success_msg = 'Successful', notice_elem = 'status_msg', status_modal = false, loading_msg = 'Processing... Please wait') {
     $.ajax({
         url: url, 
         type: 'POST',
@@ -146,10 +150,18 @@ function ajax_post_form(form_data, url, fm_type, redirect_url = '', success_msg 
         processData: false,
         beforeSend: function() {
             $('.'+notice_elem).empty();
-            $('.ajax_spinner').removeClass('hide').addClass('fa-spin');
+            if (status_modal) {
+                ajax_loading_modal_show(status_modal, loading_msg);
+            } else {
+                $('.ajax_spinner').removeClass('hide').addClass('fa-spin');
+            }
         },
         complete: function() {
-            $('.ajax_spinner').addClass('hide').removeClass('fa-spin');
+            if (status_modal) {
+                ajax_loading_modal_hide(status_modal);
+            } else {
+                $('.ajax_spinner').addClass('hide').removeClass('fa-spin');
+            }
         }
     }).done(function(jres) {
         if (jres.status) {
@@ -188,7 +200,7 @@ function ajax_post_form(form_data, url, fm_type, redirect_url = '', success_msg 
     });
 }
 
-function ajax_post_form_refresh(form_data, url, modal_id = '', fm_type = 'modal_dt', success_msg = 'Successful!', refresh = true, notice_elem = 'status_msg') {
+function ajax_post_form_refresh(form_data, url, modal_id = '', fm_type = 'modal_dt', success_msg = 'Successful!', refresh = true, notice_elem = 'status_msg', status_modal = false, loading_msg = 'Processing... Please wait') {
     $.ajax({
         url: url, 
         type: 'POST',
@@ -199,10 +211,18 @@ function ajax_post_form_refresh(form_data, url, modal_id = '', fm_type = 'modal_
         processData: false,
         beforeSend: function() {
             $('.'+notice_elem).empty();
-            $('.ajax_spinner').removeClass('hide').addClass('fa-spin');
+            if (status_modal) {
+                ajax_loading_modal_show(status_modal, loading_msg);
+            } else {
+                $('.ajax_spinner').removeClass('hide').addClass('fa-spin');
+            }
         },
         complete: function() {
-            $('.ajax_spinner').addClass('hide').removeClass('fa-spin');
+            if (status_modal) {
+                ajax_loading_modal_hide(status_modal);
+            } else {
+                $('.ajax_spinner').addClass('hide').removeClass('fa-spin');
+            }
         }
     }).done(function(jres) {
         if (jres.status) {
@@ -226,7 +246,7 @@ function ajax_post_form_refresh(form_data, url, modal_id = '', fm_type = 'modal_
     });
 }
 
-function ajax_post_btn_data(url, post_data, btn_id, modal_id = '', success_msg = 'Successful', reload_table = true) {
+function ajax_post_btn_data(url, post_data, btn_id, modal_id = '', success_msg = 'Successful', reload_table = true, status_modal = false, loading_msg = 'Processing... Please wait') {
     // post_data = extra.length ? {...post_data, ...extra} : post_data;
     $('#'+btn_id).off("click"); //unbind event to prevent multiple firing
     $('#'+btn_id).click(function(e) {
@@ -238,10 +258,18 @@ function ajax_post_btn_data(url, post_data, btn_id, modal_id = '', success_msg =
             dataType: 'json',
             beforeSend: function() {
                 $('.confirm_status').empty();
-                $('.ajax_spinner').removeClass('hide').addClass('fa-spin');
+                if (status_modal) {
+                    ajax_loading_modal_show(status_modal, loading_msg);
+                } else {
+                    $('.ajax_spinner').removeClass('hide').addClass('fa-spin');
+                }
             },
             complete: function() {
-                $('.ajax_spinner').addClass('hide').removeClass('fa-spin');
+                if (status_modal) {
+                    ajax_loading_modal_hide(status_modal);
+                } else {
+                    $('.ajax_spinner').addClass('hide').removeClass('fa-spin');
+                }
             }
         }).done(function(jres) {
             if (jres.status) {
@@ -261,12 +289,14 @@ function ajax_post_btn_data(url, post_data, btn_id, modal_id = '', success_msg =
     });
 }
 
-function fetch_data_ajax(url, data, type = 'POST', success_callback, error_callback = null) { 
+function fetch_data_ajax(url, data, type = 'POST', success_callback, error_callback = null, status_modal = false, loading_msg = 'Processing... Please wait') { 
     $.ajax({
         url: url,
         type: type,
         dataType: "json",
-        data: data
+        data: data,
+        beforeSend: function() { ajax_loading_modal_show(status_modal, loading_msg) },
+        complete: function() { ajax_loading_modal_hide(status_modal) }
     })
     .done(function (jres) {
         if (typeof(success_callback) === 'function') {
@@ -284,16 +314,18 @@ function paginate(url, elem, row_render, pagination = 'pagination', succ_callbk 
   $('#'+pagination).on('click', 'ul li a', function(e){
     e.preventDefault(); 
     var page_num = $(this).attr('data-ci-pagination-page');
-    paginate_data(url, elem, row_render, pagination, page_num, {}, succ_callbk, succ_callbk, err_callbk);
+    paginate_data(url, elem, row_render, pagination, page_num, {}, succ_callbk, err_callbk, true, 'Navigating');
   });
 }
 
-function paginate_data(url, elem, row_render, paginate_elem = 'pagination', page_num = 0, data = {}, succ_callbk = null, err_callbk = null) {
+function paginate_data(url, elem, row_render, paginate_elem = 'pagination', page_num = 0, data = {}, succ_callbk = null, err_callbk = null, status_modal = false, loading_msg = 'Processing... Please wait') {
   $.ajax({
     url: base_url+url+'/'+page_num,
     type: 'POST',
     dataType: 'json',
-    data: data
+    data: data,
+    beforeSend: function() { ajax_loading_modal_show(status_modal, loading_msg) },
+    complete: function() { ajax_loading_modal_hide(status_modal) }
   }).done(function(jres) {
     $('#'+paginate_elem).html(jres.body.msg.pagination);
     $('#'+elem).empty();
@@ -313,16 +345,58 @@ function paginate_data(url, elem, row_render, paginate_elem = 'pagination', page
   });
 }
 
-function status_box(elem, msg, type = 'success', delay = 10000) {
+function status_box(elem, msg, type = 'success', elem_type = 'class', delay = 10000) {
     var status_div = 
-    `<div class="alert alert-${type} alert-dismissible fade show" role="alert">
+    `<div class="alert alert-${type} alert-dismissible" role="alert">
         ${msg}
         <button type="button" class="close" data-dismiss="alert" aria-label="Close" title="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>`;
-    $('.'+elem).html(status_div)
+    elem = elem_type == 'id' ? ('#'+elem) : ('.'+elem);
+    $(elem).html(status_div)
         .fadeIn( 'fast' )
-        .delay( 10000 )
+        .delay( delay )
         .fadeOut( 'slow' );
+}
+
+function ajax_loading_modal_show(status_modal, loading_msg) {
+    if (status_modal) {
+        //any other one open?
+        if ($('#m_ajax_status').is(':visible') == false) {
+            $('#m_ajax_status #loading_msg').text(loading_msg+'...');
+            $('#m_ajax_status').show();
+        }
+    }
+}
+
+function ajax_loading_modal_hide(status_modal) {
+    if (status_modal) $('#m_ajax_status').hide();
+}
+
+/**
+ * [fill_form_fields: fill fields with names matching the data keys]
+ * @param  {[string]} form_id
+ * @param  {[object]} data
+ * @return {[void]}
+ */
+function fill_form_fields(form_id, data, exclude = []) {
+    var inputs = $('form#'+form_id+' :input');
+    $.each(inputs, (i, input) => {
+        var name = $(input).attr('name');
+        //exclude us please...
+        if ($.inArray(name, exclude) !== -1) return;
+        if (typeof name !== "undefined") {
+            var val = data[name];
+            var field = $('#'+form_id).find(':input[name="' + name + '"]');
+            //get input type or tagname if type is undefined (eg select, textarea)
+            var type = field.attr('type') || field.prop('tagName').toLowerCase();
+            if (type == 'select' || type == 'checkbox' || type == 'radio') {
+                //we need to call change event on these guys
+                field.val(val).change();
+            } else {
+                field.val(val);
+            }
+        }
+    });
 }

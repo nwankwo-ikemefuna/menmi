@@ -41,8 +41,6 @@ class Core_Controller extends CI_Controller {
 		$this->butts = [];
 		//bulk action options
 		$this->ba_opts = [];
-		//sidebar and breadcrumbs
-		$this->show_sidebar = true;
 		$this->show_bcrumbs = true;
 		$this->bcrumbs = [];
 		
@@ -52,31 +50,7 @@ class Core_Controller extends CI_Controller {
 
 
 	private function set_company_info() {
-		$id = 1;
-		$sql = $this->company_model->sql($id);
-		$row = $this->common_model->get_row($sql['table'], $id, 'id', 0, $sql['joins'], $sql['select'], $sql['where'], $sql['group_by']);
-		if ( ! $row) return;
-		$fields = $tables = $this->db->list_fields(T_COMPANIES);
-		$data = [];
-		//create keys from column names with prefix: company_
-		foreach ($fields as $field) {
-			$field_key = 'company_' . $field;
-			if ( ! isset($_SESSION[$field_key])) {
-				$data[$field_key] = $row->$field;
-			}
-		}
-		$data = array_merge($data, [
-			'company_currency' => get_currency_symbol($row->curr_code),
-			'company_currency_name' => $row->curr_name,
-			'company_owner_fullname' => $row->full_name,
-			'company_home_slider' => $row->home_slider,
-			'company_shop_slider' => $row->shop_slider,
-			'company_sidebar_slider' => $row->sidebar_slider,
-			'company_shop_sidebar_position' => $row->shop_sidebar_position,
-			'company_blog_sidebar_position' => $row->blog_sidebar_position,
-			'company_logo_site' => $row->s_logo,
-			'company_logo_portal' => $row->p_logo
-		]);
+		$data = $this->company_model->company_details(2);
 		$this->session->set_userdata($data);
 	}
 
@@ -94,8 +68,9 @@ class Core_Controller extends CI_Controller {
 	}
 
 
-	protected function web_header($page_title) {
+	protected function web_header($page_title, $current_page = '') {
 		$data['page_title'] = $page_title;
+		$data['current_page'] = $current_page;
 		$sql = $this->product_model->cats_sql($this->company_id);
         $data['product_cats'] = $this->common_model->get_rows($sql['table'], 0, $sql['joins'], $sql['select'], $sql['where'], $sql['order']);
 		return $this->load->view('web/layout/header', $data);
@@ -110,17 +85,17 @@ class Core_Controller extends CI_Controller {
 	
 	protected function guest_header($page_title) {
 		$data['page_title'] = $page_title;
-		return $this->load->view('guest/layout/header', $data);
+		return $this->load->view('portal/guest/layout/header', $data);
 	}
 	
 
 	protected function guest_footer($current_page = '') {
 		$data['current_page'] = $current_page;
-		return $this->load->view('guest/layout/footer', $data);
+		return $this->load->view('portal/guest/layout/footer', $data);
 	}
 
 
-	protected function dash_header($page_title, $record_count = '', $crud_rec_id = '', $max_data = '', $meta_tags = '') {
+	protected function portal_header($page_title, $record_count = '', $crud_rec_id = '', $max_data = '', $meta_tags = '') {
 		//unset user login request data
 		$this->auth->unset_request_data();
 		$data['page_title'] = $page_title;
@@ -128,13 +103,13 @@ class Core_Controller extends CI_Controller {
 		$data['crud_rec_id'] = $crud_rec_id;
 		$data['max_data'] = $max_data;
 		$data['meta_tags'] = $meta_tags;
-		return $this->load->view('dash/layout/header', $data);
+		return $this->load->view('portal/layout/header', $data);
 	}
 	
 
-	protected function dash_footer($current_page = '') {
+	protected function portal_footer($current_page = '') {
 		$data['current_page'] = $current_page;
-		return $this->load->view('dash/layout/footer', $data);
+		return $this->load->view('portal/layout/footer', $data);
 	}
 
 
@@ -182,5 +157,14 @@ class Core_Controller extends CI_Controller {
 		redirect($redirect);
     }
 
+
+    public function check_pass_strength() {
+        $password = $this->input->post('password', TRUE);
+        $check_pass = password_strength($password);
+        //password cool...
+        if ( ! $check_pass['has_err'] ) return TRUE;
+        $this->form_validation->set_message('check_pass_strength', $check_pass['err']);
+        return FALSE;
+    }
 	
 }

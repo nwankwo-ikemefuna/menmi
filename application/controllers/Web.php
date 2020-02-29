@@ -12,7 +12,7 @@ class Web extends Core_controller {
     public function __construct() {
         parent::__construct();
         $this->show_sidebar = false;
-        $this->page_scripts = ['products'];
+        $this->page_scripts = ['shop'];
     }
 
 
@@ -28,11 +28,17 @@ class Web extends Core_controller {
             $sliders = $this->common_model->get_rows($sql['table'], 0, $sql['joins'], $sql['select'], $where, 'rand', '', 3);
         }
         $data['sliders'] = $sliders;
-        $sql = $this->product_model->sql($this->company_id);
-        $where = array_merge($sql['where'], ['FIND_IN_SET('.TAG_FEATURED.', p.tags)' => '']);
-        $data['featured_products'] = $this->common_model->get_rows($sql['table'], 0, $sql['joins'], $sql['select'], $where, $sql['order'], '', 12);
+        //get home banners
+        $banners = [];
+        if ($this->session->company_home_banner == 1) {
+            $sql = $this->slider_model->sql($this->company_id);
+            $where = array_merge($sql['where'], ['cat_id' => SLIDER_HOME_BANNER]);
+            $banners = $this->common_model->get_rows($sql['table'], 0, $sql['joins'], $sql['select'], $where, 'rand', '', 3);
+        }
+        $data['banners'] = $banners;
+        $data['featured_products'] = $this->shop_model->featured();
         $sql = $this->product_model->cats_sql($this->company_id);
-        $data['product_cats'] = $this->common_model->get_rows($sql['table'], 0, $sql['joins'], $sql['select'], $sql['where'], 'rand', '', 6);
+        $data['product_cats'] = $this->common_model->get_rows($sql['table'], 0, $sql['joins'], $sql['select'], $sql['where'], $sql['order'], '', 20);
         $this->load->view('web/index', $data);
         $this->web_footer('home');
     }
@@ -69,5 +75,5 @@ class Web extends Core_controller {
         $this->common_model->insert(T_NEWSLETTER_SUBSCRIBERS, $data);
         json_response_db();
     }
-    
+
 }

@@ -8,6 +8,34 @@ label.form-control-label small {
     background: #f2f2f2 !important;
 }
 
+#m_ajax_status {
+    position: fixed;
+    z-index: 999;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: #000;
+    filter: alpha(opacity=40);
+    opacity: 0.4;
+    -moz-opacity: 0.4;
+}
+#m_ajax_status .status_box {
+    background: #fff;
+    opacity: 1;
+    z-index: 1000;
+    margin: 200px auto;
+    padding: 10px;
+    width: 160px;
+    border-radius: 3px;
+}
+#m_ajax_status .status_box img {
+    width: 100px;
+}
+#m_ajax_status .status_box #loading_msg {
+    font-weight: bold;
+}
+
 /* Social Media Background Colors */
 .bg-facebook {
     background: #3c5998 !important;
@@ -3199,6 +3227,36 @@ textarea.noresize {
     border-top: 1px solid #f2f2f2;
     text-align: right;
     padding-top: 10px;
+}
+
+/* datatables no border */ 
+.table-no-border, 
+.table-no-border > thead > tr > th, 
+.table-no-border > tbody > tr > th, 
+.table-no-border > tfoot > tr > th, 
+.table-no-border > thead > tr > td, 
+.table-no-border > tbody > tr > td, 
+.table-no-border > tfoot > tr > td,
+.table-no-border > tbody,
+.table-no-border > thead,
+.table-no-border > tfoot {
+    border: none !important;
+}
+/* datatables row border only */ 
+.table_row_bordered, 
+.table_row_bordered > thead > tr > th, 
+.table_row_bordered > tbody > tr > th, 
+.table_row_bordered > tfoot > tr > th, 
+.table_row_bordered > thead > tr > td, 
+.table_row_bordered > tbody > tr > td, 
+.table_row_bordered > tfoot > tr > td,
+.table_row_bordered > tbody,
+.table_row_bordered > thead,
+.table_row_bordered > tfoot {
+    border-top: 1px solid #f2f2f2 !important;
+    border-bottom: 1px solid #f2f2f2 !important;
+    border-left: none !important;
+    border-right: none !important;
 }
 
 

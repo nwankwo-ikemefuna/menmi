@@ -58,7 +58,9 @@ $route['translate_uri_dashes'] = FALSE;
 $route['about'] = 'web/about';
 $route['contact'] = 'web/contact';
 
-//Login
-$route['login'] = 'guest';
+//User Account
+$route['register'] = 'guest/register';
+$route['login'] = 'guest/login';
 $route['logout'] = 'guest/logout';
+$route['forgot_pass'] = 'guest/forgot_pass';
 

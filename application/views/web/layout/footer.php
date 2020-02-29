@@ -1,7 +1,4 @@
-	
-	<?php if ($this->show_sidebar) require 'sidebar.php'; ?>
-	
-	<!-- Footer -->
+<!-- Footer -->
 	<footer class="m-t-50">
 	  <div class="container">
 	    <div class="row">
@@ -81,10 +78,10 @@
 	          <h3 class="links-title">Shopping<a class="expander visible-xs" href="#TabBlock-1">+</a></h3>
 	          <div class="tabBlock" id="TabBlock-1">
 	            <ul class="list-links list-unstyled">
-	              <li><a href="<?php echo base_url('shop'); ?>">Shop</a></li>
-	              <li><a href="<?php echo base_url('shop/cart'); ?>">Shopping Cart</a></li>
-	              <li><a href="<?php echo base_url('shop/delivery_info'); ?>">Delivery Info</a></li>
-	              <li><a href="<?php echo base_url('shop/return_policy'); ?>">Return Policy</a></li>
+	              	<li><a href="<?php echo base_url('shop'); ?>">Shop</a></li>
+	              	<li><a href="<?php echo base_url('shop/cart'); ?>">My Cart (<?php echo intval(count($this->session->tempdata('cart_products'))); ?>)</a></li>
+	              	<li><a href="<?php echo base_url('shop?type=wishlist'); ?>">My Wishlist (<?php echo intval(count($this->session->tempdata('wishlist_products'))); ?>)</a></li>
+      				<li><a href="<?php echo base_url('shop?type=viewed'); ?>">Viewed Items (<?php echo intval(count($this->session->tempdata('viewed_products'))); ?>)</a></li>
 	            </ul>
 	          </div>
 	        </div>
@@ -107,13 +104,13 @@
 	          <h3 class="links-title">Account<a class="expander visible-xs" href="#TabBlock-4">+</a></h3>
 	          <div class="tabBlock" id="TabBlock-4">
 	            <ul class="list-links list-unstyled">
-	            	<?php if ($this->session->user_usergroup == CUSTOMER) { ?>
-	              		<li><a href="<?php echo base_url('user'); ?>">Customer Dashboard</a></li>
+	            	<?php if (customer_user()) { ?>
+	              		<li><a href="<?php echo base_url('user'); ?>">My Dashboard</a></li>
 	              	<?php } else { ?>
 	              		<li><a href="<?php echo base_url('register'); ?>">Register</a></li>
 	              		<li><a href="<?php echo base_url('login'); ?>">Login</a></li>
 	              	<?php } ?>
-	              <li><a href="<?php echo base_url('shop/cart'); ?>">Shopping Cart</a></li>
+	              	<li><a href="<?php echo base_url('shop/checkout'); ?>">Checkout</a></li>
 	            </ul>
 	          </div>
 	        </div>
@@ -141,29 +138,14 @@
 
 <!-- mobile menu -->
 <div id="jtv-mobile-menu" class="jtv-mobile-menu">
-  <ul>
-    <li class=""><a href="<?php echo base_url(); ?>">Home</a>
-    </li>
-    <li><a href="<?php echo base_url('shop'); ?>">Shop</a></li>
-    <li><a href="#">Categories</a>
-	    <ul>
-	      	<?php
-	      	if (count($product_cats) > 0) { 
-	        	foreach ($product_cats as $row) { ?>
-	          		<li><a href="<?php echo base_url('shop?cat_id='.$row->id); ?>"><?php echo $row->name; ?></a>
-	          		<?php
-	        	} 
-	      	} ?>  
-	    </ul>
-	</li>
-	<li><a href="<?php echo base_url('about'); ?>">About</a></li>
-	<li><a href="<?php echo base_url('contact'); ?>">Contact</a></li>
-	<li><a href="<?php echo base_url('blog'); ?>">Blog</a></li>
-	<li><a href="<?php echo base_url('register'); ?>">Register</a></li>
-	<li><a href="<?php echo base_url('login'); ?>">Login</a></li>
-  </ul>
+	<?php
+    $_layout = 'footer';
+    require 'nav_menu.php'; ?>
 </div>
 
+<?php
+//the guy that spins
+ajax_status_modal(); ?>
 
 <!-- Template scripts -->
 <!-- jquery js --> 

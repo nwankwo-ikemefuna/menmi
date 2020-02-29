@@ -12,9 +12,9 @@ class Products extends Core_controller {
 		parent::__construct();
 		$this->module = M_PRODUCTS;
 		$this->model = 'product';
-		$this->auth->login_restricted();
-		$this->auth->token_restricted();
-		$this->auth->module_restricted($this->module, VIEW);
+		$this->auth->login_restricted(COMPANY_USERS);
+		$this->auth->password_restricted();
+		$this->auth->module_restricted($this->module, VIEW, COMPANY_USERS);
 		$this->page_scripts = ['products'];
 		$this->max_prod_images = 6;
 	}
@@ -27,9 +27,9 @@ class Products extends Core_controller {
 		$this->ba_opts = ['delete'];
 		$sql = $this->product_model->sql($this->company_id);
 		$count = $this->common_model->count_rows($sql['table'], $sql['where'], $this->trashed);
-		$this->dash_header('Products', $count);
-		$this->load->view('dash/products/index');
-		$this->dash_footer();
+		$this->portal_header('Products', $count);
+		$this->load->view('portal/company/products/index');
+		$this->portal_footer();
 	}
 
 
@@ -49,19 +49,19 @@ class Products extends Core_controller {
 		$this->butts = ['add',  'edit', 'list'];
 		$sql = $this->product_model->sql($this->company_id);
 		$row = $this->common_model->get_row($sql['table'], $id, 'id', $this->trashed, $sql['joins'], $sql['select'], $sql['where']);
-		$this->dash_header($row->name, '', $id);
+		$this->portal_header($row->name, '', $id);
 		$data['row'] = $row;
-		$this->load->view('dash/products/view', $data);
-		$this->dash_footer();
+		$this->load->view('portal/company/products/view', $data);
+		$this->portal_footer();
 	}
 
 
 	public function add() {
 		//buttons
 		$this->butts = ['list', 'save' => ['form' => 'add_form']];
-		$this->dash_header('Add Product');
-		$this->load->view('dash/products/add');
-		$this->dash_footer();
+		$this->portal_header('Add Product');
+		$this->load->view('portal/company/products/add');
+		$this->portal_footer();
 	}
 
 
@@ -72,9 +72,9 @@ class Products extends Core_controller {
 		$sql = $this->product_model->sql($this->company_id);
 		$row = $this->common_model->get_row($sql['table'], $id, 'id', $this->trashed, $sql['joins'], $sql['select'], $sql['where']);
 		$data['row'] = $row;
-		$this->dash_header('Edit Product: '.$row->name, '', $id);
-		$this->load->view('dash/products/edit', $data);
-		$this->dash_footer();
+		$this->portal_header('Edit Product: '.$row->name, '', $id);
+		$this->load->view('portal/company/products/edit', $data);
+		$this->portal_footer();
 	}
 
 
@@ -194,9 +194,9 @@ class Products extends Core_controller {
 		$this->butts = ['add_m' => ['modal' => 'add_cat'], 'list' => ['url' => $this->c_controller.'/cats']];
 		$sql = $this->product_model->cats_sql($this->company_id);
 		$count = $this->common_model->count_rows($sql['table'], $sql['where'], $this->trashed);
-		$this->dash_header('Product Categories', $count, '', MAX_PRODUCT_CATS);
-		$this->load->view('dash/products/cats/index');
-		$this->dash_footer();
+		$this->portal_header('Product Categories', $count, '', MAX_PRODUCT_CATS);
+		$this->load->view('portal/company/products/cats/index');
+		$this->portal_footer();
 	}
 
 
@@ -262,9 +262,9 @@ class Products extends Core_controller {
 		$this->butts = ['add_m' => ['modal' => 'add_size'], 'list' => ['url' => $this->c_controller.'/sizes']];
 		$sql = $this->product_model->sizes_sql($this->company_id);
 		$count = $this->common_model->count_rows($sql['table'], $sql['where'], $this->trashed);
-		$this->dash_header('Product Sizes', $count, '', MAX_PRODUCT_SIZES);
-		$this->load->view('dash/products/sizes/index');
-		$this->dash_footer();
+		$this->portal_header('Product Sizes', $count, '', MAX_PRODUCT_SIZES);
+		$this->load->view('portal/company/products/sizes/index');
+		$this->portal_footer();
 	}
 
 
@@ -334,9 +334,9 @@ class Products extends Core_controller {
 		$this->butts = ['add_m' => ['modal' => 'add_tag'], 'list' => ['url' => $this->c_controller.'/tags']];
 		$sql = $this->product_model->tags_sql($this->company_id);
 		$count = $this->common_model->count_rows($sql['table'], $sql['where'], $this->trashed);
-		$this->dash_header('Product Tags', $count, '', MAX_PRODUCT_TAGS);
-		$this->load->view('dash/products/tags/index');
-		$this->dash_footer();
+		$this->portal_header('Product Tags', $count, '', MAX_PRODUCT_TAGS);
+		$this->load->view('portal/company/products/tags/index');
+		$this->portal_footer();
 	}
 
 

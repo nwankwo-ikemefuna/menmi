@@ -56,6 +56,37 @@ jQuery(document).ready(function ($) {
         $('#m_img_view').modal('show');
     });
 
+    //ajax modal button
+    $(document).on( "click", ".ajax_extra_modal_btn", function() {
+        var id = $(this).data('id'),
+            name = $(this).data('name'),
+            modal = $(this).data('modal');
+        $('[name="'+name+'"]').val(id);
+        $(modal).modal('show'); //show the modal
+    });
+
+    //table row options
+    $(document).on( "click", ".record_extra_options", function() {
+        var id = $(this).data('id');
+        var options = $(this).data('options'); 
+        var butts = "";
+        $.each(options, (i, opt) => {
+            butts += modal_option_btn(id, opt.text, opt.type, opt.target, opt.icon);
+        });
+        $('#m_row_options .modal-title').text('More Options'); 
+        $('#m_row_options .modal-body').empty().html(butts); 
+        $('#m_row_options').modal('show'); //show the modal
+    });
+
+    function modal_option_btn(id, text, type, target, icon) {
+        if (type == 'url') {
+            const url = base_url + target + '/' + id;
+            return '<p><a type="button" href="'+url+'" class="btn btn-outline-primary btn-sm btn-block action-btn"><i class="fa fa-'+icon+'"></i> '+text+'</a></p>';
+        } else {
+            return '<p><button type="button" data-toggle="modal" data-target="#'+target+'" class="btn btn-outline-primary btn-sm btn-block action-btn"><i class="fa fa-'+icon+'"></i> '+text+'</button></p>';
+        }
+    }
+
 
     //bulk action
     //bulk action: disable action button if no bulk action type is selected
@@ -126,6 +157,12 @@ jQuery(document).ready(function ($) {
                 ajax_post_btn_data('common/bulk_delete_ajax', post_data, 'ba_confirm_btn', 'm_confirm_ba', 'Records trashed successfully');
                 break;
 
+            default:
+                //custom
+                m_title = $('#'+ba_modal+ ' .modal-title').html();
+                ajax_post_form_refresh(post_data, ba_url, ba_modal, 'modal_dt', ba_success_msg, true, 'status_msg');
+                break;
+
         }
         $('#'+ba_modal+ ' .modal-title').text(`${m_title} (${_records})`);
         $('#'+ba_modal+ ' .modal-body .ba_msg').text(m_msg);
@@ -142,31 +179,7 @@ jQuery(document).ready(function ($) {
     }
 
 
-    //table row options
-    $(document).on( "click", ".record_extra_options", function() {
-        var id = $(this).data('id');
-        var options = $(this).data('options'); 
-        var butts = "";
-        $.each(options, (i, opt) => {
-            butts += modal_option_btn(id, opt.text, opt.type, opt.target, opt.icon);
-        });
-        $('#m_row_options .modal-title').text('More Options'); 
-        $('#m_row_options .modal-body').empty().html(butts); 
-        $('#m_row_options').modal('show'); //show the modal
-    });
-
-
-    function modal_option_btn(id, text, type, target, icon) {
-        if (type == 'url') {
-            const url = base_url + target + '/' + id;
-            return '<p><a type="button" href="'+url+'" class="btn btn-outline-primary btn-sm btn-block action-btn"><i class="fa fa-'+icon+'"></i> '+text+'</a></p>';
-        } else {
-            return '<p><button type="button" data-toggle="modal" data-target="#'+target+'" class="btn btn-outline-primary btn-sm btn-block action-btn"><i class="fa fa-'+icon+'"></i> '+text+'</button></p>';
-        }
-    }
-
-
-     //email user
+    //email user
     $(document).on( "click", ".tm_email_user", function() {
         //get data value params
         var title = $(this).data('title'); 

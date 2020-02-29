@@ -23,6 +23,15 @@ function company_file_path($upload_ir = '', $file = '', $type = 'pix') {
     return COMPANY_PIX_DIR.$upload_ir.$file;
 }
 
+function customer_file_path($upload_ir = '', $file = '', $type = 'pix') {
+    $upload_ir = strlen($upload_ir) ? '/'.$upload_ir : '';
+    $file = strlen($file) ? '/'.$file : '';
+    if ($type == 'doc') {
+        return CUSTOMER_DOC_DIR.$upload_ir.$file;
+    }
+    return CUSTOMER_PIX_DIR.$upload_ir.$file;
+}
+
 function create_dir($dir) {
     if ( ! file_exists($dir)) {
         mkdir($dir, 0777, true);

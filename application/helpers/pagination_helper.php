@@ -1,9 +1,6 @@
 <?php 
-function paginate($records, $total_rows, $offset, $per_page = 15, $url = '') {
+function paginate($records, $total_rows, $per_page = 15, $url = '') {
     $ci =& get_instance();
-    if ($offset != 0) {
-        $offset = ($offset - 1) * $per_page;
-    }
     $config['base_url'] = strlen($url) ? $url : base_url($ci->c_controller.'/'.$ci->c_method);
     $config['use_page_numbers'] = TRUE;
     $config['total_rows'] = $total_rows;
@@ -24,4 +21,9 @@ function paginate($records, $total_rows, $offset, $per_page = 15, $url = '') {
     $data['total_rows'] = $total_rows;
     $data['total_rows_formatted'] = number_format($total_rows);
     return $data;
+}
+
+function paginate_offset($offset, $per_page) {
+    if ($offset == 0) return $offset;
+    return ($offset - 1) * $per_page;
 }

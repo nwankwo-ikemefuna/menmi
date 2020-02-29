@@ -12,9 +12,9 @@ class Sliders extends Core_controller {
 		parent::__construct();
 		$this->module = M_SLIDERS;
 		$this->model = 'slider';
-		$this->auth->login_restricted();
-		$this->auth->token_restricted();
-		$this->auth->module_restricted($this->module, VIEW);
+		$this->auth->login_restricted(COMPANY_USERS);
+		$this->auth->password_restricted();
+		$this->auth->module_restricted($this->module, VIEW, COMPANY_USERS);
 		$this->page_scripts = ['sliders'];
 		$this->min_slider_images = 2;
 		$this->max_slider_images = 6;
@@ -24,7 +24,6 @@ class Sliders extends Core_controller {
 	private function qry_str() {
 		//is cat set in url?
 		$cat_id = xget('cat_id');
-		if ( ! strlen($cat_id)) return '';
 		$this->check_data(T_SLIDER_CATS, $cat_id, [], 'id', 'sliders');
 		return strlen($cat_id) ? '?cat_id='.$cat_id : '';
 	}
@@ -43,16 +42,16 @@ class Sliders extends Core_controller {
 		$count = $this->common_model->count_rows($sql['table'], $where, $this->trashed);
 		//add up max data of all cats
 		$max_data = array_sum(MAX_SLIDER_CAT);
-		$title = 'Slider';
+		$title = 'Sliders';
 		if (strlen($cat_id)) {
 			$sql = $this->slider_model->cats_sql($this->company_id);
 			$row = $this->common_model->get_row($sql['table'], $cat_id);
 			$title .= ': '.$row->title;
 			$max_data = MAX_SLIDER_CAT[$cat_id];
 		}
-		$this->dash_header($title, $count, '', $max_data);
-		$this->load->view('dash/sliders/index');
-		$this->dash_footer();
+		$this->portal_header($title, $count, '', $max_data);
+		$this->load->view('portal/company/sliders/index');
+		$this->portal_footer();
 	}
 
 
@@ -77,10 +76,10 @@ class Sliders extends Core_controller {
 		$this->butts = ['add' => ['url' => 'sliders/add'.$qry_str], 'edit' => ['url' => 'sliders/edit/'.$id.$qry_str], 'list' => ['url' => 'sliders'.$qry_str]];
 		$sql = $this->slider_model->sql($this->company_id);
 		$row = $this->common_model->get_row($sql['table'], $id, 'id', $this->trashed, $sql['joins'], $sql['select'], $sql['where']);
-		$this->dash_header($row->name, '', $id);
+		$this->portal_header($row->name, '', $id);
 		$data['row'] = $row;
-		$this->load->view('dash/sliders/view', $data);
-		$this->dash_footer();
+		$this->load->view('portal/company/sliders/view', $data);
+		$this->portal_footer();
 	}
 
 
@@ -88,9 +87,9 @@ class Sliders extends Core_controller {
 		$qry_str = $this->qry_str();
 		//buttons
 		$this->butts = ['list' => ['url' => 'sliders'.$qry_str], 'save' => ['form' => 'add_form']];
-		$this->dash_header('Add Slider');
-		$this->load->view('dash/sliders/add');
-		$this->dash_footer();
+		$this->portal_header('Add Slider');
+		$this->load->view('portal/company/sliders/add');
+		$this->portal_footer();
 	}
 
 
@@ -102,9 +101,9 @@ class Sliders extends Core_controller {
 		$sql = $this->slider_model->sql($this->company_id);
 		$row = $this->common_model->get_row($sql['table'], $id, 'id', $this->trashed, $sql['joins'], $sql['select'], $sql['where']);
 		$data['row'] = $row;
-		$this->dash_header('Edit Slider: '.$row->name, '', $id);
-		$this->load->view('dash/sliders/edit', $data);
-		$this->dash_footer();
+		$this->portal_header('Edit Slider: '.$row->name, '', $id);
+		$this->load->view('portal/company/sliders/edit', $data);
+		$this->portal_footer();
 	}
 
 

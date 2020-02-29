@@ -1,3 +1,5 @@
+<?php require 'application/views/web/layout/shop_sidebar_start.php'; ?>
+
 <!-- Shop Slider -->
 <?php
 if ($this->session->company_shop_slider == 1 && count($shop_sliders) > 0) { ?>
@@ -18,7 +20,7 @@ if ($this->session->company_shop_slider == 1 && count($shop_sliders) > 0) { ?>
 } ?>
 
 <h5 id="total_found"></h5>
-<div class="row m-b-20">
+<div class="row m-b-20" id="shop_section">
   <div class="<?php echo grid_col(12, 8, 8); ?> p-b-10">
     <div class="input-group">
       <span class="input-group-btn">
@@ -41,6 +43,9 @@ if ($this->session->company_shop_slider == 1 && count($shop_sliders) > 0) { ?>
   </div>
 </div>
 
+<!-- product list type with data from get -->
+<input type="hidden" name="list_type" value="<?php echo xget('type') ?? 'shop'; ?>" data-rel_id="<?php echo xget('rel_id'); ?>" data-rel_tags="<?php echo xget('rel_tags'); ?>" data-tag="<?php echo xget('tag'); ?>">
+
 <div class="product-grid-area">
   <div class="products-grid equal_cols" id="products">
   </div>
@@ -48,4 +53,7 @@ if ($this->session->company_shop_slider == 1 && count($shop_sliders) > 0) { ?>
 <div id="pagination" class="pagination-area m-b-20">
 </div>
 
-<?php cart_modal(); ?>
+<?php 
+$sidebar_sections = ['shop_filter', 'slider', 'tags'];
+require 'application/views/web/layout/shop_sidebar_end.php';
+cart_modal();

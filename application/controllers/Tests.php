@@ -35,4 +35,59 @@ class Tests extends Core_controller {
         flush();
     }
 
+
+    public function insert() {
+        $items = array(
+            'Abuja (FCT)',
+            'Abia',
+            'Adamawa',
+            'Akwa Ibom',
+            'Anambra',
+            'Bauchi',
+            'Bayelsa',
+            'Benue',
+            'Borno',
+            'Cross River',
+            'Delta',
+            'Ebonyi',
+            'Edo',
+            'Ekiti',
+            'Enugu',
+            'Gombe',
+            'Imo',
+            'Jigawa',
+            'Kaduna',
+            'Kano',
+            'Katsina',
+            'Kebbi',
+            'Kogi',
+            'Kwara',
+            'Lagos',
+            'Nasarawa',
+            'Niger',
+            'Ogun',
+            'Ondo',
+            'Osun',
+            'Oyo',
+            'Plateau',
+            'Rivers',
+            'Sokoto',
+            'Taraba',
+            'Yobe',
+            'Zamfara'
+        );
+        $data = [];
+        $order = 1;
+        foreach ($items as $item) {
+            $row = [];
+            $row['name'] = $item;
+            $row['country_id'] = 135;
+            $row['order'] = $order;
+            $data[] = $row;
+            $order++;
+        }
+        $this->common_model->insert_batch(T_STATES, $data);
+    }
+    
+
 }

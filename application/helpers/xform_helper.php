@@ -16,11 +16,11 @@ function xform_notice($class = 'status_msg', $id = '') {
 
 function xform_label($label, $for = '', $extra = [], $ajax = false) {
     //if associated field has required attribute, append * to label name
-    $label .= isset($extra['required']) && $extra['required'] ? '<span class="text-danger">*</span>' : '';
+    $label .= isset($extra['required']) && $extra['required'] ? ':<span class="text-danger">*</span>' : ':';
     //prepend bs class
     $extra['class'] = 'form-control-label '.input_key_isset($extra, 'class', '');
     $for = attr_isset($for, 'for="'.$for.'"', '');
-    $elem = '<label '.$for.' '.set_extra_attrs($extra).'  style="padding-top: 10px">'.$label.':</label>';
+    $elem = '<label '.$for.' '.set_extra_attrs($extra).'  style="padding-top: 10px">'.$label.'</label>';
     if ($ajax) return $elem;
     echo $elem;
 }
@@ -32,6 +32,17 @@ function xform_help($extra) {
         return '<div class="text-muted '.$class.'" '.$id.'>'.$extra['help'].'</div>';
     }
     return '';
+}
+
+function xform_check($label, $name, $type = 'checkbox', $id = '', $value = '', $checked = false, $required = false, $inline = false, $extra = [], $ajax = false) {
+    $checked = $checked ? 'checked' : '';
+    $inline_class = $inline ? 'form-check-inline' : '';
+    $elem = '<div class="form-check '.$inline_class.'">
+                <input class="form-check-input" type="'.$type.'" name="'.$name.'" id="'.$id.'" value="'.$value.'" '.$checked.' '.$required.'>
+                <label class="form-check-label" for="'.$id.'">'.$label.'</label>
+            </div>';
+    if ($ajax) return $elem;
+    echo $elem;
 }
 
 function xform_input($name, $type = 'text', $value = '', $required = false, $extra = [], $ajax = false) {
@@ -302,9 +313,11 @@ function adit_value($row, $field, $default = '', $strip_tags = false, $allow_tag
 function ajax_form_modal(array $data, array $fields, $butt_attrs = ['class' => 'btn btn-theme pull-left']) {
     $form_class = input_key_isset($data, 'class', 'ajax_form');
     $reload = input_key_isset($data, 'reload', 1);
+    $m_class = input_key_isset($data, 'm_class', 'fill-in');
+    $m_size = input_key_isset($data, 'm_size', '');
     $notice = input_key_isset($data, 'notice', 'm_status_msg');
     $attrs = ['id' => $data['form'], 'class' => $form_class, 'data-type' => $data['type'], 'data-modal' => $data['modal'], 'data-msg' => $data['item'].' '.$data['crud_type'].'ed successfully', 'data-reload' => $reload, 'data-notice' => $notice];
-    modal_header($data['modal'], $data['title']);
+    modal_header($data['modal'], $data['title'], $m_class, $m_size);
         xform($data['url'], $fields, $attrs, ucfirst($data['crud_type']), '', $butt_attrs, ['class' => $notice]);
     modal_footer(false);
 }

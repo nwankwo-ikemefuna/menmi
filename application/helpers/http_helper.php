@@ -67,6 +67,40 @@ function json_response_db($is_edit = false) {
 	return $ci->db->affected_rows() > 0 ? json_response() : json_response($error, false);
 }
 
+function password_strength($password) {
+    //ensure password is specified first
+    if (!strlen($password)) return ['has_err' => true, 'err' => 'Password is required'];
+
+    $uppercase = preg_match('/[A-Z]/', $password); //at least 1 uppercase letter
+    $lowercase = preg_match('/[a-z]/', $password); //at least 1 lowercase letter
+    $number    = preg_match('/[0-9]/', $password); //at least 1 number 
+    $character = preg_match('/(?=\S*[\W])/', $password); //at least 1 special xter
+    $has_err = false;
+    $err = "Password is missing the following: ";
+    if( ! $uppercase) {
+        $err .= ($has_err ? ', ':'') . 'at least 1 uppercase letter';
+        $has_err = true;
+    }
+    if( ! $lowercase) {
+        $err .= ($has_err ? ', ':'') . 'at least 1 lowercase letter';
+        $has_err = true;
+    }
+    if( ! $number) {
+        $err .= ($has_err ? ', ':'') . 'at least 1 digit';
+        $has_err = true;
+    }
+    if( ! $character) {
+        $err .= ($has_err ? ', ':'') . 'at least 1 special character';
+        $has_err = true;
+    }
+    return ['has_err' => $has_err, 'err' => $err];
+}
+
+function verify_url_title($url_title, $real_title, $redirect = '') {
+	if ($url_title != url_title($real_title)) 
+        redirect($redirect);
+}
+
 function scandir_recursive($dir) {
     $result = [];
     foreach(scandir($dir) as $filename) {

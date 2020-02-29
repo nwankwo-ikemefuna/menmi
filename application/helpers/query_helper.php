@@ -1,12 +1,12 @@
 <?php 
-function full_name_select($tbl_alias = '', $with_alias = true, $alias = 'full_name') {
+function full_name_select($tbl_alias = '', $with_alias = true, $alias = 'full_name', $prefix = '', $affix = '') {
 	$tbl_alias = strlen($tbl_alias) ? "{$tbl_alias}." : '';
 	$select = "TRIM(
 		CONCAT(
-			IFNULL({$tbl_alias}title, ''), ' ', 
-			IFNULL({$tbl_alias}last_name, ''), ' ', 
-			IFNULL({$tbl_alias}first_name, ''), ' ', 
-			IFNULL({$tbl_alias}other_name, '')
+			IFNULL({$tbl_alias}{$prefix}title{$affix}, ''), ' ', 
+			IFNULL({$tbl_alias}{$prefix}last_name{$affix}, ''), ' ', 
+			IFNULL({$tbl_alias}{$prefix}first_name{$affix}, ''), ' ', 
+			IFNULL({$tbl_alias}{$prefix}other_name{$affix}, '')
 		))";
 	$select .= $with_alias ? " AS {$alias}" : '';
 	return $select;
@@ -29,8 +29,8 @@ function datetime_select($field, $alias = '', $full_month = false) {
 	return "DATE_FORMAT({$field}, '%D %{$month}, %Y at %h:%i %p') {$as_alias}";
 }
 
-function price_select($code_col, $price_col, $alias = 'price') {
-	return "CONCAT('&#', {$code_col}, ';', {$price_col}) AS {$alias}";
+function price_select($code_col, $price_col, $alias = 'amount', $precision = 0) {
+	return "CONCAT('&#', {$code_col}, ';', CONVERT(FORMAT({$price_col}, {$precision}) using utf8)) AS {$alias}";
 }
 
 function file_select($path, $file_dir_col, $file_col, $alias = 'file', $default = null) {
@@ -42,6 +42,7 @@ function sql_data($table, $joins, $select, $where, $order = [], $group_by = '') 
 }
 
 function find_in_set_mult($params, $field) {
+	if (empty($params)) return [];
 	$params_arr = is_array($params) ? $params : split_us($params);
 	$where = [];
     foreach ($params_arr as $param) {

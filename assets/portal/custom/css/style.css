@@ -60,3 +60,6 @@ input:read-only {
 .rating .fa-star {
 	color: #FC0
 }
+.page_into_text {
+	margin: 15px 0;
+}

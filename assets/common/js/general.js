@@ -124,11 +124,36 @@ jQuery(document).ready(function ($) {
 
 });
 
-//render thumbnail image in big image box
-$(document).on('click', '.cloud_small_image', function(){
-    $('.cloud_big_image').prop('src', $(this).prop('src'));
-});
 
+function toggle_elem_prop(elem, targets, prop, invert = false) {
+    if ($(elem).prop(prop)) {
+        invert ? $(targets).hide() : $(targets).show();
+    } else {
+        invert ? $(targets).show() : $(targets).hide();
+    }
+}
+
+function toggle_elem_prop_trigger(elem, targets, invert = false, event = 'change') {
+    $(document).on(event, elem, function() {
+        toggle_elem_prop(elem, targets, 'checked', invert);
+    });
+}
+
+function toggle_elem_val(elem, targets_show, targets_hide, val) {
+    if ($(elem).val() == val) {
+        $(targets_show).show();
+        $(targets_hide).hide();
+    } else {
+        $(targets_show).hide();
+        $(targets_hide).show();
+    }
+}
+
+function toggle_elem_val_trigger(elem, targets_show, targets_hide, val, event = 'change') {
+    $(document).on(event, elem, function() {
+        toggle_elem_val(this, targets_show, targets_hide, val);
+    });
+}
 
 function url_title(str) {
     return str.toLowerCase().replace(/ /g, '-').replace(/[-]+/g, '-').replace(/[^\w-]+/g, '');

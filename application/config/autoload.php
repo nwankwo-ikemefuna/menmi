@@ -92,9 +92,9 @@ $autoload['drivers'] = array();
 $autoload['helper'] = 
 array(
     //CI: system/helpers
-    'date', 'form', 'inflector', 'typography', 'url',
+    'date', 'form', 'inflector', 'string', 'text', 'typography', 'url',
     //custom: application/helpers
-    'app', 'bootstrap', 'crud', 'debug', 'http', 'pagination', 'product', 'query', 'template', 'xfile', 'xform'
+    'app', 'bootstrap', 'crud', 'debug', 'http', 'pagination', 'product', 'query', 'template', 'user', 'xfile', 'xform'
 );
 
 /*
@@ -138,4 +138,4 @@ $autoload['language'] = array();
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array('common_model', 'company_model', 'product_model', 'slider_model');
+$autoload['model'] = array('common_model', 'company_model', 'order_model', 'product_model', 'shop_model', 'slider_model', 'user_model');

@@ -65,47 +65,50 @@ if ($this->session->company_home_slider == 1 && count($sliders) > 0) { ?>
 </div>
 
 <!-- Featured -->
-<?php products_col_slider('Featured Products', $featured_products); ?>
+<?php products_col_slider('Featured Products', $featured_products, 'shop?type=featured'); ?>
 
 <!-- Categories -->
-<div class="container m-t-50">
+<div class="container section_30">
   <div class="row">
 
     <!-- main container -->
     <div class="home-tab">
-      <div class="container">
+
+      <div class="container section_30">
         <div class="row">
           <div class="col-md-12 col-sm-12 col-xs-12"> 
             <!-- Home Tabs  -->
-            
             <div class="tab-info">
               <h3 class="new-product-title pull-left">Products categories</h3>
+              <!-- /.nav-tabs -->
               <ul class="nav home-nav-tabs home-product-tabs">
-                <?php
-                $j = 1;
-                if (count($product_cats) > 0) {
-                  foreach ($product_cats as $row) { 
-                    if ($row->product_count == 0) continue; ?>
-                    <li>
-                      <a class="prod_cat clickable" data-id="<?php echo $row->id; ?>" aria-expanded="false"><?php echo $row->name; ?></a>
-                    </li>
-                    <?php 
-                  } 
-                } ?>  
-              <!-- /.nav-tabs --> 
+                <li><a href="<?php echo base_url('shop'); ?>">Browse All &raquo;</a></li>
+              </ul> 
             </div>
             <div id="productTabContent" class="tab-content home">
               <div class="tab-pane in active">
+                <div class="prod_cat_tab">
+                  <?php
+                  if (count($product_cats) > 0) {
+                    foreach ($product_cats as $row) { 
+                      if ($row->product_count == 0) continue; ?>
+                      <button class="prod_cat btn_theme_white" data-id="<?php echo $row->id; ?>" aria-expanded="false"><?php echo $row->name; ?></button>
+                      <?php 
+                    } 
+                  } ?> 
+                </div> 
                 <div id="catprods"></div>
               </div>
             </div>
           </div>
-          
+        </div>
+        <div class="row m-b-20">
+          <div class="col-xs-12" id="cats_all_link"></div>
         </div>
       </div>
       
       <!-- Latest news start -->
-      <div class="container">
+      <div class="container section_30">
         <div class="row">
           <div class="col-md-12">
             <div class="title_block">
@@ -174,9 +177,9 @@ if ($this->session->company_home_slider == 1 && count($sliders) > 0) { ?>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </div>
 
-<?php cart_modal(); ?>
+<?php 
+cart_modal();

@@ -22,12 +22,15 @@ jQuery(document).ready(function ($) {
 
     //ajax datatables trigger
     var dt = $('.ajax_dt_table');
-    if (typeof dt.attr('data-cols') !== "undefined") {
+    if (dt.length) {
         var table = dt.attr('id'),
+            custom = dt.data('custom'),
             url = dt.data('url'),
             cols = dt.data('cols'),
+            col_defs = dt.attr('data-col_defs') ? dt.data('col_defs') : [],
             per_page = dt.attr('data-per_page') ? dt.data('per_page') : 30;
-        ajax_data_table(table, url, cols, [], per_page);
+        if ( ! custom)
+            ajax_data_table(table, url, cols, col_defs, per_page);
     }
 });
 
@@ -79,17 +82,33 @@ $.fn.dataTableExt.oApi.fnPagingInfo = function(oSettings) {
 };
 
 function ajax_data_table(table_id, url, columns, column_defs = [], page_length = 30) {
-    let pre_cols = [
-        {"data": "checker", "searchable": false, "orderable": false},
-        // {"data": null, "searchable": false, "orderable": false},
-        {"data": "actions", "searchable": false, "orderable": false}
-    ];
-    columns = [...pre_cols, ...columns];
-    let post_cols = [
-        {"data": "created_on"},
-        {"data": "updated_on"}
-    ];
-    columns = [...columns, ...post_cols];
+    //extras
+    var extras = $('.ajax_dt_table').data('extras');    
+    if ( ! $.isEmptyObject(extras)) {
+        var prepend = [], append = [];
+        //checker
+        if (extras.checker) {
+            var checker_obj = [{"data": "checker", "searchable": false, "orderable": false}];
+            prepend = [...prepend, ...checker_obj];
+        }
+        //actions
+        if (extras.actions) {
+            var actions_obj = [{"data": "actions", "searchable": false, "orderable": false}];
+            prepend = [...prepend, ...actions_obj];
+        }
+        columns = [...prepend, ...columns];
+        //date created
+        if (extras.created) {
+            var created_obj = [{"data": "created_on"}];
+            append = [...append, ...created_obj];
+        }
+        //date updated
+        if (extras.updated) {
+            var updated_obj = [{"data": "updated_on"}];
+            append = [...append, ...updated_obj];
+        }
+        columns = [...columns, ...append];
+    }
     var table = $('#'+table_id).dataTable({ 
         initComplete: function() {
             var api = this.api();
@@ -145,4 +164,10 @@ function record_image_col(image = 'image_file') {
             return record_image(data);
         }
     };
+}
+
+function table_query_var(name) {
+    var data = $('[name="'+name+'"]').val();
+    data = data === "undefined" || data == '' ? 0 : data;
+    return data;
 }

@@ -69,29 +69,29 @@
             <!-- End Search --> 
           </div>
           <!-- Header Logo -->
-          <div class="col-xs-12 col-lg-4 col-md-4 col-sm-4">
+          <div class="col-xs-10 col-lg-4 col-md-4 col-sm-4">
             <div class="mm-toggle-wrap hidden-lg hidden-md hidden-sm">
               <div class="mm-toggle"> <i class="fa fa-align-justify"></i><span class="mm-label">Menu</span> </div>
             </div>
-            <div class="logo"><a title="<?php echo $this->session->company_name; ?>" href="<?php echo base_url(); ?>"><img alt="<?php echo $this->session->company_name; ?>" src="<?php echo $this->session->company_logo_site; ?>"></a></div>
+            <div class="logo"><a title="<?php echo $this->session->company_name; ?>" href="<?php echo base_url(); ?>"><img alt="<?php echo $this->session->company_name; ?>" src="<?php echo $this->session->company_logo_site_file; ?>"></a></div>
           </div>
 
-          <div class="col-lg-4 col-sm-4 col-xs-12 top-cart"> 
+          <div class="col-lg-4 col-sm-3 col-xs-2 top-cart"> 
             <!-- Begin shopping cart trigger  -->
            <div class="top-cart-contain">
               <div class="mini-cart">
                 <div data-toggle="dropdown" data-hover="dropdown" class="basket dropdown-toggle">
-                <div id="shopping-cart-trigger"> <a href="<?php echo base_url('shop/cart'); ?>" class="cart-icon" title="Shopping Bag"> <i class="fa fa-cart"></i> Cart<span class="cart-num cart_prods_total">0</span> </a> </div>
+                <div id="shopping-cart-trigger"> <a href="<?php echo base_url('shop/cart'); ?>" class="cart-icon" title="Shopping Cart"> <i class="fa fa-shopping-bag"></i><span class="cart-num cart_prods_total">0</span> </a> </div>
                  </div>
                 <div>
                   <div class="top-cart-content">
-                    <ul id="cart-sidebar" class="mini-products-list cart_prods">
+                    <ul id="cart_prods_preview_mini" class="cart-sidebar mini-products-list">
                       <!-- Render cart products via ajax -->
                     </ul>
                     <div class="top-subtotal">Subtotal: <span class="price"><?php echo $this->company_curr; ?><span class="cart_total_price">0.00</span></span></div>
                     <div class="actions">
+                      <button class="view-cart continue_shopping" type="button" onClick="location.href='<?php echo $current_page == 'shop' ? '#shop_section' : base_url('shop'); ?>'" ><span>Continue Shopping</span></button>
                       <button class="btn-checkout cart_actions" type="button" onClick="location.href='<?php echo base_url('shop/checkout'); ?>'"><span>Checkout</span></button>
-                      <button class="view-cart cart_actions" type="button" onClick="location.href='<?php echo base_url('shop/cart'); ?>'"><span>View Cart</span></button>
                     </div>
                   </div>
                 </div>
@@ -111,26 +111,9 @@
           <div class="row">
             <div class="col-md-12">
               <div class="main-menu">
-                <ul class="hidden-xs">
-                  <li class="custom-menu"><a href="<?php echo base_url(); ?>">Home</a></li>
-                  <li><a href="<?php echo base_url('shop'); ?>">Shop</a></li>
-                  <li class="custom-menu"><a href="#">Categories</a>
-                    <ul class="dropdown">
-                      <?php
-                      if (count($product_cats) > 0) { 
-                        foreach ($product_cats as $row) { ?>
-                          <li><a href="<?php echo base_url('shop?cat_id='.$row->id); ?>"><?php echo $row->name; ?></a>
-                          <?php
-                        } 
-                      } ?>  
-                    </ul>
-                  </li>
-                  <li><a href="<?php echo base_url('about'); ?>">About</a></li>
-                  <li><a href="<?php echo base_url('contact'); ?>">Contact</a></li>
-                  <li><a href="<?php echo base_url('blog'); ?>">Blog</a></li>
-                  <li><a href="<?php echo base_url('register'); ?>">Register</a></li>
-                  <li><a href="<?php echo base_url('login'); ?>">Login</a></li>
-                </ul>
+                <?php
+                $_layout = 'header';
+                require 'nav_menu.php'; ?>
               </div>
             </div>
           </div>
@@ -164,16 +147,4 @@
     </div>
     <?php 
   } ?>
-  <!-- Breadcrumbs End --> 
-
-
-<?php 
-if ($this->show_sidebar) { ?>
-  <!-- Main Container -->
-  <div class="main-container col2-<?php echo $this->session->company_shop_sidebar_position; ?>-layout">
-    <div class="container">
-      <div class="row">
-        <div class="col-main col-sm-9 col-xs-12 <?php echo $this->session->company_shop_sidebar_position == 'left' ? 'col-sm-push-3' : ''; ?>">
-          <div class="page-title"><h2><?php echo $page_title; ?></h2></div>
-<?php }
-
+  <!-- Breadcrumbs End -->

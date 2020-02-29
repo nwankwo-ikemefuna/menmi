@@ -13,7 +13,6 @@ class Common extends Core_controller {
     public function __construct() {
         parent::__construct();
         $this->auth->login_restricted();
-        $this->auth->token_restricted();
     }
 
 

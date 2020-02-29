@@ -15,8 +15,8 @@ class Product_model extends Core_Model {
 
     public function sql($company_id) {
         $select = "p.id, p.name, p.description, p.cat_id, cat.name AS category, p.barcode, p.serial_no, p.stock, p.price, p.price_old, p.rating,
-            ".price_select('curr.code', 'p.price', 'amount', 2).", 
-            ".price_select('curr.code', 'p.price_old', 'amount_old', 2).", 
+            ".price_select('curr.code', 'p.price', 'amount').", 
+            ".price_select('curr.code', 'p.price_old', 'amount_old').", 
             p.tags, GROUP_CONCAT(DISTINCT `t`.`title` SEPARATOR ', ') AS tag_names, 
             p.p_tags, GROUP_CONCAT(DISTINCT `pt`.`name` SEPARATOR ', ') AS p_tag_names, 
             p.size, s.short_name AS size_short_name, s.name AS size_name, p.colors, 
@@ -68,114 +68,6 @@ class Product_model extends Core_Model {
         $joins = [T_PRODUCTS.' p' => ['FIND_IN_SET(`t`.`id`, `p`.`p_tags`) > 0', 'left', false]];
         $where = ['t.company_id' => $company_id];
         return sql_data(T_PRODUCT_TAGS.' t', $joins, $select, $where, ['t.order' => 'asc'], 't.id');
-    }
-
-
-    private function sort_products($sort_by) {
-        switch ($sort_by) {
-            case 'newest':
-                $order = ['p.date_created' => 'desc'];
-                break;
-            case 'price_low':
-                $order = ['p.price' => 'asc'];
-                break;
-            case 'price_high':
-                $order = ['p.price' => 'desc'];
-                break;
-            case 'rated':
-                $order = ['p.rating' => 'desc'];
-                break;         
-            case 'popular':
-            default:
-                $order = ['FIND_IN_SET('.TAG_FEATURED.', p.tags) desc' => ''];
-                break;
-        }
-        return $order;
-    }
-
-
-    public function search_filter() {
-        $search = xpost('search');
-        $where = sprintf("(
-            p.`name` LIKE '%s' OR
-            p.`barcode` LIKE '%s' OR
-            p.`serial_no` LIKE '%s' OR
-            p.`description` LIKE '%s')",
-            "%{$search}%", "%{$search}%", "%{$search}%", "%{$search}%"
-        );
-        return $where;
-    }
-
-
-    public function filter_products($where, $sql) {
-        //searching: from get, then
-        if (strlen(xpost('search'))) {
-            $this_where = $this->search_filter();
-            $where = array_merge($where, [$this_where => null]);
-        } 
-        //price
-        if (strlen(xpost('price_min')) && strlen(xpost('price_max'))) {
-            $price_min = xpost('price_min');
-            $price_max = xpost('price_max');
-            $this_where = ['p.price >=' => $price_min, 'p.price <=' => $price_max];
-            $where = array_merge($where, $this_where);
-        } 
-        //categories
-        if ( ! empty(xpost('cat_idx'))) {
-            $cat_idx = join_us(xpost('cat_idx'));
-            $this_where = "FIND_IN_SET(p.cat_id, '{$cat_idx}') > 0";
-            $where = array_merge($where, [$this_where => null]);
-        } 
-        //sizes
-        if ( ! empty(xpost('sizes'))) {
-            $sizes = join_us(xpost('sizes'));
-            $this_where = "FIND_IN_SET(p.size, '{$sizes}') > 0";
-            $where = array_merge($where, [$this_where => null]);
-        } 
-        //min rating
-        if ( ! empty(xpost('min_rating'))) {
-            $min_rating = xpost('min_rating');
-            $this_where = ['p.rating >=' => $min_rating];
-            $where = array_merge($where, $this_where);
-        } 
-        //colors
-        if ( ! empty(xpost('colors'))) {
-            $colors = xpost('colors');
-            $this_where = find_in_set_mult($colors, 'p.colors');
-            $where = array_merge($where, [$this_where => null]);
-        } 
-        //sorting
-        $order = strlen(xpost('sort_by')) ? $this->sort_products(xpost('sort_by')) : $sql['order'];
-        $data = ['where' => $where, 'order' => $order];
-        return $data;
-    }
-
-
-    public function related($company_id, $id, $tags) {
-        if ( ! strlen($tags)) return;
-        $sql = $this->sql($company_id);
-        $this_where = find_in_set_mult($tags, 'p.p_tags');
-        $where = array_merge($sql['where'], ['p.id !=' => $id, $this_where => null]);
-        return $this->get_rows($sql['table'], 0, $sql['joins'], $sql['select'], $where, 'rand', '', 8);
-    }
-
-
-    public function cart($company_id) {
-        //TODO: fetch cart from db
-        $cart = $this->session->tempdata('cart_products');
-        // var_dump($cart); die;
-        if (empty($cart)) return [];
-        $sql = $this->sql($this->company_id);
-        $product_idx = join_us(array_keys($cart));
-        $this_where = "FIND_IN_SET(p.id, '{$product_idx}') > 0";
-        $where = array_merge($sql['where'], [$this_where => null]);
-        $limit = strlen(xpost('limit')) ? xpost('limit') : '';
-        $products = $this->get_rows($sql['table'], 0, $sql['joins'], $sql['select'], $where,  $sql['order'], '', $limit, 0, 'array');
-        $data = [];
-        foreach ($products as $row) {
-            $data[] = array_merge($row, ['qty' => $cart[$row['id']]]);
-        }
-        return $data;
     }
 
 }

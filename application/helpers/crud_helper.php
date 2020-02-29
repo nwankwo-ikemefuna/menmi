@@ -91,13 +91,13 @@ function ajax_extra_options_btn($module, $usergroups = null, $params) {
     if ($ci->auth->vet_access($module, VIEW, $usergroups)) { 
         $_options = [];
         foreach ($params['options'] as $_opt) {
-            $type = isset($_opt['type']) && strlen($_opt['type']) ? $_opt['type'] : 'url';
-            $target = isset($_opt['target']) && strlen($_opt['target']) ? $_opt['target'] : '#!';
+            $type = $_opt['type'] ?? 'url';
+            $target = $_opt['target'] ?? '#!';
             $_options[] = [
                 'type' => $type,
                 'target' => $target,
-                'text' => isset($_opt['text']) && strlen($_opt['text']) ? $_opt['text'] : null,
-                'icon' => isset($_opt['icon']) && strlen($_opt['icon']) ? $_opt['icon'] : 'indent'
+                'text' => $_opt['text'] ?? '',
+                'icon' => $_opt['icon'] ?? 'indent'
             ];
         }
         $options = json_encode($_options);
@@ -108,23 +108,54 @@ function ajax_extra_options_btn($module, $usergroups = null, $params) {
     }
 }
 
+function ajax_extra_btn($butt, $offset) {
+    $id = $butt['id'] ?? '$'.$offset;
+    $name = $butt['name'] ?? 'id'; //name of element to insert our id to be sent to server
+    $type = $butt['type'] ?? 'url';
+    $target = $butt['target'] ?? '#!';
+    $text = $butt['text'] ?? '';
+    $icon = $butt['icon'] ?? 'indent';
+    $title = $butt['title'] ?? '';
+    $bg = $butt['bg'] ?? 'primary';   
+    if ($type == 'modal') {
+        return "<button type='button' data-modal='#{$target}' data-name='{$name}' data-id='{$id}' class='btn btn-{$bg} ajax_crud_btn ajax_extra_modal_btn' title='{$title}'><i class='fa fa-{$icon}'></i> {$text}</button>";
+    } else {
+        $url = base_url($target);
+        return "<a type='button' href='{$url}' class='btn btn-{$bg} ajax_crud_btn' title='{$title}'><i class='fa fa-{$icon}'></i> {$text}</a>";
+    }
+}
+
+
 function table_crud_butts($module, $model, $usergroups, $table, $trashed, $keys = [], $show = [], $offset = 1, $with_text = false) {
     $ci =& get_instance();
     if (intval($trashed) == 1) {
         // restore and delete permanently for trashed pages
         // will always show on trashed list
+        /* sample usage 
+        $this->butts = ['list' => ['url' => 'orders', 'where' => ['company_id' => 3]];
+        */
         $btn = ajax_restore_btn($module, $model, $usergroups, ['table' => $table, 'offset' => $offset, 'with_text' => $with_text, 'icon' => 'refresh']) . ' ';
         //check for custom model method (cmm) specified?
         $cmm = array_key_exists('delete', $show) && array_key_exists('cmm', $show['delete']) ? $show['delete']['cmm'] : '';
         //check for files
         $files = array_key_exists('delete', $show) && array_key_exists('files', $show['delete']) ? $show['delete']['files'] : [];
         $files = json_encode($files);
-        $btn .= ajax_del_btn($module, $model, $usergroups, ['table' => $table, 'offset' => $offset, 'cmm' => $cmm, 'files' => $files, 'with_text' => $with_text, 'icon' => 'trash-o']);
+        //trash: will always show on trashed list unless $show['delete'] == false
+        $show_delete = $show['delete'] ?? true;
+        if ($show_trashed) {
+            $btn .= ajax_del_btn($module, $model, $usergroups, ['table' => $table, 'offset' => $offset, 'cmm' => $cmm, 'files' => $files, 'with_text' => $with_text, 'icon' => 'trash-o']);
+        }
         return $btn;
     }
     $butts = "";
     //view
     if (array_key_exists('view', $show)) {
+        /* sample usage
+        $butts = ['view' => ['type' => 'url', 'url' => 'products/view/$2']]; //where $2 = $keys[2-1]
+        $keys = ['id', 'product_id'];
+        $buttons = table_crud_butts($this->module, $this->model, null, T_ORDER_DETAILS, $trashed, $keys, $butts);
+        NB: if targeting the view of the item itself, 'view' as array element is sufficient
+        */
         $type = _crud_butt_param($show, 'view', 'type', 'url');
         $icon = _crud_butt_param($show, 'view', 'icon', 'eye');
         $qry = _crud_butt_param($show, 'view', 'qry', '');
@@ -138,6 +169,9 @@ function table_crud_butts($module, $model, $usergroups, $table, $trashed, $keys 
     }
     //edit
     if (array_key_exists('edit', $show)) {
+        /* sample usage 
+        
+        */
         $type = _crud_butt_param($show, 'edit', 'type', 'url');
         $icon = _crud_butt_param($show, 'edit', 'icon', 'edit');
         $qry = _crud_butt_param($show, 'edit', 'qry', '');
@@ -151,14 +185,32 @@ function table_crud_butts($module, $model, $usergroups, $table, $trashed, $keys 
             $butts .= ajax_edit_btn_modal($module, $usergroups, ['keys' => $keys, 'modal' => $modal, 'form_id' => $form_id, 'form_action' => $form_action, 'with_text' => $with_text, 'icon' => $icon]) . ' '; 
         }
     }
-    //trash: will always show on untrashed list
-    $butts .=   ajax_trash_btn($module, $model, $usergroups, ['table' => $table, 'offset' => $offset, 'with_text' => $with_text, 'icon' => 'trash']) . ' ';
+    //trash: will always show on untrashed list unless $show['trashed'] == false
+    $show_trashed = $show['trashed'] ?? true;
+    if ($show_trashed) {
+        $butts .= ajax_trash_btn($module, $model, $usergroups, ['table' => $table, 'offset' => $offset, 'with_text' => $with_text, 'icon' => 'trash']) . ' ';
+    }
+    //extra buttons
+    if (array_key_exists('xtra_butts', $show)) {
+        /* sample usage
+        $xtra_butts = [
+            ['type' => 'url', 'target' => 'some_class/view/$3', 'icon' => 'indent'],
+            ['type' => 'modal', 'target' => 'm_status_actions', 'icon' => 'wrench']
+        ];
+        $butts = ['view' => ['url' => 'products/view/$2'], 'extra' => $xtra_butts]; 
+        */
+        $xtra_butts = $show['xtra_butts'] ?? [];
+        foreach ($xtra_butts as $butt) {
+            $butts .= ajax_extra_btn($butt, $offset).' ';
+        }
+    }
     //extra options
-    if (array_key_exists('extra', $show)) {
+    /*if (array_key_exists('extra', $show)) {
+        //usage
         $icon = _crud_butt_param($show, 'extra', 'icon', 'navicon');
         $options = _crud_butt_param($show, 'extra', 'options', []);
         $butts .= ajax_extra_options_btn($module, $usergroups, ['options' => $options, 'offset' => $offset, 'with_text' => $with_text, 'icon' => $icon]) . ' ';
-    }
+    }*/
     //vomit
     return $butts;
 }
@@ -191,6 +243,14 @@ function tm_confirm($text, $module, $model, $table, $class = 'tm_confirm', $icon
     $attrs = set_extra_attrs($extra);
     $icon = strlen($icon) ? 'fa fa-'.$icon : '';
     return '<button class="btn btn-'.$bg.' '.$class.'" data-mod="'.$module.'" data-md="'.$model.'" data-tb="'.$table.'" title="'.$title.'" '.$attrs.'><i class="'.$icon.'"></i> '.$text.'</button>';
+}
+
+function del_btn($module, $model, $usergroups = null, $params) {
+    $ci =& get_instance();
+    if ($ci->auth->vet_access($module, DEL, $usergroups)) { 
+        $text = $params['with_text'] ? 'Delete' : '';
+        return '<button type="button" data-mod="'.$module.'" data-md="'.$model.'" data-tb="'.$params['table'].'" data-id="$'.$params['offset'].'" data-cmm="'.$params['cmm'].'" data-files=\''.$params['files'].'\' class="delete_record btn btn-danger ajax_crud_btn" title="Delete record permanently"><i class="fa fa-'.$params['icon'].'"></i> '.$text.'</button>';
+    }
 }
 
 function page_crud_butts($module, $usergroups, $butts, $record_id = null, $record_count = 0) {
@@ -256,8 +316,7 @@ function page_crud_butts($module, $usergroups, $butts, $record_id = null, $recor
             //View:
             case 'view':
                 $btn = '';
-                if ($ci->auth->vet_access($module, VIEW, $usergroups)) { 
-                    $url = $isset_url ? $butt['url'] : $ci->c_controller.'/view/'.$record_id;
+                if ($ci->auth->vet_access($module, VIEW, $usergroups)) {$url = $isset_url ? $butt['url'] : $ci->c_controller.'/view/'.$record_id;
                     $icon = $isset_icon ? $butt['icon'] : 'eye';
                     $btn = link_button('View', $url, $icon, $bg, 'View this record');
                 }
@@ -310,18 +369,24 @@ function page_crud_butts($module, $usergroups, $butts, $record_id = null, $recor
                 }
                 break;
 
-            //Extra:
-            case 'extra':
+            //Extra buttons
+            case 'xtra_butts':
+                /* sample usage
+                $xtra_butts = [
+                    ['text' => 'Link Button', 'type' => 'url', 'target' => 'products/items/93'],
+                    ['text' => 'Modal Button', 'type' => 'modal', 'target' => 'm_approve', 'icon' => 'book']
+                ];
+                $this->butts = ['xtra_butts' => $xtra_butts];
+                */
                 $btn = '';
                 if ($ci->auth->vet_access($module, VIEW, $usergroups)) { 
-                    $_butts = [];
-                    $options_arr = $butt;
-                    if (is_array($options_arr) && count($options_arr) > 0)  {
-                        foreach ($options_arr as $_opt) {
-                            $type = isset($_opt['type']) && strlen($_opt['type']) ? $_opt['type'] : 'url';
-                            $target = isset($_opt['target']) && strlen($_opt['target']) ? $_opt['target'] : '#!';
-                            $text = isset($_opt['text']) && strlen($_opt['text']) ? $_opt['text'] : null;
-                            $icon = isset($_opt['icon']) && strlen($_opt['icon']) ? $_opt['icon'] : 'indent';
+                    $xtra_butts = $butt;
+                    if (is_array($xtra_butts) && count($xtra_butts) > 0)  {
+                        foreach ($xtra_butts as $_opt) {
+                            $type = $_opt['type'] ?? 'url';
+                            $target = $_opt['target'] ?? '#!';
+                            $text = $_opt['text'] ?? '';
+                            $icon = $_opt['icon'] ?? 'indent';
                             if ($type == 'url') {
                                 $btn .= link_button($text, $_opt['target'], $icon, $bg) . ' ';
                             } else {
@@ -346,7 +411,7 @@ function page_crud_butts($module, $usergroups, $butts, $record_id = null, $recor
     //append other buttons
     $buttons['refresh'] = $refresh_btn;
     //button sort order
-    $order = ['save', 'add', 'add_m', 'edit', 'delete', 'view', 'list', 'restore_all', 'trash_all', 'clear_trash', 'extra', 'refresh'];
+    $order = ['save', 'add', 'add_m', 'edit', 'delete', 'view', 'list', 'restore_all', 'trash_all', 'clear_trash', 'xtra_butts', 'refresh'];
     //let's do the sort
     $sorted = sort_array($buttons, $order);
     return join(" ", $sorted); 
