@@ -18,7 +18,7 @@ class Core_Model extends CI_Model {
 
     private function table_alias($table) {
         //table has alias? Let's get delim first (AS or space)
-        $_delim = preg_match('/(^|\s)as($|\s|[^w])/i', $table) ? 'as' : ' ';
+        $_delim = preg_match('/(^|\s)AS($|\s|[^w])/i', $table) ? 'AS' : ' ';
         $_table = explode($_delim, $table);
         //if alias is not set, use table name as alias
         $alias = isset($_table[1]) ? $_table[1] : $_table[0];
@@ -151,7 +151,7 @@ class Core_Model extends CI_Model {
      * @return string
      */
     public function get_aggr_row($table, $type, $field, $where = [], $trashed = 0, $group_by = '') {
-        // var_dump(func_get_args());
+        $type = strtolower($type);
         $select = 'select_'.$type;
         $this->db->$select($field);
         $alias = $this->table_alias($table);
@@ -199,7 +199,7 @@ class Core_Model extends CI_Model {
 
 
     public function insert(string $table, array $data) {
-        if (count($data) > 0) {
+        if (!empty($data)) {
             $this->db->insert($table, $data);
             return $this->db->insert_id();
         }
@@ -208,7 +208,7 @@ class Core_Model extends CI_Model {
 
 
     public function insert_batch(string $table, array $data) {
-        if (count($data) > 0) {
+        if (!empty($data)) {
             return $this->db->insert_batch($table, $data);
         }
         return 0;
@@ -216,7 +216,7 @@ class Core_Model extends CI_Model {
 
 
     public function update(string $table, array $data, array $where) {
-        if (count($data) > 0 && count($where) > 0) {
+        if (!empty($data) && !empty($where)) {
             $this->db->where($where);
             return $this->db->update($table, $data);
         }
@@ -224,8 +224,31 @@ class Core_Model extends CI_Model {
     }
 
 
+    public function update_with_bulk($table, $data, $id_field = 'id') {
+        $id = xpost($id_field);
+        //is it bulk? let's check for comma in id field
+        if (preg_match('/,/', $id)) {
+            $record_idx = explode(',', $id);
+            foreach ($record_idx as $rec_id) {
+                $this->update($table, $data, ['id' => intval($rec_id)]);
+            }
+        } else {
+            return $this->update($table, $data, ['id' => intval($id)]);
+        }
+        return 0;
+    }
+
+
+    public function update_batch(string $table, array $data, string $key = 'id') {
+        if (!empty($data) && !empty($key)) {
+            return $this->db->update_batch($table, $data, $key);
+        }
+        return 0;
+    }
+
+
     public function delete($table, $where) { 
-        if (count($where) > 0) {
+        if (!empty($where)) {
             $this->db->where($where);
             return $this->db->delete($table);
         }
@@ -243,7 +266,7 @@ class Core_Model extends CI_Model {
             if ( ! strlen($the_files)) continue;
             //get files as array
             $files_arr = explode(',', $the_files);
-            if (count($files_arr) === 0) continue;
+            if (empty($files_arr)) continue;
             $paths[$_path] = $files_arr;
         }
         $deleted = $this->delete($table, $where);

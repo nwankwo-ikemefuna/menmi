@@ -39,7 +39,7 @@ class Company_model extends Core_Model {
         $sql = $this->sql($id);
         $row = $this->get_row($sql['table'], $id, 'id', 0, $sql['joins'], $sql['select'], $sql['where'], $sql['group_by']);
         if ( ! $row) return;
-        $fields = $tables = $this->db->list_fields(T_COMPANIES);
+        $fields = $this->db->list_fields(T_COMPANIES);
         $data = [];
         //create keys from column names with prefix: company_
         foreach ($fields as $field) {

@@ -37,6 +37,7 @@ class Web extends Core_controller {
         }
         $data['banners'] = $banners;
         $data['featured_products'] = $this->shop_model->featured();
+        $data['viewed_products'] = $this->shop_model->viewed();
         $sql = $this->product_model->cats_sql($this->company_id);
         $data['product_cats'] = $this->common_model->get_rows($sql['table'], 0, $sql['joins'], $sql['select'], $sql['where'], $sql['order'], '', 20);
         $this->load->view('web/index', $data);
@@ -64,15 +65,36 @@ class Web extends Core_controller {
     }
 
 
+    public function contact_ajax() {
+        $this->form_validation->set_rules('first_name', 'First Name', 'trim|required|max_length[25]');
+        $this->form_validation->set_rules('last_name', 'Last Name', 'trim|required|max_length[25]');
+        $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+        $this->form_validation->set_rules('phone', 'Phone No.', 'trim|required');
+        $this->form_validation->set_rules('message', 'Message', 'trim|required');
+        if ($this->form_validation->run() === FALSE)
+            json_response(validation_errors(), false);
+        $data = [
+            'company_id' => $this->company_id,
+            'first_name' => ucwords(xpost('first_name')),
+            'last_name' => ucwords(xpost('last_name')),
+            'email' => xpost('email'),
+            'phone' => xpost('phone'),
+            'message' => xpost('message')
+        ];
+        $this->common_model->insert(T_MESSAGES, $data);
+        json_response_db();
+    }
+
+
     public function newsletter_sub_ajax() {
-        $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email|is_unique[newsletter_subscribers.email]', ['is_unique' => 'You have already subscribed with this email.']);
+        $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email|is_unique[subscribers.email]', ['is_unique' => 'You have already subscribed with this email.']);
         if ($this->form_validation->run() === FALSE)
             json_response(validation_errors(), false);
         $data = [
             'company_id' => $this->company_id,
             'email' => xpost('email')
         ];
-        $this->common_model->insert(T_NEWSLETTER_SUBSCRIBERS, $data);
+        $this->common_model->insert(T_SUBSCRIBERS, $data);
         json_response_db();
     }
 

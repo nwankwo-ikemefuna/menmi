@@ -1,5 +1,5 @@
 <?php
-$attrs = ['id' => 'reset_pass_form', 'class' => 'ajax_form', 'data-type' => 'redirect', 'data-redirect' => '_dynamic'];
+$attrs = ['id' => 'reset_pass_form', 'class' => 'ajax_form', 'data-type' => 'redirect', 'data-redirect' => '_ajax_dynamic'];
 echo form_open($this->c_controller.'/reset_pass_ajax', $attrs);
 	xform_notice();
 	?>

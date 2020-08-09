@@ -4,11 +4,11 @@
 	<p class="p-b-10">Sorry, this page doesn't exist.</p>
 	<div>
 		<?php 
-		if (strlen($this->agent->referrer())) {
-	        $back = $this->agent->referrer();
-	    } else {
-	    	$back = $this->session->user_loggedin ? 'user' : '';
-	    } ?>
-	    <a href="<?php echo base_url($back); ?>" class="btn btn-info btn-rounded btn-lg">Go Back</a>
+		//coming from portal?
+		if ($referrer == 'portal') {
+	        ajax_page_button('user', 'Save Me!', 'btn-info btn-rounded btn-lg');
+	    } else { ?>
+	    	<a href="<?php echo base_url(); ?>" class="btn btn-info btn-rounded btn-lg">Go Back</a>
+	    <?php } ?>
 	</div>
 </div>

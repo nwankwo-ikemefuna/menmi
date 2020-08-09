@@ -7,8 +7,8 @@
 		if ($img == $row->image) {
 			$footer = bs_badge('Featured', 'success');
 		} else {
-			$footer = link_button('', $this->c_controller.'/set_featured_image/'.$row->id.'/'.$img, 'tag', 'info', 'Set as Featured', 'btn-xs').' ';
-			$footer .= link_button('', $this->c_controller.'/delete_image/'.$row->id.'/'.$img, 'trash', 'danger', 'Delete image', 'btn-xs');
+			$footer = link_button_ajax('', $this->c_controller.'/set_featured_image/'.$row->id.'/'.$img, 'tag', 'info', 'Set as Featured', 'btn-xs').' ';
+			$footer .= link_button_ajax('', $this->c_controller.'/delete_image/'.$row->id.'/'.$img, 'trash', 'danger', 'Delete image', 'btn-xs');
 		} 
 		$footer = '<div class="text-center">'.$footer.'</div>';
 		image_thumbnail($src, $row->name, $footer);

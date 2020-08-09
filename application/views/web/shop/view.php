@@ -6,13 +6,13 @@ require 'application/views/web/layout/shop_sidebar_start.php'; ?>
 <div class="product-view-area">
   <div class="product-big-image col-xs-12 col-sm-5 col-lg-5 col-md-5">
     <div class="large-image">
-      <a href="<?php echo $row->image_file; ?>" class="cloud-zoom" id="zoom1" rel="useWrapper: false, adjustY:0, adjustX:20">
-        <img class="zoom-img cloud_big_image" src="<?php echo $row->image_file; ?>" alt="<?php echo $row->name; ?>">
+      <a href="<?php echo base_url($row->image_file); ?>" class="cloud-zoom" id="zoom1" rel="useWrapper: false, adjustY:0, adjustX:20">
+        <img class="zoom-img cloud_big_image" src="<?php echo base_url($row->image_file); ?>" alt="<?php echo $row->name; ?>">
       </a>
     </div>
     <?php 
     $prod_images = split_us($row->images);
-    if (count($prod_images) > 0) { ?>
+    if (!empty($prod_images)) { ?>
       <div class="slider-items-products col-md-12">
         <div id="thumbnail-slider" class="product-flexslider hidden-buttons product-thumbnail">
           <div class="slider-items slider-width-col3">
@@ -117,7 +117,7 @@ require 'application/views/web/layout/shop_sidebar_start.php'; ?>
           <div class="tag">
             <ul>
               <?php
-              if (count($tags) > 0) {
+              if (!empty($tags)) {
                 foreach ($tags as $tag_id => $tag_name) { ?>
                   <li><a href="<?php echo base_url('shop?type=tagged&tag='.$tag_id.'&tag_name='.urlencode($tag_name)); ?>"><?php echo $tag_name; ?></a></li>
                   <?php

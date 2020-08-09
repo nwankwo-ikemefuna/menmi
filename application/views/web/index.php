@@ -1,7 +1,7 @@
 
 <!-- Main Slider Area -->
 <?php
-if ($this->session->company_home_slider == 1 && count($sliders) > 0) { ?>
+if ($this->session->company_home_slider == 1 && !empty($sliders)) { ?>
   <div class="main-slider-area">
     <div class="container">
       <div class="row">
@@ -12,7 +12,7 @@ if ($this->session->company_home_slider == 1 && count($sliders) > 0) { ?>
                   <div class="slider-items slider-width-col4">
                     <?php
                     foreach ($sliders as $row) { ?>
-                      <a href="<?php echo strlen($row->url) ? $row->url : '#!'; ?>"><img src="<?php echo $row->image_file; ?>" alt="<?php echo $row->name; ?>"></a>
+                      <a href="<?php echo strlen($row->url) ? $row->url : '#!'; ?>"><img src="<?php echo base_url($row->image_file); ?>" alt="<?php echo $row->name; ?>"></a>
                       <?php 
                     } ?>
                   </div>
@@ -89,7 +89,7 @@ if ($this->session->company_home_slider == 1 && count($sliders) > 0) { ?>
               <div class="tab-pane in active">
                 <div class="prod_cat_tab">
                   <?php
-                  if (count($product_cats) > 0) {
+                  if (!empty($product_cats)) {
                     foreach ($product_cats as $row) { 
                       if ($row->product_count == 0) continue; ?>
                       <button class="prod_cat btn_theme_white" data-id="<?php echo $row->id; ?>" aria-expanded="false"><?php echo $row->name; ?></button>
@@ -108,7 +108,7 @@ if ($this->session->company_home_slider == 1 && count($sliders) > 0) { ?>
       </div>
       
       <!-- Latest news start -->
-      <div class="container section_30">
+      <div class="container section_30 hide">
         <div class="row">
           <div class="col-md-12">
             <div class="title_block">
@@ -180,6 +180,30 @@ if ($this->session->company_home_slider == 1 && count($sliders) > 0) { ?>
     </div>
   </div>
 </div>
+
+<?php if (!empty($banners)) { ?>
+  <div class="container">
+    <div class="row">
+      <div class="jtv-banner-block">
+        <?php
+        foreach ($banners as $row) { ?>
+          <div class="jtv-subbanner1 col-sm-4"><a href="<?php echo strlen($row->url) ? $row->url : '#!'; ?>"><img class="img-respo" src="<?php echo base_url($row->image_file); ?>" alt="<?php echo $row->name; ?>"></a>
+            <div class="text-block hide">
+              <div class="text1 wow animated fadeInUp animated"><a href="#">Favorites</a></div>
+              <div class="text2 wow animated fadeInUp animated"><a href="#">Depth in detail </a></div>
+              <div class="text3 wow animated fadeInUp animated"><a href="#">Shop for women</a></div>
+            </div>
+          </div>
+          <?php 
+        } ?>
+      </div>
+    </div>
+  </div>
+  <?php 
+} ?>
+
+<!-- Featured -->
+<?php products_col_slider('Products You Viewed', $viewed_products, 'shop?type=viewed'); ?>
 
 <?php 
 cart_modal();

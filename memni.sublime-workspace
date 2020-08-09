@@ -4,642 +4,555 @@
 		"selected_items":
 		[
 			[
-				"cre",
-				"created_obj〔variable〕"
+				"errro",
+				"error_reporting"
 			],
 			[
-				"act",
-				"actions"
+				"c_user",
+				"c_user_role"
 			],
 			[
-				"show_",
-				"show_date"
+				"sett",
+				"settings"
 			],
 			[
-				"check",
-				"checkout"
+				"se",
+				"section_id"
 			],
 			[
-				"ST_",
-				"ST_PAYMENT_ONLINE"
+				"sections",
+				"sections_model"
 			],
 			[
-				"func",
-				"function"
+				"super",
+				"super_admin"
 			],
 			[
-				"st",
-				"stock"
+				"curr",
+				"$curr_end_time〔variable〕"
 			],
 			[
-				"fun_ge",
-				"func_get_args"
+				"ope",
+				"open_date"
 			],
 			[
-				"allow",
-				"allow_update"
+				"get_cbt",
+				"get_cbt_details"
 			],
 			[
-				"recrds",
-				"$records_arr〔variable〕"
+				"duratio",
+				"duration_diff"
 			],
 			[
-				"succes",
-				"successfully"
+				"CB",
+				"CBT_SUB_MARKED"
 			],
 			[
-				"S",
-				"STAFF"
+				"dis",
+				"disabled"
 			],
 			[
-				"fun",
-				"function"
+				"di",
+				"disabled"
 			],
 			[
-				"pas",
-				"password_set"
-			],
-			[
-				"in",
-				"in_wishlist〔variable〕"
-			],
-			[
-				"cus",
-				"customer_record"
-			],
-			[
-				"cate",
-				"category_id"
-			],
-			[
-				"ord",
-				"order_details"
-			],
-			[
-				"user",
-				"u.usergroup"
-			],
-			[
-				"total",
-				"total_price"
-			],
-			[
-				"tha",
-				"thank_you"
+				"CBT",
+				"CBT_QT_ESSAY"
 			],
 			[
 				"chec",
-				"checkout"
+				"checkbox"
 			],
 			[
-				"status",
-				"status_modal"
+				"text",
+				"text-center"
 			],
 			[
-				"che",
-				"checked"
+				"ch",
+				"chk_rad_16"
 			],
 			[
-				"paymen",
-				"payment_method"
+				"CBT_SUB_",
+				"CBT_SUB_STARTED"
 			],
 			[
-				"fet",
-				"fetch_profile_ajax"
+				"req",
+				"required"
 			],
 			[
-				"elem",
-				"elem_type〔variable〕"
+				"input",
+				"input_group"
 			],
 			[
-				"profile",
-				"profile_succ_callbk〔variable〕"
+				"CBT_S",
+				"CBT_SUB_STARTED〔constant〕"
 			],
 			[
-				"label",
-				"label_extra"
+				"sta",
+				"status_msg"
 			],
 			[
-				"cart",
-				"cart_products"
+				"pass",
+				"passmark"
 			],
 			[
-				"countr",
-				"$country_id〔variable〕"
+				"x_date",
+				"x_date_time〔function〕"
 			],
 			[
-				"tex",
-				"textarea"
+				"str",
+				"strtotime"
 			],
 			[
-				"order",
-				"order_summary"
-			],
-			[
-				"wis",
-				"wishlist_url"
-			],
-			[
-				"in_",
-				"in_wishlist"
-			],
-			[
-				"prod",
-				"$products〔variable〕"
-			],
-			[
-				"prepa",
-				"prepare_items"
-			],
-			[
-				"sor",
-				"source"
-			],
-			[
-				"vi",
-				"viewed"
-			],
-			[
-				"array_ke",
-				"array_key_exists"
+				"clea",
+				"clearTimeout〔function〕"
 			],
 			[
 				"set",
 				"setTimeout〔function〕"
 			],
 			[
-				"in_s",
-				"in_stock_class〔variable〕"
+				"s_",
+				"s_sub"
 			],
 			[
-				"marg",
-				"margin-top\tproperty"
-			],
-			[
-				"Ca",
-				"Categories"
-			],
-			[
-				"viewed",
-				"viewed_products"
-			],
-			[
-				"pro",
-				"$product_idx〔variable〕"
-			],
-			[
-				"produt",
-				"$product_id〔variable〕"
-			],
-			[
-				"product_id",
-				"product_idx"
-			],
-			[
-				"reser",
-				"reserved"
+				"Tes",
+				"Tests"
 			],
 			[
 				"sess",
-				"sessionId"
+				"sessionStorage"
 			],
 			[
-				"cart_prods_pre",
-				"cart_prods_preview_modal"
+				"roug",
+				"rough_works_json〔variable〕"
 			],
 			[
-				"post",
-				"post_data"
+				"CBT_SUB_S",
+				"CBT_SUB_SUBMITTED"
 			],
 			[
-				"max-",
-				"max-height\tproperty"
+				"extra",
+				"extra_time"
 			],
 			[
-				"stat",
-				"status_modal"
+				"quest",
+				"question_count"
 			],
 			[
-				"qty",
-				"qty_price"
+				"alpha_num",
+				"alpha_numeric"
 			],
 			[
-				"produc",
-				"product_idx"
+				"alpha",
+				"alpha_numeric_spaces"
 			],
 			[
-				"in_array",
-				"in_array"
+				"q_ty",
+				"q_type_query"
 			],
 			[
-				"product",
-				"$product_idx〔variable〕"
+				"q_",
+				"q_mark"
 			],
 			[
-				"join",
-				"join_multiple〔function〕"
+				"col-",
+				"col-xs-12"
 			],
 			[
-				"pa",
-				"$params〔variable〕"
+				"studen",
+				"student_name"
 			],
 			[
-				"par",
-				"params"
+				"total",
+				"total_mark"
 			],
 			[
-				"max",
-				"max-height\tproperty"
+				"submit",
+				"submit_time"
 			],
 			[
-				"zip",
-				"zipstream"
+				"CBT_",
+				"CBT_SUB_SUBMITTED"
 			],
 			[
-				"cat_",
-				"cat_id"
+				"sub_ent",
+				"sub_entry"
 			],
 			[
-				"json_",
-				"json_encode〔function〕"
+				"att",
+				"attempted"
 			],
 			[
-				"func_get",
-				"func_get_args"
+				"min-w",
+				"min-w-200"
 			],
 			[
-				"suc",
-				"success_msg〔variable〕"
+				"start",
+				"start_time"
 			],
 			[
-				"redir",
-				"redirect_url〔argument〕"
+				"to_a",
+				"to_answer_val"
 			],
 			[
-				"slider",
-				"slider_menus"
-			],
-			[
-				"sess_",
-				"$sess_sliders〔variable〕"
-			],
-			[
-				"product_ra",
-				"product_ratings"
-			],
-			[
-				"current",
-				"current_page"
-			],
-			[
-				"rat",
-				"rating"
-			],
-			[
-				"pos",
-				"post_data〔variable〕"
-			],
-			[
-				"open",
-				"open_date"
-			],
-			[
-				"form",
-				"form-control"
-			],
-			[
-				"array_key",
-				"array_key_exists〔function〕"
-			],
-			[
-				"price_",
-				"price_min"
-			],
-			[
-				"lowest",
-				"lowest_price"
-			],
-			[
-				"inl",
-				"inline-block\tdisplay"
-			],
-			[
-				"event",
-				"event_id"
-			],
-			[
-				"league",
-				"league_id"
-			],
-			[
-				"b",
-				"body_td"
-			],
-			[
-				"overf",
-				"overflow-y\tproperty"
-			],
-			[
-				"sort",
-				"sort_by"
-			],
-			[
-				"sea",
-				"$search_where〔variable〕"
-			],
-			[
-				"de",
-				"default"
-			],
-			[
-				"type",
-				"typeof〔keyword〕"
-			],
-			[
-				"def",
-				"$default〔variable〕"
-			],
-			[
-				"com",
-				"company_model"
+				"list_",
+				"list_class_cbts"
 			],
 			[
 				"re",
-				"required"
+				"registered"
 			],
 			[
-				"logo_",
-				"logo_site"
+				"le",
+				"length"
 			],
 			[
-				"company",
-				"company_id"
+				"student",
+				"students_table〔variable〕"
 			],
 			[
-				"subject_te",
-				"subject_teacher_id"
+				"first",
+				"$first_q_id〔variable〕"
 			],
 			[
-				"cat",
-				"catype"
+				"set_",
+				"set_userdata"
 			],
 			[
-				"rec",
-				"record_idx"
+				"Quest",
+				"Questions"
 			],
 			[
-				"categor",
-				"category_name"
+				"durat",
+				"duration_type"
 			],
 			[
-				"btn",
-				"btnLeagues"
+				"status",
+				"status_msg"
 			],
 			[
-				"allo",
-				"$allow_tags〔variable〕"
+				"rough_",
+				"rough_work"
 			],
 			[
-				"var",
-				"var_dump"
+				"cbt_rou",
+				"cbt_rough_sheet"
 			],
 			[
-				"date_",
-				"date_installed"
+				"font",
+				"font-weight\tproperty"
 			],
 			[
-				"schoo",
-				"school_id"
+				"count",
+				"countdown〔variable〕"
 			],
 			[
-				"Pay",
-				"Payment"
+				"curren",
+				"current_time"
 			],
 			[
-				"approve",
-				"approve_subsequent_partial_payment〔function〕"
+				"curre",
+				"current_time"
 			],
 			[
-				"amount",
-				"$amount_paid〔variable〕"
+				"test",
+				"test_rem_time"
 			],
 			[
-				"amou",
-				"amount_paid"
+				"short",
+				"short_labels"
 			],
 			[
-				"appro",
-				"approve_partial_payment"
+				"stop",
+				"stop_callback"
 			],
 			[
-				"uri",
-				"uri_string"
+				"submit_",
+				"submit_status"
 			],
 			[
-				"out",
-				"$outstanding〔variable〕"
+				"fun",
+				"function"
 			],
 			[
-				"get_student",
-				"get_student_outstanding_fees"
+				"end",
+				"end_time"
 			],
 			[
-				"coll",
-				"$collapse〔variable〕"
+				"submit_t",
+				"submit_time"
 			],
 			[
-				"s_c",
-				"s_currency_amount"
+				"last",
+				"last_sql"
 			],
 			[
-				"debt",
-				"debts"
+				"Sub",
+				"Submissions"
+			],
+			[
+				"auto",
+				"auto_navigate"
+			],
+			[
+				"sub_en",
+				"sub_entries_table"
+			],
+			[
+				"sub_entr",
+				"sub_entries_table"
+			],
+			[
+				"c_",
+				"c_user"
+			],
+			[
+				"subs",
+				"subs_table"
+			],
+			[
+				"CBT_SU",
+				"CBT_SUB_SUBMITTED〔constant〕"
+			],
+			[
+				"dura",
+				"duration_select"
+			],
+			[
+				"stud",
+				"student"
+			],
+			[
+				"subject",
+				"subject_id"
+			],
+			[
+				"student_",
+				"student_id"
+			],
+			[
+				"padd",
+				"padding\tproperty"
+			],
+			[
+				"subje",
+				"subject_id"
 			],
 			[
 				"class",
 				"class_id"
 			],
 			[
-				"row_TDept",
-				"$row_TDepts〔variable〕"
+				"floa",
+				"floating_login"
 			],
 			[
-				"locat",
-				"$locations〔variable〕"
+				"grous",
+				"groups_table"
 			],
 			[
-				"loca",
-				"locations"
+				"cbts",
+				"cbts_table"
 			],
 			[
-				"init",
-				"initalPos"
+				"subject_teac",
+				"subject_teachers"
 			],
 			[
-				"ini",
-				"initalPos"
+				"font-s",
+				"font-size\tproperty"
 			],
 			[
-				"setC",
-				"setContent"
+				"box-s",
+				"box-shadow\tproperty"
 			],
 			[
-				"lag",
-				"latLng"
+				"login",
+				"login_data"
 			],
 			[
-				"lat",
-				"latlng"
+				"stat",
+				"status"
 			],
 			[
-				"upd",
-				"update_coords"
+				"promis",
+				"promise_callback"
 			],
 			[
-				"url",
-				"urldecode"
+				"succ",
+				"success_callback"
 			],
 			[
-				"menu",
-				"menu_pth"
+				"hide",
+				"hide_actions〔variable〕"
 			],
 			[
-				"ses",
-				"session"
+				"soc",
+				"social_twitter"
 			],
 			[
-				"clear",
-				"clear_trash"
+				"unli",
+				"unlink_file〔function〕"
 			],
 			[
-				"su",
-				"successfully"
+				"lin",
+				"linkedin"
+			],
+			[
+				"def",
+				"$default〔variable〕"
+			],
+			[
+				"mt-",
+				"mt-3"
+			],
+			[
+				"no",
+				"no_deco"
+			],
+			[
+				"user",
+				"usergroup"
+			],
+			[
+				"follw",
+				"$followed_posts〔variable〕"
+			],
+			[
+				"follo",
+				"$followed_posts〔variable〕"
+			],
+			[
+				"array_ke",
+				"array_key_exists"
+			],
+			[
+				"padding",
+				"padding-bottom\tproperty"
+			],
+			[
+				"is_pos",
+				"is_post_view"
+			],
+			[
+				"ne",
+				"newest"
+			],
+			[
+				"sort",
+				"sort_by"
+			],
+			[
+				"espa",
+				"escape"
+			],
+			[
+				"post",
+				"post_id"
+			],
+			[
+				"comme",
+				"comment"
+			],
+			[
+				"wr",
+				"wrapper_id"
+			],
+			[
+				"content",
+				"content_json"
+			],
+			[
+				"toas",
+				"toast_success"
+			],
+			[
+				"toast",
+				"toast_title"
+			],
+			[
+				"comment",
+				"comment_id"
+			],
+			[
+				"margin-",
+				"margin-bottom\tproperty"
+			],
+			[
+				"w",
+				"width"
+			],
+			[
+				"comm",
+				"common_model"
+			],
+			[
+				"sele",
+				"$select〔variable〕"
+			],
+			[
+				"preg_match",
+				"preg_match"
+			],
+			[
+				"join",
+				"join_set"
+			],
+			[
+				"margin",
+				"margin-left\tproperty"
+			],
+			[
+				"name",
+				"name=\"search"
+			],
+			[
+				"trunc",
+				"$truncated〔variable〕"
+			],
+			[
+				"extrac",
+				"$extracted〔variable〕"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "/C/Users/VALKAY/AppData/Local/Temp/scp53938/var/www/exood/manager/sandbox/ikem/dbsync/data.php",
+			"file": "/C/Users/VALKAY/Dropbox/wamp/www/kricket/server/Chat.php",
 			"settings":
 			{
-				"buffer_size": 7439,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/VALKAY/AppData/Local/Temp/scp54187/var/www/exood/manager/sandbox/ikem/dbsync/run.php",
-			"settings":
-			{
-				"buffer_size": 2628,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "xdebug.ini",
-			"settings":
-			{
-				"buffer_size": 149,
-				"encoding": "UTF-8",
-				"line_ending": "Windows",
-				"name": "xdebug.remote_enable=1"
-			}
-		},
-		{
-			"file": "memni.sublime-project",
-			"settings":
-			{
-				"buffer_size": 184,
+				"buffer_size": 1459,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/C/wamp64/www/exood/manager/sandbox/ikem/dbsync/run_edited.php",
+			"file": "/C/Users/VALKAY/Dropbox/wamp/www/kricket/run.php",
 			"settings":
 			{
-				"buffer_size": 3306,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/C/Users/VALKAY/AppData/Local/Temp/scp43265/var/www/exood/manager/scripts/init.php",
-			"settings":
-			{
-				"buffer_size": 5429,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/VALKAY/AppData/Local/Temp/scp41117/var/www/exood/manager/tmp/CompareSQL/compare-sql.php",
-			"settings":
-			{
-				"buffer_size": 22813,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/VALKAY/AppData/Local/Temp/scp43721/var/www/exood/manager/tmp/CompareSQL/coy.sql",
-			"settings":
-			{
-				"buffer_size": 84161,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/VALKAY/AppData/Local/Temp/scp44532/var/www/exood/manager/sandbox/ikem/dbsync/coy_data.php",
-			"settings":
-			{
-				"buffer_size": 6984,
+				"buffer_size": 362,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"contents": "",
+			"file": "/C/wamp64/bin/apache/apache2.4.41/conf/extra/httpd-vhosts.conf",
 			"settings":
 			{
-				"buffer_size": 0,
-				"line_ending": "Windows",
-				"name": "Xdebug Context",
-				"read_only": true,
-				"scratch": true
+				"buffer_size": 3500,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
 			}
 		},
 		{
-			"contents": "",
+			"file": "/C/Users/VALKAY/Dropbox/wamp/www/kricket/index.php",
 			"settings":
 			{
-				"buffer_size": 0,
-				"line_ending": "Windows",
-				"name": "Xdebug Watch",
-				"read_only": true,
-				"scratch": true
-			}
-		},
-		{
-			"contents": "",
-			"settings":
-			{
-				"buffer_size": 0,
-				"line_ending": "Windows",
-				"name": "Xdebug Stack",
-				"read_only": true,
-				"scratch": true
-			}
-		},
-		{
-			"contents": "",
-			"settings":
-			{
-				"buffer_size": 0,
-				"line_ending": "Windows",
-				"name": "Xdebug Breakpoint",
-				"read_only": true,
-				"scratch": true
+				"buffer_size": 1856,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
 			}
 		}
 	],
@@ -656,7 +569,7 @@
 		[
 			[
 				"Package Control: ",
-				"Package Control: Install Package"
+				"Package Control: List Unmanaged Packages"
 			],
 			[
 				"Package Control: ins",
@@ -687,138 +600,138 @@
 	},
 	"expanded_folders":
 	[
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi"
+		"/C/Users/VALKAY/Dropbox/wamp/www/kricket"
 	],
 	"file_history":
 	[
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/README.md",
-		"/C/wamp64/www/exood/manager/sandbox/ikem/dbsync/coy_data (3).php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp42550/var/www/manager/tmp/handshake/initiate.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp10626/var/www/manager/scripts/functions/user_methods.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp07485/var/www/manager/login.php",
-		"/C/wamp64/www/exood/manager/scripts/functions/user_methods.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp09779/var/www/manager/tmp/handshake/http.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp09548/var/www/manager/tmp/handshake/reserve_amt.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp34443/var/www/manager/tmp/handshake/debit_amt.php",
-		"/C/wamp64/www/exood/html/mobile/users/login.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp32202/var/www/manager/tmp/handshake/login.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp38371/var/www/api/lib/api.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp38627/var/www/api/lib/users.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp09021/var/www/manager/logout.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp24860/var/www/manager/logs/error.log",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp00338/var/www/api/lib/swipe/apis/functions/http.php",
-		"/C/wamp64/www/exood/manager/naijalottery/api/lib/swipe/apis/functions/http.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp00328/var/www/api/lib/swipe/apis/index.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/portal/layout/header.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/models/Product_model.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/helpers/query_helper.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/models/Order_model.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/portal/company/orders/index.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/controllers/Orders.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/helpers/template_helper.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/models/Shop_model.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/assets/common/js/utils/data_table.js",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/assets/web/custom/js/shop.js",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/assets/portal/custom/js/sliders.js",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/assets/common/js/utils/ajax.js",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/portal/company/products/tags/index.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/portal/company/products/sizes/index.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/portal/company/products/cats/index.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/config/consts.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/controllers/Products.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/controllers/Settings.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/controllers/Sliders.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/controllers/User.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/core/Core_Controller.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/helpers/crud_helper.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/web/shop/checkout.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/controllers/Shop.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/helpers/user_helper.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/web/shop/view.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp51700/var/www/exood/manager/sandbox/ikem/dbsync/run.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp01236/var/www/manager/tmp/handshake/http.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp00749/var/www/manager/tmp/handshake/debit_amt.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp35814/var/www/exood/manager/sandbox/matthew/exood/acad/assess/ass_struct/edit.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp04736/var/www/exood/manager/sandbox/ikem/dbsync/sample.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp50969/var/www/exood/manager/sandbox/ikem/dbsync/data.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp56284/var/www/exood/manager/scripts/init.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp50567/var/www/exood/manager/sandbox/ikem/dbsync/data.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp37653/var/www/exood/manager/sandbox/matthew/exood/acad/assess/ass_struct/attach.js",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp14837/var/www/exood/manager/sandbox/bayo/exood/dbsync/run.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp27682/var/www/exood/manager/sandbox/matthew/exood/acad/assess/ass_struct/view.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp03954/var/www/manager/tmp/handshake/reserve_amt.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp16459/var/www/exood/manager/sandbox/bayo/exood/acad/index.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/config/http_codes.php",
-		"/C/wamp64/www/naijalottery/api/lib/swipe/apis/index.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp23301/var/www/api/lib/api.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp07519/var/www/api/lib/ussd.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp14470/var/www/exood/manager/sandbox/bayo/exood/dbsync/data.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp40248/var/www/manager/tmp/handshake/sample_response.json",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp33579/var/www/api/lib/users.php",
-		"/C/wamp64/www/exood/manager/acad/assess/ass_struct/view.php",
-		"/C/wamp64/www/exood/manager/library/.htaccess",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp41326/var/www/manager/tmp/handshake/.htaccess",
-		"/C/wamp64/www/naijalottery/api/lib/users.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp40426/var/www/exood/manager/sandbox/bayo/exood/dbsync/.htacces",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp13763/var/www/exood/manager/sandbox/bayo/exood/data.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp13588/var/www/exood/manager/sandbox/bayo/exood/run.php",
-		"/C/Users/VALKAY/Downloads/coy_data (2).php",
-		"/C/wamp64/www/exood/manager/admin/departments/tmpl.php",
-		"/C/wamp64/www/exood/manager/admin/locations/tmpl.php",
-		"/C/wamp64/www/exood/manager/personnel/talent/hierarchy/tmpl.php",
-		"/C/wamp64/www/exood/manager/admin/departments/add.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/libraries/Auth.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/web/layout/nav_menu.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/web/layout/footer.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/web/shop/thank_you.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/portal/account/reset_pass.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/config/autoload.php",
-		"/C/wamp64/www/exood/manager/super_admin/companies/index.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/index.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/kricket/server/Chat.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/kricket/composer.json",
+		"/C/Users/VALKAY/Dropbox/wamp/www/kricket/vendor/composer/autoload_psr4.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/kricket/server/ChatApp/Chat.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/kricket/vendor/autoload.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/kricket/index.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/kricket/class/db.class.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/kricket/server/run.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/assets/general/js/general.js",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/assets/general/js/ajax.js",
+		"/C/Users/VALKAY/Dropbox/wamp/www/sakastic/assets/web/js/posts.js",
+		"/C/Users/VALKAY/Downloads/PHP WebSocket Chat - komplettes Tutorial-20200525T033430Z-001/PHP WebSocket Chat - komplettes Tutorial/index.php",
+		"/C/Users/VALKAY/Downloads/PHP WebSocket Chat - komplettes Tutorial-20200525T033430Z-001/PHP WebSocket Chat - komplettes Tutorial/server/websocket_server.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/shared/students_report/end_term/real/shared/produce_report_def.php",
+		"/C/Users/VALKAY/Downloads/PHP WebSocket Chat - komplettes Tutorial-20200525T033430Z-001/PHP WebSocket Chat - komplettes Tutorial/js/jquery.js",
+		"/C/Users/VALKAY/Downloads/PHP WebSocket Chat - komplettes Tutorial-20200525T033430Z-001/PHP WebSocket Chat - komplettes Tutorial/composer.json",
+		"/C/Users/VALKAY/Downloads/PHP WebSocket Chat - komplettes Tutorial-20200525T033430Z-001/PHP WebSocket Chat - komplettes Tutorial/class/db.class.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/assets/portal/js/shared/cbt.js",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/assets/portal/js/admin/settings.js",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/admin/settings/assessment_configs_ajax.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/models/Cbt_model.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/models/Settings_model.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/core/Core_Model.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/controllers/Settings.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/shared/students_report/end_term/real/template_5/produce_report.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/shared/students_report/end_term/real/produce_report.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/sakastic/application/core/Core_Model.php",
 		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/core/Core_Model.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/libraries/controllers/cbt/Cbt.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/helpers/app_helper.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/shared/cbt/tests/questions/view.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/shared/cbt/tests/submissions/view.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/shared/cbt/tests/view.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/shared/cbt/tests/list.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/shared/cbt/tests/adit.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/shared/cbt/adit.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/shared/cbt/list.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/shared/cbt/buttons.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/system/helpers/date_helper.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/controllers/Cbt_class_teacher.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/controllers/Cbt_subject_teacher.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/shared/cbt/tests/buttons.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/admin/settings/assessment_configs.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/shared/cbt/index.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/helpers/cbt_helper.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp04848/sandbox_xyz255/index.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/admin/layout/header.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/shared/cbt/tests/candidates.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/shared/cbt/tests/submissions/list.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/helpers/xform_helper.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/models/Lessons_model.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/libraries/controllers/class_lessons/Lessons.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/controllers/Lessons_admin.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/shared/class_lessons/summary.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/admin/settings/term_info.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/core/Core_Controller.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/controllers/Site.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/ajax/restricted_login.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/controllers/Admin.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/controllers/Cbt_admin.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/ajax/layout/ajax_header.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/libraries/Core_form_validation.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp19427/sandbox_xyz255/application/libraries/controllers/cbt/Cbt.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/assets/portal/js/general/general.js",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp16440/sandbox_xyz255/assets/portal/js/general/general.js",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/shared/cbt/tests/questions/buttons.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/system/database/DB_query_builder.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/assets/portal/css/style.css",
+		"/C/wamp64/www/exood/manager/scripts/functions/http_functions.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/language/english/form_validation_lang.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/system/libraries/Form_validation.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/system/language/english/form_validation_lang.php",
 		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/libraries/Auth.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/controllers/Guest.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/helpers/product_helper.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/errors/html/error_404.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/portal/guest/layout/header.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/errors/cli/error_404.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/portal/company/products/edit.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/models/User_model.php",
-		"/C/wamp64/www/exood/html/lib/jquery/jquery-1.3.2.js",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/system/helpers/string_helper.php",
-		"/C/wamp64/www/naijalottery/api/lib/ussd.php",
-		"/C/wamp64/www/exood/manager/acad/students/programs/add.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp53650/var/www/exood/manager/scripts/js/utils/request.js",
-		"/C/wamp64/www/naijalottery/api/lib/api.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp43332/var/www/exood/manager/sandbox/matthew/exood/acad/assess/ass_struct/assessment.js",
-		"/C/wamp64/www/exood/manager/naijalottery/api/lib/betomall.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp29104/var/www/exood/manager/sandbox/matthew/exood/acad/assess/view.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp32873/var/www/exood/manager/sandbox/matthew/exood/acad/assess/edit.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp41430/var/www/api/lib/swipe/apis/endpoints/index.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp14092/var/www/api/lib/handshake/http.php",
-		"/C/wamp64/www/exood/manager/acad/students/programs/view.php",
-		"/C/wamp64/www/exood/manager/acad/students/programs/edit.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp22142/var/www/exood/manager/sandbox/matthew/exood/acad/assess/index.php",
-		"/C/wamp64/www/exood/manager/acad/assess/ass_struct/edit.php",
-		"/C/wamp64/www/exood/manager/scripts/js/utils/request.js",
-		"/C/Users/VALKAY/Downloads/coy_data (1).php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp57561/var/www/manager/documents/archive/shelf/1/custom/swipe/events/view.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp54574/var/www/api/lib/handshake/debit_amt.php",
-		"/C/wamp64/www/exood/html/layout/assets/js/main.js",
-		"/C/wamp64/www/exood/html/layout/assets/js/events.js",
-		"/C/wamp64/www/exood/html/layout/assets/js/system_alert.js",
-		"/C/wamp64/www/exood/manager/scripts/functions/inec.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp04982/var/www/manager/documents/archive/shelf/1/custom/swipe/events/settings/update.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp58868/var/www/manager/documents/archive/shelf/1/custom/swipe/events/markets/index.php",
-		"/C/wamp64/www/exood/manager/acad/programs/promotions/api/get_class_students.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp00926/var/www/manager/documents/archive/shelf/1/custom/swipe/events/markets/odds.php",
-		"/C/Users/VALKAY/AppData/Local/Temp/scp02386/var/www/manager/documents/archive/shelf/1/custom/swipe/events/markets/update.php",
-		"/C/wamp64/www/exood/manager/scripts/init.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/portal/guest/login.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/portal/guest/register.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/web/shop/index.php",
-		"/C/Users/VALKAY/Downloads/coy_data.php",
-		"/C/wamp64/www/exood/manager/assessments/tests/edit.php",
-		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/views/portal/company/products/adit.php"
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/language/english/index.html",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/shared/cbt/tests/add.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp04723/sandbox_xyz255/.htaccess",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/config/config.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/shared/cbt/edit.php",
+		"/C/Users/VALKAY/AppData/Local/Temp/scp02657/sandbox_xyz255/index.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/assets/general/css/helper.css",
+		"/C/Users/VALKAY/Dropbox/apps/veego/frontend/src/apps/web/layout/header.js",
+		"/C/Users/VALKAY/Dropbox/apps/veego/frontend/src/apps/web/layout/footer.js",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/helpers/template_helper.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/shared/cbt/tests/submissions/reopen.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/sakastic/assets/common/js/general.js",
+		"/C/Users/VALKAY/Dropbox/wamp/www/sakastic/assets/common/js/ajax.js",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/controllers/Lessons_subject_teacher.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/controllers/Lessons_parent.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/menmi/application/controllers/Errors.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/controllers/Cbt_student.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/controllers/Cbt_parent.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/controllers/Errors.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/shared/class_lessons/lessons/view.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/shared/assets/header_assets.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/shared/class_lessons/lessons/adit.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/shared/assets/footer_assets.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/student/layout/header.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/vendors/portal/moment/moment.js",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/helpers/debug_helper.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/helpers/staff_helper.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/helpers/student_helper.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/helpers/alert_helper.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/helpers/admin_helper.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/helpers/parent_helper.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/parent/layout/header.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/controllers/Lessons_class_teacher.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/staff/layout/header.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/models/Modules_model.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/controllers/Web.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/shared/modules/plans.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/web/features.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/web/about.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/core/constants/Modules.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/web/pricing.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/core/constants/Session.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/core/constants/General.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/web/includes/core_features.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/shared/cbt/tests/questions/take.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/assets/general/js/summernote_config.js",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/shared/cbt/tests/submissions/delete.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/shared/cbt/tests/submissions/end.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/controllers/Admin_acc.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/helpers/modal_helper.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/helpers/http_helper.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/shared/cbt/tests/submissions/buttons.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/shared/cbt/tests/submissions.php",
+		"/C/Users/VALKAY/Dropbox/wamp/www/qsm/application/views/shared/cbt/tests/reopen_test.php"
 	],
 	"find":
 	{
@@ -826,9 +739,77 @@
 	},
 	"find_in_files":
 	{
-		"height": 117.0,
+		"height": 123.0,
 		"where_history":
 		[
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm\\application\\views\\shared\\cbt",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm\\application\\views\\shared\\cbt",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm\\assets",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm\\application\\views\\shared\\class_lessons",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm\\application\\views\\shared\\cbt",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm\\application\\views\\shared",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm\\application\\views\\shared\\cbt",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm\\application",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm\\application\\views\\shared\\cbt",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\sakastic\\assets",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\sakastic",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm\\application\\views\\shared\\class_lessons",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\ecomas",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm\\application\\views\\shared\\class_lessons",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm\\application\\views\\shared\\class_lessons",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm\\application",
+			"C:\\wamp64\\www\\exood\\manager\\acad",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\offixnigeria",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm\\application\\views",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm\\application\\views\\shared\\class_lessons",
+			"C:\\wamp64\\www\\exood\\manager\\acad\\students\\portal\\assets",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm\\application",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi\\application\\views\\portal",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi\\application",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi\\application\\views",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi\\application\\views\\portal\\company",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi\\application\\models",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi\\application\\libraries",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi\\application\\core",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi\\application\\controllers",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi\\application\\helpers",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi\\application\\views\\portal",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi\\application\\views\\errors",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi\\application\\views\\web",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi\\application\\helpers",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi\\application\\controllers",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi",
+			"C:\\wamp64\\www\\exood",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm\\application\\views\\shared\\class_lessons",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm\\assets",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm\\application\\controllers",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\qsm\\application",
+			"C:\\Users\\VALKAY\\Dropbox\\apps\\bixspot\\client\\src",
+			"C:\\Users\\VALKAY\\Dropbox\\apps\\bixspot\\client",
+			"C:\\wamp64\\www\\exood",
+			"C:\\Users\\VALKAY\\Dropbox\\apps\\bixspot\\client",
+			"C:\\wamp64\\www\\exood\\manager\\acad",
+			"C:\\wamp64\\www\\exood\\manager",
+			"C:\\wamp64\\www\\exood\\manager\\acad",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi\\application",
+			"C:\\wamp64\\www\\exood\\manager\\acad",
+			"C:\\wamp64\\www\\exood\\manager\\assessments",
+			"C:\\wamp64\\www\\exood\\manager\\acad",
+			"C:\\wamp64\\www\\exood\\manager",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi\\assets",
+			"dt_image_col(",
+			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi",
 			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi\\application",
 			"C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi",
 			"C:\\wamp64\\www\\naijalottery",
@@ -862,137 +843,137 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": true,
+		"case_sensitive": false,
 		"find_history":
 		[
-			"$_SESSION['COY_INFO']",
-			"setDBH",
-			"COY_INFO",
-			"$u",
-			"$c",
-			"live_odds_update",
-			"reserve_",
-			"handshake",
+			"extra_time",
+			"duration_type",
+			"duration",
+			"duration_text",
+			"duration",
+			"duration_text",
+			"duration_query",
+			"duration",
+			"name=\"session",
 			"...",
-			"cols",
-			"col_defs",
-			"prcessed_by",
-			"dash_footer",
-			"dash_header",
-			"PAY_ONLINE",
-			"G_OTHER",
-			"MALE",
-			"s.",
-			"cat",
-			"slider",
-			"T_SLIDERS",
-			"cat_id",
-			"M_SLIDERS",
-			"cls_ids",
-			"cls",
-			"CH_9JALOT",
-			"]}",
-			"{$_SESSION[",
-			"company_users()",
-			"ADMIN, STAFF",
-			"user_group(",
-			"p.",
-			"CART_TTL",
-			"elem",
-			"url",
-			"wishlist",
-			"cls_names",
-			"arms",
-			"fetch_da",
-			"fetch",
-			"equal_to",
-			"cart_total_price",
-			"viewed_products",
-			"cart_total_price",
-			"cart_grand_total_price",
-			"status_box",
-			"status_box(notice_elem",
-			"status_box",
-			"grid_col",
-			"row_TAss_struct",
-			"ass_arm",
-			"ass_ca",
-			"atch_",
-			"atch_0",
-			"bp_head",
-			"bp_box",
-			"mini-box",
-			"bp_box",
-			"cls_ids",
-			"ass_ids",
-			"addGrp()",
-			"mini-box",
-			", '0'",
-			"jquery2dotnet",
-			"table-no",
-			"table-",
-			"company_home_slider",
-			"portal/",
-			"portal/products/",
-			"last_s",
-			"empty_wishlist",
-			"popular-tags-area",
-			"tag=",
-			"tag_msg",
-			"cart_prods_succ_callbk",
-			"add-to-wishlist",
-			"add-to-",
-			"quick",
-			"$row",
-			"quick",
-			"btn_theme_white",
-			"cats_all_link",
-			"$$row",
-			"xrow",
-			"$row->",
-			"$xrow->",
-			", $return",
-			"array",
-			"object",
-			", $return = 'object'",
-			" $return = 'object'",
-			"cat_products_ajax",
-			"feat_products_ajax",
-			"viewed",
-			"logo",
-			"header-c",
-			"logo",
-			"top-cart-contain",
-			"mini-cart",
-			"top-cart",
-			"fa-shopping-cart",
-			"another",
-			"dash/",
-			"form-container",
-			"$this->site_name",
-			"PIX_SETTINGS",
-			"COMPANY_PIX_DIR",
-			"SITE_LOGO",
-			"dash/",
-			"login-container",
-			"stock",
-			"section_50",
-			"prod_cat_active",
-			"cat_products_ajax",
-			"product_grid_widget",
-			"in cart",
-			"prod_cat",
-			".product-item .item-inner .pro-box-info .pro-actions .action.add-to-cart",
-			"catprods",
-			"Description",
-			"tag",
-			".tag li a",
-			"SPECIAL",
-			"SPECIAL ",
-			".address i",
-			"filter_products",
-			"sort_products",
-			"company_id"
+			"Lesson Summ",
+			"admin_restr",
+			"Access denied! Insufficient role privileges.",
+			"admin_restr",
+			"$decided",
+			"extra_time",
+			"$this->ci->",
+			"exact_length",
+			"min_length",
+			"validate_captcha",
+			"extra_time",
+			"test_end",
+			"calcula",
+			"d_types",
+			"end_time",
+			"test_endtime_query",
+			"end_time",
+			"test_endtime_query",
+			"start_test(",
+			"end_time",
+			"end_Time",
+			"test_endtime_query",
+			"admin_res",
+			"CBT",
+			"correct_attempts",
+			"mbt",
+			"total_attempted",
+			"get_prepared_questions",
+			"feedback",
+			"chk_rad",
+			"chk_r",
+			"chk_R",
+			"sub_feedback",
+			"sub_feed",
+			"xform_submit",
+			"candida",
+			"candidates",
+			"greater",
+			"percentage_score",
+			"ajax_loading_hide(",
+			"x_date(",
+			"xform_group_datepicker_list",
+			"restrict_cbt_access",
+			"cbt_shuffled_questions_",
+			"last_cbt_question_viewed",
+			"cbt_shuffled_questions",
+			"E-LEa",
+			"E-",
+			"list_class_cbts",
+			"$this->student_id",
+			", $this->c_user);",
+			".full_addon_group",
+			"Lesson",
+			"side_menu_tm",
+			"Lesson",
+			"CBT",
+			"->module",
+			"icon",
+			"btn_text",
+			"unattempted",
+			"current_time",
+			"unattempted",
+			"get_student_sub",
+			"is_exhausted",
+			"Delete",
+			"end_time",
+			"is_exhausted",
+			"end_time",
+			"status_text",
+			"json_response_edit",
+			"sub",
+			"duration_text",
+			"extra_time",
+			"sub_entries_table",
+			"end_time",
+			"numeric",
+			"alpha_dash",
+			"valid_ip",
+			"restrict_question_access",
+			"restrict",
+			"get_sub_de",
+			"success",
+			"info",
+			"sort",
+			"img",
+			"chk_rad_18",
+			"is_correct",
+			"q_type_query",
+			"type_select",
+			"type_text",
+			"style=\"background: #d9edf7; color: #31708f\"",
+			"quiz_item",
+			"q_type",
+			"q_options",
+			"q_answer",
+			"q_mark",
+			"to_answer_val",
+			"srow",
+			"get_sub_entry",
+			"sub_entry",
+			"full_name",
+			"sub_entry",
+			"get_questions",
+			"list_class_cbts",
+			"list_cbts",
+			"select_all",
+			"cbts_table",
+			"taken",
+			"cbt_shuffled_question",
+			"questions",
+			"->order",
+			"order",
+			"prepare_questions",
+			"scrambling",
+			"$return",
+			"cbt_rough_sheet",
+			"aminate",
+			"number"
 		],
 		"highlight": false,
 		"in_selection": false,
@@ -1000,134 +981,134 @@
 		"regex": false,
 		"replace_history":
 		[
-			"portal_footer",
-			"portal_header",
-			"o.",
-			"status",
-			"order",
-			"T_ORDERS",
-			"status",
-			"]",
-			"$_SESSION[",
-			"COMPANY_USERS",
-			"o.",
-			"status_box('.'+notice_elem",
-			"grid_col_b3",
-			",",
+			"$is_decided",
+			", $this->c_user_check);",
+			"json_response_update",
+			"s_row",
+			"ent",
+			"student_name",
+			"cbt_shuffled_questions",
+			"shuffle",
+			"$data_type",
+			"start_time",
+			"duration",
+			"questions",
+			"CBT_QT_SHORT",
+			"CBT_QT_MULT",
+			"CBT_QT_SINGLE",
+			"q_text",
+			"q_type",
+			"cbt",
+			"question",
+			"questions",
+			"cbt_id",
+			"question",
+			"questions",
+			"Question",
+			"question",
+			"questions",
+			"question",
+			"questions",
+			"group",
+			"cbt",
+			"group",
+			"cbt",
+			"group",
+			"Question",
+			"question",
+			"questions",
+			"CBT",
+			"Cbt",
+			"cbt",
+			"Group",
+			"group",
+			"cbt",
+			"group",
+			"CBT",
+			"group",
+			"Group",
+			"cbt",
+			"subs_table",
+			"cbt_model",
+			"cbt",
+			"group",
+			"cbt",
+			"cbt_id",
+			"question",
+			"questions",
+			"cbt",
+			"post_actions",
+			"secure_req_data(",
+			"profile-card",
+			"search_post_field",
+			"#search_field",
+			"#search_post",
+			"posts_pagination",
+			"posts_elem",
+			"add_post_action",
+			"hard_post_action",
+			"soft_post_action",
+			"post_action_callback",
+			"$this->ci->check_loggedin",
+			"$this->ci->check_userdata",
+			"$this->ci->post_model->prepare_post",
+			"$this->ci->session->",
+			"$this->ci->summernote->",
+			"$this->ci->form_validation->",
+			"$this->ci->common_model->",
+			"$this->ci->post_model->",
+			"posts_callback",
+			"join_select",
+			"sql_select",
+			"sql_join_select",
+			"to_join",
+			"type",
+			"user_loggedin",
+			"is_loggedin",
+			"cf3539",
+			"post_container",
+			"post_widget",
+			"post_card",
+			"posts_succ_callbk",
+			"posts_url",
 			"",
-			"portal/company/",
-			"portal/company/products/",
-			"$side_row",
-			"$row",
-			"$xrow['",
-			"",
-			"portal/",
-			"section_30",
-			"cart_prods_succ_callbk",
-			"tag",
-			"$xrow",
-			"frmadd",
-			"data_show_list",
-			"data_show_grid",
-			"PIX_SETTINGS",
-			"dash/settings/",
-			"user_first_name",
-			"vendors/portal/",
-			"partners",
-			"outstanding_fees",
-			"row_TPlayers",
-			"row_TConfigs",
-			"row_TSports",
-			"VendorID",
-			"bs_player_settings",
-			"_xpost('",
-			"VendorID",
-			"vendors",
-			"bps",
-			"VendorID",
-			"row_TPlayer",
-			"TPlayers",
-			"'Players'",
-			"employees",
-			"config_data",
-			"",
-			"config_data",
-			"]",
-			"[$id]",
-			"_POST",
-			"",
-			"end_term",
-			"T_SLIDERS",
-			"slider_model",
-			"slider",
-			"slider_model",
-			"SLIDERS",
-			"max_slider_images",
-			"Slider",
-			"slider",
-			"sliders",
-			"Sliders",
-			"SLIDERS",
-			"file_preview",
-			"$file_input",
-			"select_options(",
-			"1",
-			"adit_value($row, ",
-			"T_PRODUCT_SIZES",
-			"T_PRODUCT_CATS",
-			"",
-			"'row'",
-			"product",
-			"PRODUCTS",
-			"row",
-			"insertLog",
-			"logModAccess",
-			"src=\"<?php echo base_url(); ?>assets/web/template/images/",
-			"p.",
-			"t.",
-			"s",
-			" ",
-			",",
-			" ",
-			"",
-			"'",
-			" '",
-			" ",
-			"",
-			"times",
-			"login",
-			"row_TLogs",
-			"xform_input",
-			"$text = $params['with_text'] ?",
-			"$data_attr = data_attrs($params['keys']);",
-			"logEnabled",
-			"MM_update",
-			"MM_insert",
-			"frmlogs",
-			"vendor_id",
-			"isset_url",
-			"isset_icon",
-			"isset_target",
-			"validate_input",
-			"tb",
-			"data-tb",
-			"$sql['where']",
-			"$sql['select']",
-			"$sql['joins']",
-			"$sql['table']",
-			"$ci->auth->vet_access($module, DEL, $usergroups)",
-			"$ci->auth->vet_access($module, EDIT, $usergroups)",
-			"$ci->auth->vet_access($module, ADD, $usergroups)",
-			"$ci->auth->vet_access($module, VIEW, $usergroups)",
-			"$usergroups",
-			"",
-			"module_restricted",
-			"vet_access",
-			"$user",
-			"'user_",
-			"src=\"<?php echo base_url(); ?>assets/web/template/images/",
-			"31/12/2019",
-			"template_model"
+			"navigation",
+			"quiz",
+			"quizzes",
+			"quiz",
+			"quizzes",
+			"quiz",
+			"quizzes",
+			"quiz",
+			"quizzes",
+			"quiz",
+			"quizzes",
+			"quiz",
+			"quizzes",
+			"quiz",
+			"lessons_model",
+			"lesson",
+			"question",
+			"$this->lessons_table",
+			"lesson_items",
+			"$this->modules_table",
+			"'lesson_topics",
+			"lesson_topics",
+			"user_type",
+			"$id",
+			"parent",
+			"student",
+			"staff",
+			"$this->student_id",
+			"public",
+			"$this->lessons_table",
+			"$this->modules_table",
+			"$this->c_user",
+			"$this->ci->",
+			"Assessments",
+			"div>",
+			"Topic",
+			""
 		],
 		"reverse": false,
 		"show_context": true,
@@ -1138,31 +1119,29 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/C/Users/VALKAY/AppData/Local/Temp/scp53938/var/www/exood/manager/sandbox/ikem/dbsync/data.php",
+					"file": "/C/Users/VALKAY/Dropbox/wamp/www/kricket/server/Chat.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7439,
+						"buffer_size": 1459,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								6,
-								6
+								252,
+								252
 							]
 						],
 						"settings":
 						{
-							"SL.65.region_keys":
-							[
-							],
+							"auto_complete": false,
 							"syntax": "Packages/PHP/PHP.sublime-syntax",
 							"translate_tabs_to_spaces": false
 						},
@@ -1170,289 +1149,30 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "/C/Users/VALKAY/AppData/Local/Temp/scp54187/var/www/exood/manager/sandbox/ikem/dbsync/run.php",
+					"file": "/C/Users/VALKAY/Dropbox/wamp/www/kricket/run.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2628,
+						"buffer_size": 362,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								444,
-								444
+								342,
+								342
 							]
 						],
 						"settings":
 						{
-							"SL.67.region_keys":
-							[
-							],
-							"auto_complete": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "xdebug.ini",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 149,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								149,
-								149
-							]
-						],
-						"settings":
-						{
-							"auto_name": "xdebug.remote_enable=1",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "memni.sublime-project",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 184,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								85,
-								85
-							]
-						],
-						"settings":
-						{
-							"auto_complete": true,
-							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "/C/wamp64/www/exood/manager/sandbox/ikem/dbsync/run_edited.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3306,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2003,
-								2003
-							]
-						],
-						"settings":
-						{
-							"SL.68.region_keys":
-							[
-							],
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 900.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 11,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "/C/Users/VALKAY/AppData/Local/Temp/scp43265/var/www/exood/manager/scripts/init.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5429,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4715,
-								4715
-							]
-						],
-						"settings":
-						{
-							"SL.90.region_keys":
-							[
-							],
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2040.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 10,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "/C/Users/VALKAY/AppData/Local/Temp/scp41117/var/www/exood/manager/tmp/CompareSQL/compare-sql.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 22813,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"SL.74.region_keys":
-							[
-							],
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 12,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "/C/Users/VALKAY/AppData/Local/Temp/scp43721/var/www/exood/manager/tmp/CompareSQL/coy.sql",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 84161,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/SQL/SQL.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 9,
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "/C/Users/VALKAY/AppData/Local/Temp/scp44532/var/www/exood/manager/sandbox/ikem/dbsync/coy_data.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 6984,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								6071,
-								6071
-							]
-						],
-						"settings":
-						{
-							"SL.76.region_keys":
-							[
-							],
 							"auto_complete": false,
 							"syntax": "Packages/PHP/PHP.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 1020.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 0,
-			"sheets":
-			[
-				{
-					"buffer": 9,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 0,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"default_dir": "C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi",
-							"syntax": "Packages/Xdebug Client/Xdebug.tmLanguage",
-							"word_wrap": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1462,26 +1182,57 @@
 					"type": "text"
 				},
 				{
-					"buffer": 10,
+					"buffer": 2,
+					"file": "/C/wamp64/bin/apache/apache2.4.41/conf/extra/httpd-vhosts.conf",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 0,
+						"buffer_size": 3500,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								286,
+								286
 							]
 						],
 						"settings":
 						{
-							"default_dir": "C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi",
-							"syntax": "Packages/Xdebug Client/Xdebug.tmLanguage",
-							"word_wrap": false
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/C/Users/VALKAY/Dropbox/wamp/www/kricket/index.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1856,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								663,
+								663
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1493,77 +1244,18 @@
 			]
 		},
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 11,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 0,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"default_dir": "C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi",
-							"syntax": "Packages/Xdebug Client/Xdebug.tmLanguage",
-							"word_wrap": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 12,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 0,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"default_dir": "C:\\Users\\VALKAY\\Dropbox\\wamp\\www\\menmi",
-							"syntax": "Packages/Xdebug Client/Xdebug.tmLanguage",
-							"word_wrap": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				}
 			]
 		}
 	],
 	"incremental_find":
 	{
-		"height": 29.0
+		"height": 34.0
 	},
 	"input":
 	{
-		"height": 45.0
+		"height": 47.0
 	},
 	"layout":
 	{
@@ -1572,32 +1264,25 @@
 			[
 				0,
 				0,
-				2,
+				1,
 				1
 			],
 			[
+				1,
 				0,
-				1,
-				1,
-				2
-			],
-			[
-				1,
-				1,
 				2,
-				2
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
-			0.5,
+			0.629938985589,
 			1.0
 		],
 		"rows":
 		[
 			0.0,
-			0.7,
 			1.0
 		]
 	},
@@ -1605,6 +1290,10 @@
 	"output.SublimeLinter":
 	{
 		"height": 196.0
+	},
+	"output.Terminus":
+	{
+		"height": 250.0
 	},
 	"output.exec":
 	{
@@ -1622,7 +1311,7 @@
 	"project": "memni.sublime-project",
 	"replace":
 	{
-		"height": 75.0
+		"height": 79.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -1660,50 +1349,50 @@
 			"hide_conflict": false,
 			"restore_index":
 			{
-				"105":
-				{
-					"group": 0,
-					"index": 2
-				},
-				"106":
-				{
-					"group": 0,
-					"index": 3
-				},
-				"65":
+				"15":
 				{
 					"group": 0,
 					"index": 0
 				},
-				"67":
+				"16":
 				{
 					"group": 0,
 					"index": 1
 				},
-				"68":
+				"17":
 				{
-					"group": 1,
-					"index": 0
-				},
-				"74":
-				{
-					"group": 1,
+					"group": 0,
 					"index": 2
 				},
-				"75":
+				"18":
 				{
-					"group": 1,
+					"group": 0,
 					"index": 3
 				},
-				"76":
+				"19":
 				{
-					"group": 1,
+					"group": 0,
 					"index": 4
 				},
-				"90":
+				"20":
 				{
-					"group": 1,
-					"index": 1
+					"group": 0,
+					"index": 5
+				},
+				"21":
+				{
+					"group": 0,
+					"index": 6
+				},
+				"22":
+				{
+					"group": 0,
+					"index": 7
+				},
+				"23":
+				{
+					"group": 0,
+					"index": 8
 				}
 			},
 			"restore_layout":
@@ -1741,7 +1430,7 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 244.0,
+	"side_bar_width": 295.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

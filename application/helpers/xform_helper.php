@@ -14,14 +14,14 @@ function xform_notice($class = 'status_msg', $id = '') {
     <?php
 }
 
-function xform_label($label, $for = '', $extra = [], $ajax = false) {
+function xform_label($label, $for = '', $extra = [], $return = false) {
     //if associated field has required attribute, append * to label name
     $label .= isset($extra['required']) && $extra['required'] ? ':<span class="text-danger">*</span>' : ':';
     //prepend bs class
     $extra['class'] = 'form-control-label '.input_key_isset($extra, 'class', '');
     $for = attr_isset($for, 'for="'.$for.'"', '');
     $elem = '<label '.$for.' '.set_extra_attrs($extra).'  style="padding-top: 10px">'.$label.'</label>';
-    if ($ajax) return $elem;
+    if ($return) return $elem;
     echo $elem;
 }
 
@@ -34,47 +34,48 @@ function xform_help($extra) {
     return '';
 }
 
-function xform_check($label, $name, $type = 'checkbox', $id = '', $value = '', $checked = false, $required = false, $inline = false, $extra = [], $ajax = false) {
+function xform_check($label, $name, $type = 'checkbox', $id = '', $value = '', $checked = false, $required = false, $inline = false, $extra = [], $return = false) {
     $checked = $checked ? 'checked' : '';
+    $required = $required ? 'required' : '';
     $inline_class = $inline ? 'form-check-inline' : '';
     $elem = '<div class="form-check '.$inline_class.'">
                 <input class="form-check-input" type="'.$type.'" name="'.$name.'" id="'.$id.'" value="'.$value.'" '.$checked.' '.$required.'>
-                <label class="form-check-label" for="'.$id.'">'.$label.'</label>
+                <label class="form-check-label text-bold" for="'.$id.'">'.$label.'</label>
             </div>';
-    if ($ajax) return $elem;
+    if ($return) return $elem;
     echo $elem;
 }
 
-function xform_input($name, $type = 'text', $value = '', $required = false, $extra = [], $ajax = false) {
+function xform_input($name, $type = 'text', $value = '', $required = false, $extra = [], $return = false) {
     //prepend bs class
     if ( ! in_array($type, ['checkbox', 'radio', 'file'])) {
         $extra['class'] = 'form-control '.input_key_isset($extra, 'class', '');
     }
     $attrs = set_extra_attrs($extra);
-    $is_required = $required ? 'required' : '';
+    $required = $required ? 'required' : '';
     if ($type == 'textarea') {
         $rows = input_key_isset($extra, 'rows', 8);
-        $elem = '<textarea name="'.$name.'" rows="'.$rows.'" '.$is_required.' '.$attrs.'>'.$value.'</textarea>';
+        $elem = '<textarea name="'.$name.'" rows="'.$rows.'" '.$required.' '.$attrs.'>'.$value.'</textarea>';
         $elem .= xform_help($extra);
     } elseif ($type == 'file') {
         $extra['class'] = 'file_input '.input_key_isset($extra, 'class', '');
         $exclude = ['help', 'help_class', 'help_id'];
         $attrs = set_extra_attrs($extra, $exclude);
         $elem = '<div class="file_preview_area">
-                    <input type="'.$type.'" name="'.$name.'" value="'.$value.'" '.$is_required.' '.$attrs.' />'
+                    <input type="'.$type.'" name="'.$name.'" value="'.$value.'" '.$required.' '.$attrs.' />'
                     . xform_help($extra) . 
                     '<div class="file_preview card-deck"></div>
                 </div>';
     } else {
-        $elem = '<input type="'.$type.'" name="'.$name.'" value="'.$value.'" '.$is_required.' '.$attrs.' />';
+        $elem = '<input type="'.$type.'" name="'.$name.'" value="'.$value.'" '.$required.' '.$attrs.' />';
         $elem .= xform_help($extra);
     }
-    if ($ajax) return $elem;
+    if ($return) return $elem;
     echo $elem;
 }
 
-function xform_select($name, $value = '', $required = false, $extra = [], $ajax = false) { 
-    $is_required = $required ? 'required' : '';
+function xform_select($name, $value = '', $required = false, $extra = [], $return = false) { 
+    $required = $required ? 'required' : '';
     //ajax dataset
     if (array_key_exists('ajax', $extra) && $extra['ajax']) {
         $options = '';
@@ -84,10 +85,11 @@ function xform_select($name, $value = '', $required = false, $extra = [], $ajax 
             //value column
             $val_col = input_key_isset($extra, 'val_col', 'id');
             $text_col = input_key_isset($extra, 'text_col', 'Not set!');
-            $options = select_options_db($extra['options'], $val_col, $text_col, $value);
+            $options = select_options_db($extra['options'], $val_col, $text_col, $value, true);
         } else {
             //just a regular array
-            $options = select_options($extra['options'], $value);
+            $assoc = $extra['assoc'] ?? false;
+            $options = select_options($extra['options'], $value, $assoc, true);
         } 
     }
     //extra attrs
@@ -95,10 +97,10 @@ function xform_select($name, $value = '', $required = false, $extra = [], $ajax 
     $attrs_arr['class'] = 'form-control '.input_key_isset($attrs_arr, 'class', '');
     //selectpicker
     $selectpicker = isset($extra['sp']) ? $extra['sp'] : true;
-    $attrs_arr['class'] = $selectpicker ? $attrs_arr['class'].' selectpicker' : '';
+    $attrs_arr['class'] = $selectpicker ? $attrs_arr['class'].' selectpicker' : $attrs_arr['class'];
     $attrs = set_extra_attrs($attrs_arr);
     $selected = array_key_exists('selected', $extra) && strlen($extra['selected']) ? "data-selected='".$extra['selected']."'" : '';
-    $elem = '<select name="'.$name.'" '.$is_required.' '.$selected.' '.$attrs.'>';
+    $elem = '<select name="'.$name.'" '.$required.' '.$selected.' '.$attrs.'>';
     //is blank allowed?
     if (array_key_exists('blank', $extra) && !$extra['blank']) {
         $blank = '';
@@ -110,7 +112,7 @@ function xform_select($name, $value = '', $required = false, $extra = [], $ajax 
     $elem .= $options;
     $elem .= '</select>';
     $elem .= xform_help($extra);
-    if ($ajax) return $elem;
+    if ($return) return $elem;
     echo $elem;
 }
 
@@ -120,17 +122,20 @@ function xform_select($name, $value = '', $required = false, $extra = [], $ajax 
  * @param $selected_val: the currently selected value
  * @return html
  */
-function select_options($options_arr, $selected_val = NULL) {
-    //is options associative? if not, copy values to keys
-    $options_arr = is_assoc_array($options_arr) ? $options_arr : array_combine($options_arr, $options_arr);
+function select_options($options_arr, $selected_val = NULL, $assoc = false, $return = false) {
+    //is options associative? if not, copy values to keys, unless otherwise stated
+    if ( ! $assoc) {
+        $options_arr = is_assoc_array($options_arr) ? $options_arr : array_combine($options_arr, $options_arr);
+    }
     $options = "";
-    if (count($options_arr) > 0) {
+    if (!empty($options_arr)) {
         foreach ($options_arr as $key => $label) {
             $selected = $key == $selected_val ? 'selected' : NULL;
             $options .= '<option ' . $selected . ' value="' . $key . '">' . $label . '</option>';
         }
     }
-    return $options;
+    if ($return) return $options;
+    echo $options;
 }
 
 /**
@@ -141,15 +146,16 @@ function select_options($options_arr, $selected_val = NULL) {
  * @param $selected_val: the currently selected value
  * @return html
  */
-function select_options_db($options_obj, $key, $label, $selected_val = NULL) {
+function select_options_db($options_obj, $key, $label, $selected_val = NULL, $return = false) {
     $options = "";
-    if (count($options_obj) > 0) {
+    if (!empty($options_obj)) {
         foreach ($options_obj as $row) {
             $selected = $row->$key == $selected_val ? 'selected' : NULL;
             $options .= '<option ' . $selected . ' value="' . $row->$key . '">' . $row->$label . '</option>';
         }
     }
-    return $options;
+    if ($return) return $options;
+    echo $options;
 }
 
 function input_group_text($text, $id = '') {
@@ -172,7 +178,7 @@ function modal_input_button($target, $url, $selectfield, $text = '', $icon = 'pl
 
 function _form_field($name, $type, $value, $required, $input_extra, $input_group) {
     //do we have an input group?
-    if (is_array($input_group) && count($input_group) > 0) { ?>
+    if (is_array($input_group) && !empty($input_group)) { ?>
         <div class="input-group mb-3">
             <?php
             //prepend
@@ -258,13 +264,56 @@ function xform_group_grid($label, $name, $type = 'text', $value = '', $required 
     } 
 }
 
-function xform_submit($text = 'Save', $form_id = '', $extra = ['class' => 'btn btn-theme'], $fg_extra = ['class' => 'form-group']) {
-    $form_id = attr_isset($form_id, 'form="'.$form_id.'"', ''); 
-    $text .= ajax_spinner(); ?>
+function xform_group_datepicker_list($label, $name, $type = 'text', $value = '', $required = false, $datepicker = 'datepicker', $prepend = 'prepend', $wrapper_extra = [], $input_extra = [], $label_extras = [], $fg_extra = [], $input_group = []) { 
+    //prepend bs class
+    $fg_extra['class'] = 'form-group '.input_key_isset($fg_extra, 'class', '');
+    $for = input_key_isset($input_extra, 'id', '');
+    $label_extras = $required ? array_merge($label_extras, ['required' => true]) : $label_extras; ?>
     <div <?php echo set_extra_attrs($fg_extra); ?>>
-        <button type="submit" <?php echo $form_id; ?> <?php echo set_extra_attrs($extra); ?> >
-            <span><?php echo $text; ?></span>
-        </button>
+        <?php echo xform_label($label, $for, $label_extras); ?>
+        <div class="input-group date <?php echo $datepicker; ?>" <?php echo set_extra_attrs($wrapper_extra); ?>>
+            <?php
+            $input_extra = array_merge(['readonly' => ''], $input_extra);
+            _form_field($name, $type, str_replace('-', '/', $value), $required, $input_extra, $input_group); ?>
+            <div class="input-group-<?php echo $prepend; ?>" style="border: 1px solid #ddd; padding: 5px;">
+                <i class="fa fa-calendar"></i>
+            </div>
+        </div>
+    </div>
+    <?php
+}
+
+function xform_btn($html = 'Save', $form_id = '', $extra = []) {
+    $form_id = attr_isset($form_id, 'form="'.$form_id.'"', ''); 
+    $html .= ajax_spinner(); 
+    $type = $extra['type'] ?? 'submit';
+    $extra['class'] = 'btn btn-theme '.input_key_isset($extra, 'class', '');
+    ?>
+    <button type="<?php echo $type; ?>" <?php echo $form_id; ?> <?php echo set_extra_attrs($extra); ?> >
+        <span><?php echo $html; ?></span>
+    </button>
+    <?php
+}
+
+function xform_submit($html = 'Save', $form_id = '', $extra = [], $fg_extra = ['class' => 'form-group']) { ?>
+    <div <?php echo set_extra_attrs($fg_extra); ?>>
+        <?php xform_btn('<span>'.$html.'</span>', $form_id, $extra); ?>
+    </div>
+    <?php
+}
+
+function xform_save_submit($text_save = 'Save & Add Another', $text_submit = 'Save & View', $form_id = '', $extra = [], $fg_extra = ['class' => 'form-group']) {
+    $form_id = attr_isset($form_id, 'form="'.$form_id.'"', ''); ?>
+    <div <?php echo set_extra_attrs($fg_extra); ?>>
+        <?php
+        $extra = array_merge(['class' => 'btn btn-theme submit_type'], $extra);
+        $extra_save = array_merge($extra, ['value' => 'save']);
+        $extra_submit = array_merge($extra, ['value' => 'submit']);
+        //hidden input against which the selected option will rendered for transport to server
+        xform_input('submit_type', 'hidden');
+        xform_btn('<span>'.$text_save.'</span>', $form_id, $extra_save);
+        xform_btn('<span>'.$text_submit.'</span>', $form_id, $extra_submit);
+        ?>
     </div>
     <?php
 }
@@ -321,3 +370,10 @@ function ajax_form_modal(array $data, array $fields, $butt_attrs = ['class' => '
         xform($data['url'], $fields, $attrs, ucfirst($data['crud_type']), '', $butt_attrs, ['class' => $notice]);
     modal_footer(false);
 }
+
+function csrf_hidden_input($return = false) {
+    $ci =& get_instance();
+    $elem = xform_input('csrf_hash', 'hidden', $ci->security->get_csrf_hash(), false, ['id' => 'csrf_hash']);
+    if ($return) return $elem;
+    echo $elem;
+} 

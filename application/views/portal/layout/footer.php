@@ -1,13 +1,8 @@
-                    </div><!-- /.bg-white padding-25 h-100 -->
-                </div><!-- /.col-12 -->
-            </div><!-- /.row -->
-
-        </div>
-        <!-- /page content -->
-            
+        </div><!-- /#ajax_page_container -->
         <footer class="footer">
+            &copy; <?php echo date('Y'); ?>.
             <div class="float-right">
-                Powered by <a href="<?php echo $this->author_linkedin; ?>" class="company-name text-theme"><?php echo $this->site_author; ?></a>
+                Powered by<a href="<?php echo $this->site_author_url; ?>" class="company-name text-theme"><?php echo $this->site_author; ?></a>
             </div>
             <div class="clearfix"></div>
         </footer>
@@ -38,7 +33,9 @@ modal_footer(false);
 //modal row options
 modal_header('m_img_view', 'Image View', 'fill-in', 'modal-lg');
 modal_footer(false); 
-?>
+
+//the guy that handles loading of stuff 
+ajax_overlay_loader(); ?>
 
 <!-- Vendors -->
 <!-- Regular guys -->
@@ -50,15 +47,15 @@ modal_footer(false);
 <!-- Datatables BS 4 -->
 <script src="<?php echo base_url(); ?>vendors/portal/datatables_bs4/datatables.min.js"></script>
 <!-- jQuery File Upload -->
-<script src="<?php echo base_url(); ?>vendors/portal/jquery-upload/js/vendor/jquery.ui.widget.js"></script>
-<script src="<?php echo base_url(); ?>vendors/portal/jquery-upload/js/jquery.fileupload.js"></script>
-<!-- Tags Input -->
-<script src="<?php echo base_url(); ?>vendors/portal/jquery-tagsinput/src/jquery.tagsinput.js"></script>
+<!-- <script src="<?php //echo base_url(); ?>vendors/portal/jquery-upload/js/vendor/jquery.ui.widget.js"></script>
+<script src="<?php //echo base_url(); ?>vendors/portal/jquery-upload/js/jquery.fileupload.js"></script>
+Tags Input
+<script src="<?php //echo base_url(); ?>vendors/portal/jquery-tagsinput/src/jquery.tagsinput.js"></script> -->
 
 <!-- Template scripts -->
 <script src="<?php echo base_url(); ?>assets/portal/template/js/main.js"></script>
-<script src="<?php echo base_url(); ?>assets/portal/template/js/settings.min.js"></script>
-<script src="<?php echo base_url(); ?>assets/portal/template/js/charts.js"></script>
+<!-- <script src="<?php //echo base_url(); ?>assets/portal/template/js/settings.min.js"></script>
+<script src="<?php //echo base_url(); ?>assets/portal/template/js/charts.js"></script> -->
 
 <!-- Portal Common scripts -->
 <script src="<?php echo base_url(); ?>assets/portal/custom/js/common.js"></script>
@@ -73,23 +70,16 @@ modal_footer(false);
 
 <?php
 //custom page-specific scripts
-if ($this->page_scripts) {
-    foreach ($this->page_scripts as $script) { 
-        $script_url = base_url().'assets/portal/custom/js/'.$script.'.js'; ?>
-        <script src="<?php echo $script_url; ?>"></script>
-        <?php echo "\r\n";
-    } 
-} ?>
+load_scripts($this->page_scripts, 'assets/portal/custom/js'); 
+?>
 
-<script>
-    //pass vars to javascript
-    var base_url = "<?php echo base_url(); ?>";
-    var c_controller = "<?php echo $this->c_controller; ?>";
-    var user_currency_name = "<?php echo $this->session->user_currency_name; ?>";
-    var user_currency = "<?php echo $this->session->user_currency; ?>";
-    //trash status
-    var trashed = "<?php echo $this->trashed; ?>";
-    
+<?php 
+//is there a leading slash?
+$requested_resource = get_requested_resource_ajax();
+?>
+<script type="text/javascript">
+    var base_url = "<?php echo base_url(); ?>",
+        ajax_requested_page = "<?php echo $requested_resource; ?>";
 </script>
 
 </body>

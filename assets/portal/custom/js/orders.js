@@ -2,21 +2,17 @@ jQuery(document).ready(function ($) {
     "use strict"; 
     //orders
     var columns = [
-        {data: 'customer_name'},
+        dt_name_col('c_'),
         {data: 'ref_id'},
         {data: 'product_count', searchable: false, orderable: false},
         {data: 'placed_on'},
-        {data: 'order_status', 
-            render: function(data, type, row) {
-                return `<span class="badge badge-pill badge-${row.order_status_bg} text-bold">${data}</span>`;
-            }
-        },
-        {data: 'has_paid'},
+        dt_custom_status_badge_col('status', 'order_status', 'order_status_bg'),
+        dt_status_badge_col('paid', 'has_paid'),
         {data: 'amount_paid_name'},
         {data: 'paid_on'},
         {data: 'payment_mode_name'},
         {data: 'payment_ref_id'},
-        {data: 'processed_by_name'},
+        dt_name_col('pro_'),
         {data: 'processed_on'}
     ];
     var status = table_query_var('status');
@@ -24,16 +20,16 @@ jQuery(document).ready(function ($) {
 
     //order items
     var columns = [
-        record_image_col(),
+        dt_image_col(),
         {data: 'product_name'},
         {data: 'category'},
+        dt_status_badge_col('status', 'item_status'),
         {data: 'size_name'},
         {data: 'color_name'},
         {data: 'qty'},
         {data: 'stock'},
-        {data: 'amount_paid'},
-        {data: 'current_amount'},
-        {data: 'item_status'},
+        {data: 'purchase_price'},
+        {data: 'current_price'},
     ];
     var order_id = $('[name="order_id"]').val();
     ajax_data_table('items_table', c_controller+'/items_ajax/'+order_id, columns);

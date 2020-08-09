@@ -31,7 +31,7 @@ function ajax_view_btn($module, $usergroups = null, $params) {
     $ci =& get_instance();
     if ($ci->auth->vet_access($module, VIEW, $usergroups)) { 
         $text = $params['with_text'] ? 'View' : '';
-        return '<a type="button" href="'.base_url($params['url']).'" class="btn btn-primary text-white ajax_crud_btn" title="View record"><i class="fa fa-'.$params['icon'].'"></i> '.$text.'</a>';
+        return ajax_page_button($params['url'], $text, 'btn-primary text-white ajax_crud_btn', 'View record', $params['icon'], '', '', '', 1, '', '', true);
     }
 }
 
@@ -48,7 +48,7 @@ function ajax_edit_btn($module, $usergroups = null, $params) {
     $ci =& get_instance();
     if ($ci->auth->vet_access($module, EDIT, $usergroups)) { 
         $text = $params['with_text'] ? 'Edit' : '';
-        return '<a type="button" href="'.base_url($params['url']).'" class="btn btn-info text-white ajax_crud_btn" title="Edit record"><i class="fa fa-'.$params['icon'].'"></i> '.$text.'</a>';
+        return ajax_page_button($params['url'], $text, 'btn-primary text-white ajax_crud_btn', 'Edit record', $params['icon'], '', '', '', 1, '', '', true);
     }
 }
 
@@ -86,7 +86,7 @@ function ajax_del_btn($module, $model, $usergroups = null, $params) {
 }
 
 function ajax_extra_options_btn($module, $usergroups = null, $params) {
-    if ( ! is_array($params['options']) || count($params['options']) === 0)  return null;
+    if ( ! is_array($params['options']) || empty($params['options']))  return null;
     $ci =& get_instance();
     if ($ci->auth->vet_access($module, VIEW, $usergroups)) { 
         $_options = [];
@@ -120,21 +120,21 @@ function ajax_extra_btn($butt, $offset) {
     if ($type == 'modal') {
         return "<button type='button' data-modal='#{$target}' data-name='{$name}' data-id='{$id}' class='btn btn-{$bg} ajax_crud_btn ajax_extra_modal_btn' title='{$title}'><i class='fa fa-{$icon}'></i> {$text}</button>";
     } else {
-        $url = base_url($target);
-        return "<a type='button' href='{$url}' class='btn btn-{$bg} ajax_crud_btn' title='{$title}'><i class='fa fa-{$icon}'></i> {$text}</a>";
+        return ajax_page_button($target, $text, 'btn-'.$bg.' ajax_crud_btn', $title, $icon, '', '', '', 1, '', '', true);
     }
 }
 
 
 function table_crud_butts($module, $model, $usergroups, $table, $trashed, $keys = [], $show = [], $offset = 1, $with_text = false) {
     $ci =& get_instance();
+    $butts = [];
     if (intval($trashed) == 1) {
         // restore and delete permanently for trashed pages
         // will always show on trashed list
         /* sample usage 
         $this->butts = ['list' => ['url' => 'orders', 'where' => ['company_id' => 3]];
         */
-        $btn = ajax_restore_btn($module, $model, $usergroups, ['table' => $table, 'offset' => $offset, 'with_text' => $with_text, 'icon' => 'refresh']) . ' ';
+        $butts['restore'] = ajax_restore_btn($module, $model, $usergroups, ['table' => $table, 'offset' => $offset, 'with_text' => $with_text, 'icon' => 'refresh']);
         //check for custom model method (cmm) specified?
         $cmm = array_key_exists('delete', $show) && array_key_exists('cmm', $show['delete']) ? $show['delete']['cmm'] : '';
         //check for files
@@ -142,12 +142,14 @@ function table_crud_butts($module, $model, $usergroups, $table, $trashed, $keys 
         $files = json_encode($files);
         //trash: will always show on trashed list unless $show['delete'] == false
         $show_delete = $show['delete'] ?? true;
-        if ($show_trashed) {
-            $btn .= ajax_del_btn($module, $model, $usergroups, ['table' => $table, 'offset' => $offset, 'cmm' => $cmm, 'files' => $files, 'with_text' => $with_text, 'icon' => 'trash-o']);
+        if ($show_delete) {
+            $butts['delete'] = ajax_del_btn($module, $model, $usergroups, ['table' => $table, 'offset' => $offset, 'cmm' => $cmm, 'files' => $files, 'with_text' => $with_text, 'icon' => 'trash-o']);
         }
-        return $btn;
+        //button sort order
+        $order = ['restore', 'delete'];
+        $sorted = sort_array($butts, $order);
+        return join(" ", $sorted); 
     }
-    $butts = "";
     //view
     if (array_key_exists('view', $show)) {
         /* sample usage
@@ -161,10 +163,10 @@ function table_crud_butts($module, $model, $usergroups, $table, $trashed, $keys 
         $qry = _crud_butt_param($show, 'view', 'qry', '');
         if ($type == 'url') {
             $url = _crud_butt_param($show, 'view', 'url', $ci->c_controller.'/view/$'.$offset.$qry);
-            $butts .= ajax_view_btn($module, $usergroups, ['url' => $url, 'with_text' => $with_text, 'icon' => $icon]) . ' ';
+            $butts['view'] = ajax_view_btn($module, $usergroups, ['url' => $url, 'with_text' => $with_text, 'icon' => $icon]);
         } else { //modal
             $modal = _crud_butt_param($show, 'view', 'modal', 'm_view');
-            $butts .= ajax_view_btn_modal($module, $usergroups, ['keys' => $keys, 'modal' => $modal, 'with_text' => $with_text, 'icon' => $icon]) . ' '; 
+            $butts['view'] = ajax_view_btn_modal($module, $usergroups, ['keys' => $keys, 'modal' => $modal, 'with_text' => $with_text, 'icon' => $icon]); 
         }
     }
     //edit
@@ -177,18 +179,18 @@ function table_crud_butts($module, $model, $usergroups, $table, $trashed, $keys 
         $qry = _crud_butt_param($show, 'edit', 'qry', '');
         if ($type == 'url') {
             $url = _crud_butt_param($show, 'edit', 'url', $ci->c_controller.'/edit/$'.$offset.$qry);
-            $butts .= ajax_edit_btn($module, $usergroups, ['url' => $url, 'with_text' => $with_text, 'icon' => $icon]) . ' ';
+            $butts['edit'] = ajax_edit_btn($module, $usergroups, ['url' => $url, 'with_text' => $with_text, 'icon' => $icon]);
         } else { //modal
             $modal = _crud_butt_param($show, 'edit', 'modal', 'm_edit');
             $form_id = _crud_butt_param($show, 'edit', 'form_id', 'edit_form');
             $form_action = _crud_butt_param($show, 'edit', 'form_action', base_url($ci->c_controller.'/edit_ajax'));
-            $butts .= ajax_edit_btn_modal($module, $usergroups, ['keys' => $keys, 'modal' => $modal, 'form_id' => $form_id, 'form_action' => $form_action, 'with_text' => $with_text, 'icon' => $icon]) . ' '; 
+            $butts['edit'] = ajax_edit_btn_modal($module, $usergroups, ['keys' => $keys, 'modal' => $modal, 'form_id' => $form_id, 'form_action' => $form_action, 'with_text' => $with_text, 'icon' => $icon]); 
         }
     }
     //trash: will always show on untrashed list unless $show['trashed'] == false
     $show_trashed = $show['trashed'] ?? true;
     if ($show_trashed) {
-        $butts .= ajax_trash_btn($module, $model, $usergroups, ['table' => $table, 'offset' => $offset, 'with_text' => $with_text, 'icon' => 'trash']) . ' ';
+        $butts['trash'] = ajax_trash_btn($module, $model, $usergroups, ['table' => $table, 'offset' => $offset, 'with_text' => $with_text, 'icon' => 'trash']);
     }
     //extra buttons
     if (array_key_exists('xtra_butts', $show)) {
@@ -200,19 +202,24 @@ function table_crud_butts($module, $model, $usergroups, $table, $trashed, $keys 
         $butts = ['view' => ['url' => 'products/view/$2'], 'extra' => $xtra_butts]; 
         */
         $xtra_butts = $show['xtra_butts'] ?? [];
+        $xtra_btns = "";
         foreach ($xtra_butts as $butt) {
-            $butts .= ajax_extra_btn($butt, $offset).' ';
+            $xtra_btns .= ajax_extra_btn($butt, $offset).' ';
         }
+        $butts['xtra_butts'] = $xtra_btns;
     }
     //extra options
-    /*if (array_key_exists('extra', $show)) {
+    /*if (array_key_exists('xtra_opts', $show)) {
         //usage
-        $icon = _crud_butt_param($show, 'extra', 'icon', 'navicon');
+        $icon = _crud_butt_param($show, 'xtra_opts', 'icon', 'navicon');
         $options = _crud_butt_param($show, 'extra', 'options', []);
-        $butts .= ajax_extra_options_btn($module, $usergroups, ['options' => $options, 'offset' => $offset, 'with_text' => $with_text, 'icon' => $icon]) . ' ';
+        $butts['xtra_opts'] = ajax_extra_options_btn($module, $usergroups, ['options' => $options, 'offset' => $offset, 'with_text' => $with_text, 'icon' => $icon]) . ' ';
     }*/
     //vomit
-    return $butts;
+    //button sort order
+    $order = ['view', 'edit', 'xtra_butts', 'xtra_opts', 'trash'];
+    $sorted = sort_array($butts, $order);
+    return join(" ", $sorted); 
 }
 
 function _crud_butt_param($show, $type, $key, $default) {
@@ -224,6 +231,11 @@ function link_button($text, $url, $icon = '', $bg = 'primary', $title = '', $cla
     $icon = strlen($icon) ? 'fa fa-'.$icon : '';
     $url = $full_url ? $url : base_url($url);
     return '<a class="btn btn-'.$bg.' '.$class.'" href="'.$url.'" title="'.$title.'"><i class="'.$icon.'" '.$attrs.'></i> '.$text.'</a>';
+}
+
+function link_button_ajax($text, $url, $icon = '', $bg = 'primary', $title = '', $class = '', $full_url = false, $extra= []) {
+    $attrs = set_extra_attrs($extra);
+    return ajax_page_button($url, $text, 'btn-'.$bg.' '.$class, $title, $icon, $attrs, '', '', 1, '', '', true);
 }
 
 function save_button($text, $form_id, $icon = 'save', $bg = 'primary', $title = '', $extra= []) {
@@ -260,7 +272,10 @@ function page_crud_butts($module, $usergroups, $butts, $record_id = null, $recor
     $where = isset($butts['where']) && ! empty($butts['where']) ? json_encode($butts['where']) : '';
 
     //refresh button to be appended
-    $refresh_btn = link_button('Refresh', get_requested_page(), 'refresh', 'primary', 'Reload page', '', true);
+    $refresh_btn = link_button_ajax('Refresh', get_requested_resource_ajax(), 'refresh', 'primary', 'Reload page', '', true);
+
+    //allow trash/delete/restore buttons?
+    $del_butts = $butts['del_butts'] ?? true;
 
     $buttons = [];
     foreach ($butts as $_key => $butt) {
@@ -284,31 +299,36 @@ function page_crud_butts($module, $usergroups, $butts, $record_id = null, $recor
             case 'list':
                 $btn = '';
                 if ($ci->auth->vet_access($module, VIEW, $usergroups)) {
-                    $url = $isset_url ? $butt['url'] : $ci->c_controller;
-                    $icon = $isset_icon ? $butt['icon'] : 'list';
-                    $btn = link_button('List', $url, $icon, $bg, 'Go to record list');
+                    //allow del butts
+                    if ($del_butts) {
+                        $url = $isset_url ? $butt['url'] : $ci->c_controller;
+                        $icon = $isset_icon ? $butt['icon'] : 'list';
+                        $btn = link_button_ajax('List', $url, $icon, $bg, 'Go to record list');
+                    }
                     //trashed records?
                     if ($ci->trashed == 1) {
                         
                         $restore_all = '';
                         $clear_all = '';
-                        if ($ci->page == 'index' && $record_count > 0) {
-                            $restore_all = tm_confirm('Restore All', $ci->module, $ci->model, $ci->table, 'tm_restore_all', 'refresh', 'success', 'Restore all records', ['data-where' => $where]);
-                            //any files to be deleted?
-                            $files = isset($butt['files']) ? $butt['files'] : [];
-                            $clear_all = tm_confirm('Clear All', $ci->module, $ci->model, $ci->table, 'tm_clear_trash', 'trash-o', 'danger', 'Empty trash', ['data-files' => json_encode($files), 'data-where' => $where]);
+                        //allow del butts
+                        if ($del_butts) {
+                            if ($ci->page == 'index' && $record_count > 0) {
+                                $restore_all = tm_confirm('Restore All', $ci->module, $ci->model, $ci->table, 'tm_restore_all', 'refresh', 'success', 'Restore all records', ['data-where' => $where]);
+                                //any files to be deleted?
+                                $files = isset($butt['files']) ? $butt['files'] : [];
+                                $clear_all = tm_confirm('Clear All', $ci->module, $ci->model, $ci->table, 'tm_clear_trash', 'trash-o', 'danger', 'Empty trash', ['data-files' => json_encode($files), 'data-where' => $where]);
+                            }
+                            return $btn.' '.$restore_all.' '.$clear_all.' '.$refresh_btn;
                         }
                         //return early, cos we don't need to show other buttons
-                        return $btn.' '.$restore_all.' '.$clear_all.' '.$refresh_btn;
+                        return $refresh_btn;
                     } else {
-                        if ($ci->page == 'index') {
+                        if ($ci->page == 'index' && $del_butts) {
                             $query_string = query_param('trashed', 1);
                             $url = $isset_url ? $butt['url'].$query_string : $ci->c_controller.$query_string;
                             $icon = $isset_icon ? $butt['icon'] : 'trash';
-                            $btn = link_button('Trashed', $url, $icon, $bg, 'View trashed records');
-                        } else {
-                            $btn = $btn;
-                        }
+                            $btn = link_button_ajax('Trashed', $url, $icon, $bg, 'View trashed records');
+                        } 
                     }
                 }
                 break;
@@ -318,7 +338,7 @@ function page_crud_butts($module, $usergroups, $butts, $record_id = null, $recor
                 $btn = '';
                 if ($ci->auth->vet_access($module, VIEW, $usergroups)) {$url = $isset_url ? $butt['url'] : $ci->c_controller.'/view/'.$record_id;
                     $icon = $isset_icon ? $butt['icon'] : 'eye';
-                    $btn = link_button('View', $url, $icon, $bg, 'View this record');
+                    $btn = link_button_ajax('View', $url, $icon, $bg, 'View this record');
                 }
                 break;
 
@@ -328,7 +348,7 @@ function page_crud_butts($module, $usergroups, $butts, $record_id = null, $recor
                 if ($ci->auth->vet_access($module, ADD, $usergroups)) { 
                     $url = $isset_url ? $butt['url'] : $ci->c_controller.'/add';
                     $icon = $isset_icon ? $butt['icon'] : 'plus';
-                    $btn = link_button('Add', $url, $icon, $bg, 'Add new record');
+                    $btn = link_button_ajax('Add', $url, $icon, $bg, 'Add new record');
                 }
                 break;
 
@@ -348,7 +368,7 @@ function page_crud_butts($module, $usergroups, $butts, $record_id = null, $recor
                 if ($ci->auth->vet_access($module, EDIT, $usergroups)) { 
                     $url = $isset_url ? $butt['url'] : $ci->c_controller.'/edit/'.$record_id;
                     $icon = $isset_icon ? $butt['icon'] : 'edit';
-                    $btn = link_button('Edit', $url, $icon, $bg, 'Edit this record');
+                    $btn = link_button_ajax('Edit', $url, $icon, $bg, 'Edit this record');
                 }
                 break;
 
@@ -381,14 +401,14 @@ function page_crud_butts($module, $usergroups, $butts, $record_id = null, $recor
                 $btn = '';
                 if ($ci->auth->vet_access($module, VIEW, $usergroups)) { 
                     $xtra_butts = $butt;
-                    if (is_array($xtra_butts) && count($xtra_butts) > 0)  {
+                    if (is_array($xtra_butts) && !empty($xtra_butts))  {
                         foreach ($xtra_butts as $_opt) {
                             $type = $_opt['type'] ?? 'url';
                             $target = $_opt['target'] ?? '#!';
                             $text = $_opt['text'] ?? '';
                             $icon = $_opt['icon'] ?? 'indent';
                             if ($type == 'url') {
-                                $btn .= link_button($text, $_opt['target'], $icon, $bg) . ' ';
+                                $btn .= link_button_ajax($text, $_opt['target'], $icon, $bg) . ' ';
                             } else {
                                 $btn .= modal_button($text, $target, $icon, $bg) . ' ';
                             }
@@ -403,8 +423,8 @@ function page_crud_butts($module, $usergroups, $butts, $record_id = null, $recor
         }
         $buttons[$key] = $btn;
     } 
-    $trash_all_btn = "";
-    if ($ci->page == 'index' && $record_count > 0) {
+    //others
+    if ($ci->page == 'index' && $record_count > 0 && $del_butts) {
         $trash_all_btn = tm_confirm('Trash All', $ci->module, $ci->model, $ci->table, 'tm_trash_all', 'trash', 'warning', 'Trash all records', ['data-where' => $where]);
         $buttons['trash_all'] = $trash_all_btn;
     }

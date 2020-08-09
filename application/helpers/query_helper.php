@@ -1,11 +1,23 @@
 <?php 
-function full_name_select($tbl_alias = '', $with_alias = true, $alias = 'full_name', $prefix = '', $affix = '') {
-	$tbl_alias = strlen($tbl_alias) ? "{$tbl_alias}." : '';
-	$select = "TRIM(
+function sql_data($table, $joins, $select, $where, $order = [], $group_by = '') {
+	return ['table' => $table, 'joins' => $joins, 'select' => $select, 'where' => $where, 'order' => $order, 'group_by' => $group_by];
+}
+
+function full_name_select($table_alias = '', $with_alias = true, $alias = 'full_name', $prefix = '', $affix = '') {
+	$tbl_alias = strlen($table_alias) ? "{$table_alias}." : '';
+	//individual names
+	$pfx = strlen($table_alias) ? "{$table_alias}_" : '';
+	$select = "
+		IFNULL({$tbl_alias}{$prefix}{$affix}title, '') AS {$pfx}title,  
+		IFNULL({$tbl_alias}{$prefix}{$affix}first_name, '') AS {$pfx}first_name, 
+		IFNULL({$tbl_alias}{$prefix}{$affix}last_name, '') AS {$pfx}last_name,  
+		IFNULL({$tbl_alias}{$prefix}{$affix}other_name, '') AS {$pfx}other_name";
+	//concatenated name
+	$select .= ", TRIM(
 		CONCAT(
 			IFNULL({$tbl_alias}{$prefix}title{$affix}, ''), ' ', 
-			IFNULL({$tbl_alias}{$prefix}last_name{$affix}, ''), ' ', 
 			IFNULL({$tbl_alias}{$prefix}first_name{$affix}, ''), ' ', 
+			IFNULL({$tbl_alias}{$prefix}last_name{$affix}, ''), ' ', 
 			IFNULL({$tbl_alias}{$prefix}other_name{$affix}, '')
 		))";
 	$select .= $with_alias ? " AS {$alias}" : '';
@@ -34,11 +46,7 @@ function price_select($code_col, $price_col, $alias = 'amount', $precision = 0) 
 }
 
 function file_select($path, $file_dir_col, $file_col, $alias = 'file', $default = null) {
-	return "CONCAT('/{$path}', '/', {$file_dir_col}, '/', {$file_col}) AS {$alias}";
-}
-
-function sql_data($table, $joins, $select, $where, $order = [], $group_by = '') {
-	return ['table' => $table, 'joins' => $joins, 'select' => $select, 'where' => $where, 'order' => $order, 'group_by' => $group_by];
+	return "CONCAT('{$path}', '/', {$file_dir_col}, '/', {$file_col}) AS {$alias}";
 }
 
 function find_in_set_mult($params, $field) {

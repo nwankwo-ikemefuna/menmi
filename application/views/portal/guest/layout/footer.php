@@ -19,13 +19,8 @@
 
 <?php
 //custom page-specific scripts
-if ($this->page_scripts) {
-    foreach ($this->page_scripts as $script) { 
-        $script_url = base_url().'assets/portal/custom/js/'.$script.'.js'; ?>
-        <script src="<?php echo $script_url; ?>"></script>
-        <?php echo "\r\n";
-    } 
-} ?>
+load_scripts($this->page_scripts, 'assets/portal/custom/js'); 
+?>
 
 <script>
     //pass vars to javascript

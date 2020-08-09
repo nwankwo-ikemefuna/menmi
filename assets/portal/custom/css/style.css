@@ -18,10 +18,8 @@ input:read-only {
 	padding: 10px;
 }
 
-.page_buttons {
-	/*margin-top: 10px;*/
-	/*background: #fff;*/
-	/*padding: 10px;*/
+.page_buttons button, .page_buttons a {
+	margin-bottom: 5px; 
 }
 
 .modal.custom .modal-header {
@@ -31,9 +29,6 @@ input:read-only {
 } 
 .modal.custom .modal-header .modal-title {
 	font-weight: 600;
-} 
-.modal.custom .modal-body {
-	padding: 20px 15px;
 } 
 .modal.custom .modal-footer {
 	border-top: 1px solid #f2f2f2;

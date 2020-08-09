@@ -22,4 +22,5 @@
 </section>
 
 <?php products_col_slider('Products You Viewed', $viewed_products, 'shop?type=viewed');
+products_col_slider('Products In Your Wishlist', $wishlist_products, 'shop?type=wishlist');
 cart_modal();

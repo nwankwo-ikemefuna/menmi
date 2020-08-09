@@ -1,85 +1,6 @@
 jQuery(document).ready(function ($) {
     "use strict";  
-
-    //Non-server side datatables
-    var table = $('#table_client').DataTable({ 
-        "paging": true,
-        "pageLength" : 25,
-        "lengthChange": true, 
-        "searching": true,
-        "info": true,
-        "scrollX": true,
-        "autoWidth": false,
-        "ordering": true,
-        "stateSave": true,
-        "processing": false, 
-        "pagingType": "simple_numbers", 
-        "language": {
-            "search": "Search/filter: ",
-            "emptyTable": "Nothing to show.",
-        }
-    });
-
-    //ajax datatables trigger
-    var dt = $('.ajax_dt_table');
-    if (dt.length) {
-        var table = dt.attr('id'),
-            custom = dt.data('custom'),
-            url = dt.data('url'),
-            cols = dt.data('cols'),
-            col_defs = dt.attr('data-col_defs') ? dt.data('col_defs') : [],
-            per_page = dt.attr('data-per_page') ? dt.data('per_page') : 30;
-        if ( ! custom)
-            ajax_data_table(table, url, cols, col_defs, per_page);
-    }
 });
-
-
-//print and export buttons for DataTables
-var ExportButtons = [
-    {
-        extend: 'colvis', //column visibility
-    },
-    {
-        extend: 'print',
-        exportOptions: {
-            columns: ':visible'
-        }
-    },
-    {
-        extend: 'excel',
-        exportOptions: {
-            text: 'Export',
-            columns: ':visible'
-        }
-    },
-    {
-        extend: 'csv',
-        exportOptions: {
-            columns: ':visible'
-        }
-    },
-    {
-        extend: 'pdf',
-        exportOptions: {
-            columns: ':visible'
-        }
-    }
-];
-
-
-// Setup datatables
-$.fn.dataTableExt.oApi.fnPagingInfo = function(oSettings) {
-    return {
-  "iStart": oSettings._iDisplayStart,
-  "iEnd": oSettings.fnDisplayEnd(),
-  "iLength": oSettings._iDisplayLength,
-  "iTotal": oSettings.fnRecordsTotal(),
-  "iFilteredTotal": oSettings.fnRecordsDisplay(),
-  "iPage": Math.ceil(oSettings._iDisplayStart / oSettings._iDisplayLength),
-  "iTotalPages": Math.ceil(oSettings.fnRecordsDisplay() / oSettings._iDisplayLength)
-    };
-};
 
 function ajax_data_table(table_id, url, columns, column_defs = [], page_length = 30) {
     //extras
@@ -146,22 +67,104 @@ function ajax_data_table(table_id, url, columns, column_defs = [], page_length =
             var length = info.iLength;
         //     $('td:eq(1)', row).html(index); //counter
         }
-     
     });
 }
+
+
+//print and export buttons for DataTables
+var ExportButtons = [
+    {
+        extend: 'colvis', //column visibility
+    },
+    {
+        extend: 'print',
+        exportOptions: {
+            columns: ':visible'
+        }
+    },
+    {
+        extend: 'excel',
+        exportOptions: {
+            text: 'Export',
+            columns: ':visible'
+        }
+    },
+    {
+        extend: 'csv',
+        exportOptions: {
+            columns: ':visible'
+        }
+    },
+    {
+        extend: 'pdf',
+        exportOptions: {
+            columns: ':visible'
+        }
+    }
+];
+
+
+// Setup datatables
+$.fn.dataTableExt.oApi.fnPagingInfo = function(oSettings) {
+    return {
+  "iStart": oSettings._iDisplayStart,
+  "iEnd": oSettings.fnDisplayEnd(),
+  "iLength": oSettings._iDisplayLength,
+  "iTotal": oSettings.fnRecordsTotal(),
+  "iFilteredTotal": oSettings.fnRecordsDisplay(),
+  "iPage": Math.ceil(oSettings._iDisplayStart / oSettings._iDisplayLength),
+  "iTotalPages": Math.ceil(oSettings.fnRecordsDisplay() / oSettings._iDisplayLength)
+    };
+};
 
 function record_image(url) { 
     // var src = image_exists(url) ? url : base_url+'assets/common/img/icons/not_found.png';
     return '<img class="record_image clickable tm_image" src='+url+'>'; 
 }
 
-function record_image_col(image = 'image_file') {
+function dt_image_col(data = 'image_file') {
     return {
-        data: image, 
+        data: data, 
         searchable: false,
         orderable: false,
-        render: function (data, type, row) { 
+        render: function (data) { 
             return record_image(data);
+        }
+    };
+}
+
+function dt_name_col(pfx = 'u_') {
+    return {
+        data: pfx+'first_name',
+        render: function (data, type, row) { 
+            var p_title = row[pfx+'title'], 
+                p_first_name = row[pfx+'first_name'],
+                p_last_name = row[pfx+'last_name'],
+                p_other_name = row[pfx+'other_name'];
+            var title = p_title != null ? p_title+' ' : '', 
+                first_name = p_first_name != null ? p_first_name+' ' : '', 
+                last_name = p_last_name != null ? p_last_name+' ' : '', 
+                other_name = p_other_name != null ? p_other_name+' ' : '';
+            return `${title}${first_name}${last_name}${other_name}`;
+        }
+    };
+}
+
+function dt_status_badge_col(data, text, succ_val = 1, fail_val = 0, succ_bg = 'success', fail_bg = 'danger') {
+    return {
+        data: data,
+        render: function(data, type, row) {
+            var bg = data == succ_val ? succ_bg : fail_bg;
+            return `<span class="badge badge-pill badge-${bg} text-bold">${row[text]}</span>`;
+        }
+    };
+}
+
+function dt_custom_status_badge_col(data, text, bg = 'primary') {
+    return {
+        data: data,
+        render: function(data, type, row) {
+            return `<span class="badge badge-pill badge-${row[bg]} text-bold">${row[text]}</span>`;
         }
     };
 }

@@ -14,22 +14,22 @@ function get_file($file, $default = null) {
     return is_file($file) && file_exists($file) ? $file : $default;
 }
 
-function company_file_path($upload_ir = '', $file = '', $type = 'pix') {
-    $upload_ir = strlen($upload_ir) ? '/'.$upload_ir : '';
+function company_file_path($upload_dir = '', $file = '', $type = 'pix') {
+    $upload_dir = strlen($upload_dir) ? '/'.$upload_dir : '';
     $file = strlen($file) ? '/'.$file : '';
     if ($type == 'doc') {
-        return COMPANY_DOC_DIR.$upload_ir.$file;
+        return COMPANY_DOC_DIR.$upload_dir.$file;
     }
-    return COMPANY_PIX_DIR.$upload_ir.$file;
+    return COMPANY_PIX_DIR.$upload_dir.$file;
 }
 
-function customer_file_path($upload_ir = '', $file = '', $type = 'pix') {
-    $upload_ir = strlen($upload_ir) ? '/'.$upload_ir : '';
+function customer_file_path($upload_dir = '', $file = '', $type = 'pix') {
+    $upload_dir = strlen($upload_dir) ? '/'.$upload_dir : '';
     $file = strlen($file) ? '/'.$file : '';
     if ($type == 'doc') {
-        return CUSTOMER_DOC_DIR.$upload_ir.$file;
+        return CUSTOMER_DOC_DIR.$upload_dir.$file;
     }
-    return CUSTOMER_PIX_DIR.$upload_ir.$file;
+    return CUSTOMER_PIX_DIR.$upload_dir.$file;
 }
 
 function create_dir($dir) {
@@ -134,22 +134,22 @@ function image_thumbnail($src, $title, $footer = '') { ?>
 }
 
 function download_file($file_path, $file_name) { 
-    $file_path = base_url($file_path.$file_name);
-    $file_path = file_get_contents($file_path);
-    //download file
-    force_download($file_name, $file_path);
+    force_download($file_path, NULL);
 }
 
-function unlink_files(string $path, $files) {
-    if (is_array($files)) {
+function unlink_file(string $path, $file) {
+    $file_path = $path.'/'.$file;
+    if (is_file($file_path) && file_exists($file_path)) {
+        unlink($file_path);
+    }
+}
+
+function unlink_files(string $path, array $files) {
+    if (is_array($files) && !empty($files)) {
         foreach ($files as $file) {
             $file_path = $path.'/'.$file;
             if ( ! is_file($file_path) || ! file_exists($file_path)) continue;
             unlink($file_path);
         }
-    } else {
-        $file_path = $path.'/'.$files;
-        if (is_file($file_path) && file_exists($file_path)) 
-            unlink($file_path);
     }
 }

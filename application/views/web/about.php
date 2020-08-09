@@ -15,7 +15,7 @@
               foreach ($sliders as $row) { ?>
                 <div class="item <?php echo $i == 1 ? 'active' : ''; ?>">
                   <a href="<?php echo strlen($row->url) ? $row->url : '#!'; ?>">
-                    <img src="<?php echo $row->image_file; ?>" alt="<?php echo $row->name; ?>">
+                    <img src="<?php echo base_url($row->image_file); ?>" alt="<?php echo $row->name; ?>">
                   </a>
                 </div>
                 <?php

@@ -10,7 +10,7 @@ $colors = $this->common_model->get_colors();
 $row = $type == 'edit' ? $row : '';
 		
 //form
-$attrs = ['id' => $type.'_form', 'class' => 'ajax_form', 'data-type' => 'redirect', 'data-redirect' => '_dynamic'];
+$attrs = ['id' => $type.'_form', 'class' => 'ajax_form', 'data-type' => 'redirect', 'data-redirect' => '_ajax_dynamic'];
 echo form_open_multipart($this->c_controller.'/'.$type.'_ajax', $attrs);
 	xform_pre_notice();
 	xform_notice();

@@ -10,7 +10,7 @@
 	              <span>Get the latest deals and special offers</span></div>
 	            <div class="col-md-5 col-sm-7">
 	            	<?php 
-	            	$attrs = ['id' => 'newsletter_sub_form', 'class' => 'ajax_form', 'data-type' => 'js_alert', 'data-redirect' => '_void', 'data-msg' => "Thank you for your subscription."];
+	            	$attrs = ['id' => 'newsletter_sub_form', 'class' => 'ajax_form', 'data-type' => 'js_alert', 'data-redirect' => '_void', 'data-msg' => "Thank you for your subscription.", 'data-status_modal' => true, 'data-loading_msg' => 'Subscribing'];
 	            	echo form_open('web/newsletter_sub_ajax', $attrs); ?>
 		                <div class="newsletter-inner">
 		                  <input class="newsletter-email" name="email" placeholder='Enter Your Email' required />
@@ -79,9 +79,9 @@
 	          <div class="tabBlock" id="TabBlock-1">
 	            <ul class="list-links list-unstyled">
 	              	<li><a href="<?php echo base_url('shop'); ?>">Shop</a></li>
-	              	<li><a href="<?php echo base_url('shop/cart'); ?>">My Cart (<?php echo intval(count($this->session->tempdata('cart_products'))); ?>)</a></li>
-	              	<li><a href="<?php echo base_url('shop?type=wishlist'); ?>">My Wishlist (<?php echo intval(count($this->session->tempdata('wishlist_products'))); ?>)</a></li>
-      				<li><a href="<?php echo base_url('shop?type=viewed'); ?>">Viewed Items (<?php echo intval(count($this->session->tempdata('viewed_products'))); ?>)</a></li>
+	              	<li><a href="<?php echo base_url('shop/cart'); ?>">My Cart (<?php echo is_array($this->session->tempdata('cart_products')) ? intval(count($this->session->tempdata('cart_products'))) : 0; ?>)</a></li>
+	              	<li><a href="<?php echo base_url('shop?type=wishlist'); ?>">My Wishlist (<?php echo is_array($this->session->tempdata('wishlist_products')) ? intval(count($this->session->tempdata('wishlist_products'))) : 0; ?>)</a></li>
+      				<li><a href="<?php echo base_url('shop?type=viewed'); ?>">Viewed Items (<?php echo is_array($this->session->tempdata('viewed_products')) ? intval(count($this->session->tempdata('viewed_products'))) : 0; ?>)</a></li>
 	            </ul>
 	          </div>
 	        </div>
@@ -105,7 +105,7 @@
 	          <div class="tabBlock" id="TabBlock-4">
 	            <ul class="list-links list-unstyled">
 	            	<?php if (customer_user()) { ?>
-	              		<li><a href="<?php echo base_url('user'); ?>">My Dashboard</a></li>
+	              		<li><a href="<?php echo base_url('portal'); ?>">My Dashboard</a></li>
 	              	<?php } else { ?>
 	              		<li><a href="<?php echo base_url('register'); ?>">Register</a></li>
 	              		<li><a href="<?php echo base_url('login'); ?>">Login</a></li>
@@ -123,7 +123,7 @@
 	        <div class="col-sm-6 col-xs-12 coppyright"> Copyright © <?php echo date('Y'); ?> <a href="<?php echo base_url(); ?>"> <?php echo $this->site_name; ?> </a>. All Rights Reserved. </div>
 	        <div class="col-sm-6 col-xs-12">
 	          <div class="payment">
-	            Powered by <a href="<?php echo $this->author_linkedin; ?>" target="_blank"><?php echo $this->site_author; ?></a>
+	            Powered by <a href="<?php echo $this->site_author_url; ?>" target="_blank"><?php echo $this->site_author; ?></a>
 	          </div>
 	        </div>
 	      </div>
@@ -144,8 +144,8 @@
 </div>
 
 <?php
-//the guy that spins
-ajax_status_modal(); ?>
+//the guy that handles loading of stuff 
+ajax_overlay_loader(); ?>
 
 <!-- Template scripts -->
 <!-- jquery js --> 
@@ -184,13 +184,8 @@ ajax_status_modal(); ?>
 
 <?php
 //custom page-specific scripts
-if ($this->page_scripts) {
-    foreach ($this->page_scripts as $script) { 
-        $script_url = base_url().'assets/web/custom/js/'.$script.'.js'; ?>
-        <script src="<?php echo $script_url; ?>"></script>
-        <?php echo "\r\n";
-    } 
-} ?>
+load_scripts($this->page_scripts, 'assets/web/custom/js'); 
+?>
 
 <script>
     //pass vars to javascript

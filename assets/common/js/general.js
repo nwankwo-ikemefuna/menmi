@@ -1,17 +1,24 @@
+function initializePlugins() {
+    $('.selectpicker').selectpicker({
+        liveSearch: true,
+        virtualScroll: true
+    });
+}
+
+$(document).ajaxComplete(function() {
+    initializePlugins();
+});
+
+
 jQuery(document).ready(function ($) {
     "use strict";  
+
+    initializePlugins();
 
     //auto-close flashdata alert boxes
     $(".alert-dismissable.auto_dismiss").delay(10000).fadeOut('slow', function() {
         $(this).alert('close');
     });
-
-    //select picker
-    $('.selectpicker').selectpicker({
-        liveSearch: true,
-        virtualScroll: true
-    });
-
 
     var req_attr = $('input.form-control').attr('required');
 	if (typeof req_attr !== typeof undefined && req_attr !== false) {
@@ -28,48 +35,46 @@ jQuery(document).ready(function ($) {
 	    });
 	}
 
-    $(document).ready(function(){
-        $('.file_input').on('change', function(){ 
-            if (window.File && window.FileReader && window.FileList && window.Blob) //check File API supported browser
-            {
-                var parent = $(this).closest('.file_preview_area');
-                $(parent).find('.file_preview').html(''); //clear html of output element
-                var data = $(this)[0].files; //this file data 
+    $(document).on('change', '.file_input', function(){ 
+        if (window.File && window.FileReader && window.FileList && window.Blob) //check File API supported browser
+        {
+            var parent = $(this).closest('.file_preview_area');
+            $(parent).find('.file_preview').html(''); //clear html of output element
+            var data = $(this)[0].files; //this file data 
 
-                $.each(data, function(i, file){ 
-                    if(/(\.|\/)(gif|jpe?g|png)$/i.test(file.type)){ //check supported file type
-                        var fRead = new FileReader(); //new filereader
-                        fRead.onload = (function(file){ //trigger function on successful read
-                        return function(e) {
-                            var card = 
-                            `<div class="card preview_thumb">
-                              <img src="${e.target.result}" class="card-img-top" title="${file.name}">
-                              <div class="card-body">
-                                <p class="card-text hide">${file.name}</p>
-                              </div>
-                            </div>`;
-                            $(parent).find('.file_preview').append(card); //append image to output element
-                        };
-                        })(file);
-                        fRead.readAsDataURL(file); //URL representing the file's data.
-                    } else {
-                        var ext = file.name.split('.').pop();
-                        var src = file_preview_src(ext);
+            $.each(data, function(i, file){ 
+                if(/(\.|\/)(gif|jpe?g|png)$/i.test(file.type)){ //check supported file type
+                    var fRead = new FileReader(); //new filereader
+                    fRead.onload = (function(file){ //trigger function on successful read
+                    return function(e) {
                         var card = 
                         `<div class="card preview_thumb">
-                          <img src="${src}" class="card-img-top" title="${file.name}">
+                          <img src="${e.target.result}" class="card-img-top" title="${file.name}">
                           <div class="card-body">
                             <p class="card-text hide">${file.name}</p>
                           </div>
                         </div>`;
                         $(parent).find('.file_preview').append(card); //append image to output element
-                    }
-                });
-                
-            }else{
-                alert("Your browser doesn't support File API!"); //if File API is absent
-            }
-        });
+                    };
+                    })(file);
+                    fRead.readAsDataURL(file); //URL representing the file's data.
+                } else {
+                    var ext = file.name.split('.').pop();
+                    var src = file_preview_src(ext);
+                    var card = 
+                    `<div class="card preview_thumb">
+                      <img src="${src}" class="card-img-top" title="${file.name}">
+                      <div class="card-body">
+                        <p class="card-text hide">${file.name}</p>
+                      </div>
+                    </div>`;
+                    $(parent).find('.file_preview').append(card); //append image to output element
+                }
+            });
+            
+        }else{
+            alert("Your browser doesn't support File API!"); //if File API is absent
+        }
     });
 
     function file_preview_src(ext) {
@@ -223,81 +228,21 @@ function range_slider(id, min = 0, max = 100, val_min = 100, val_max = 1000) {
   });
 }
 
-function clone_row() {
-    `<table class="table table-striped table-hover table-sm">
-        <thead class="text-white bg-light-dark">
-            <tr>
-                <th style="min-width: 150px">Role</th>
-                <th>Parent</th>
-                <th>Code</th>
-                <th>Slots</th>
-                <th>Use</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            $slots = json_decode($row_TDept['cat_txt'], true);
-            foreach ($roles as $role) {
-                $slot = isset($slots[$catID]) ? $slots[$catID] : 0;
-                ?>
-                <tr class="roles_row">
-                    <td class="name">
-                        <?= $role['category_name'] ?>
-                        <input type="hidden" name="role_idx[]" value="<?= $role['catID'] ?>">
-                        <input type="hidden" name="category_name[]">
-                    </td>
-                    <td class="parent">
-                        <?= $role['catname'] ?>
-                        <input type="hidden" name="parent_id[]">
-                    </td>
-                    <td class="code">
-                        <?= $role['code'] ?>
-                        <input type="hidden" name="code[]">
-                    </td>
-                    <td class="slots">
-                        <div class="input-group">
-                            <input type="number" name="cat_inf[]" class="form-control" min="0" max="<?= $role['cat_inf'] ?>">
-                            <div class="input-group-append">
-                                <span class="input-group-text">out of <?= $role['cat_inf'] ?></span>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="use">
-                        <input type="hidden" name="use[]" value="0">
-                        <input type="checkbox" name="use[]" value="1" <?= $slot == 1 ? 'checked' : '' ?>>
-                    </td>
-                </tr>
-                <?php
-            } ?>
-            <tr>
-                <td colspan="5">
-                    <button type="button" class="btn btn-primary" id="add_role">Add New</button>
-                </td>
-            </tr>   
-        </tbody>
-    </table>`;
-
-    $('#add_role').on('click', function() {
-        var total_rows = $('.roles_row').length;
-        var last_row = total_rows-1;
-        var clone = $('.roles_row').eq(last_row).clone();
-        clone.find('.name').html('<input type="hidden" name="role_idx[]"><input type="text" name="category_name[]" class="form-control" style="width: 100%">');
-        let roles = '<?= json_encode($roles) ?>';
-        let parent = '<select name="parent_id[]" class="form-control">';
-        $.each(JSON.parse(roles), function(i, role) {
-            parent += `<option value="${role.category_id}">${role.category_name}</option>`;
-        });
-        parent += '</select>';
-        clone.find('.parent').html(parent);
-        clone.find('.code').html('<input type="text" name="code[]" class="form-control" style="width: 100px">');
-        clone.find('.slots').html('<input type="number" name="cat_inf[]" class="form-control">');
-        clone.find('.use').html('<input type="hidden" name="use[]" value="0"><i class="fa fa-remove text-danger cursor-pointer remove_row"></i>');
-        clone.find('.role_id').val('');
-        $('.roles_row').eq(last_row).after(clone);
-    });
-    $(document).on('click', '.remove_row', function() {
-        var parent = $(this).closest('.roles_row').remove();
-    });
+function format_date(date, type = 'both') {
+    const d = new Date(date);
+    const year = d.toLocaleString('en', { year: '2-digit' });
+    const month = d.toLocaleString('en', { month: 'short' });
+    const day = d.toLocaleString('en', { day: '2-digit' });
+    const time = d.toLocaleString('en', { hour: 'numeric', minute: 'numeric', hour12: true });
+    const full_date = `${day} ${month} '${year}`;
+    switch (type) {
+        case 'date':
+            return full_date;
+        case 'time':
+            return time;
+        default: 
+            return `${full_date} ${time}`; 
+    }
 }
 
 

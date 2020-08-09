@@ -22,7 +22,7 @@ svg circle {
     font-family: 'Material Icons';
     font-style: normal;
     font-weight: 400;
-    src: url(http://fonts.gstatic.com/s/materialicons/v48/flUhRq6tzZclQEJ-Vdg-IuiaDsNZ.ttf) format('truetype')
+    src: url(../fonts/flUhRq6tzZclQEJ-Vdg-IuiaDsNZ.ttf) format('truetype')
 }
 
 @font-face {
@@ -3000,7 +3000,7 @@ screen and (min-width:576px) and (-ms-high-contrast:none) {
     display: flex;
     padding: 0;
     z-index: 128;
-    background: #fff;
+    background: #f8f9fa;
     box-shadow: 1px 0 20px rgba(0, 0, 0, .08);
     -moz-box-shadow: 1px 0 20px rgba(0, 0, 0, .08);
     -webkit-box-shadow: 1px 0 20px rgba(0, 0, 0, .08);
@@ -3253,7 +3253,11 @@ button {
 }
 
 .sidebar .scroll-wrapper .main-menu-wrapper .menu-section .nav.child-menu>li {
-    padding-left: 46px
+    padding-left: 46px;
+}
+
+.sidebar .scroll-wrapper .main-menu-wrapper .menu-section .nav.child-menu>li:hover {
+    background: #fff;
 }
 
 .sidebar .scroll-wrapper .main-menu-wrapper .menu-section .nav.child-menu>li>a {
@@ -3309,7 +3313,7 @@ button {
 
 .sidebar .scroll-wrapper .main-menu-wrapper .menu-section .nav.side-menu>li.active-child>a,
 .sidebar .scroll-wrapper .main-menu-wrapper .menu-section .nav.side-menu>li.nav-item:hover>a {
-    background: rgba(0, 0, 0, .03)
+    background: #fff;
 }
 
 .sidebar .scroll-wrapper .main-menu-wrapper .menu-section .nav.side-menu li.nav-item {

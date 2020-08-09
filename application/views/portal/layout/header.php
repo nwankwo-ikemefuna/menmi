@@ -52,10 +52,10 @@
                 <!-- menu profile quick info -->
                 <div class="profile clearfix">
                     <div class="profile-pic">
-                        <img src="<?php echo user_avatar(); ?>" alt="Profile picture" class="rounded-circle profile-img">
+                        <?php ajax_page_link('user/profile', '<img src="'.user_avatar().'" alt="Profile picture" class="rounded-circle profile-img">'); ?>
                     </div>
                     <div class="profile-info">
-                        <h2><?php echo $this->session->user_first_name; ?></h2>
+                        <h2><?php ajax_page_link('user/profile', $this->session->user_first_name); ?></h2>
                     </div>
                 </div>
                 <!-- /menu profile quick info -->
@@ -79,27 +79,45 @@
                             <?php 
                             //general menus upper
                             sidebar_menu('Dashboard', 'user', 'dashboard'); 
-                            sidebar_menu('Visit Shop', 'shop', 'shopping-basket', '', '_blank'); 
+                            sidebar_menu('Visit Shop', 'shop', 'shopping-basket', '', '_blank', false); 
+
+                            $order_menus = [
+                                'Pending' => 'orders?status='.ST_ORDER_PENDING,
+                                'Received' => 'orders?status='.ST_ORDER_RECEIVED,
+                                'Cancelled' => 'orders?status='.ST_ORDER_CANCELLED,'Processed' => 'orders?status='.ST_ORDER_PROCESSED,
+                                'In Transit' => 'orders?status='.ST_ORDER_TRANSIT,
+                                'In Transit' => 'orders?status='.ST_ORDER_TRANSIT,
+                                'Delivered' => 'orders?status='.ST_ORDER_DELIVERED,
+                                'Completed' => 'orders?status='.ST_ORDER_COMPLETED,
+                                'All' => 'orders',
+                            ];
+
 
                             //Customer menus
                             if (customer_user()) {
-                                sidebar_menu_parent('My Items', 
+
+                                sidebar_menu_parent('My Orders', $order_menus, 'indent');
+
+                                sidebar_menu_parent('My History', 
                                     [
-                                        'My Cart' => 'shop/cart', 
-                                        'My Wishlist' => 'shop?type=wishlist',
-                                        'Viewed Items' => 'shop?type=viewed'
+                                        'My Cart' => ['url' => 'shop/cart', 'ajax' => false], 
+                                        'My Wishlist' => ['url' => 'shop?type=wishlist', 'ajax' => false],
+                                        'Viewed Items' => ['url' => 'shop?type=viewed', 'ajax' => false]
                                     ], 
                                 'shopping-cart');
                             }
 
+
+                            //company menus
                             if (company_user()) {
-                                //company menus
+
                                 sidebar_menu_parent_auth(M_SETTINGS, VIEW, ADMIN, 'Settings', 
                                     [
                                         'Company Profile' => 'settings', 
                                         'Site Settings' => 'settings/site'
                                     ], 
                                 'wrench');
+
                                 sidebar_menu_parent_auth(M_PRODUCTS, VIEW, COMPANY_USERS, 'Products', 
                                     [
                                         'Products' => 'products', 
@@ -108,24 +126,18 @@
                                         'Tags' => 'products/tags'
                                     ], 
                                 'table');
-                                sidebar_menu_parent_auth(M_ORDERS, VIEW, COMPANY_USERS, 'Orders', 
-                                    [
-                                        'Pending' => 'orders?status='.ST_ORDER_PENDING,
-                                        'Received' => 'orders?status='.ST_ORDER_RECEIVED,
-                                        'Cancelled' => 'orders?status='.ST_ORDER_CANCELLED,'Processed' => 'orders?status='.ST_ORDER_PROCESSED,
-                                        'In Transit' => 'orders?status='.ST_ORDER_TRANSIT,
-                                        'In Transit' => 'orders?status='.ST_ORDER_TRANSIT,
-                                        'Delivered' => 'orders?status='.ST_ORDER_DELIVERED,
-                                        'Completed' => 'orders?status='.ST_ORDER_COMPLETED,
-                                        'All' => 'orders',
-                                    ], 
-                                'indent');
+
+                                sidebar_menu_parent_auth(M_ORDERS, VIEW, COMPANY_USERS, 'Orders', $order_menus, 'indent');
                                 $slider_menus = [];
                                 foreach ($this->session->SLIDER_CATS as $id => $name) {
                                     $slider_menus[$name] = 'sliders?cat_id='.$id;
                                 }
                                 $slider_menus['All'] = 'sliders';
                                 sidebar_menu_parent_auth(M_SLIDERS, VIEW, COMPANY_USERS, 'Sliders & Banners', $slider_menus, 'image');
+
+                                sidebar_menu('Contact Mesages', 'messages', 'envelope'); 
+
+                                sidebar_menu('Newsletter Subscribers', 'subscribers', 'envelope-o');
                             }
                             
                             //general menus lower
@@ -189,9 +201,9 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li><a href="<?php echo base_url('user/profile'); ?>"><i class="fa fa-user-o" aria-hidden="true"></i>Profile</a></li>
+                                <li><?php ajax_page_link('user/profile', '<i class="fa fa-user-o" aria-hidden="true"></i>Profile'); ?></li>
                                 <li class="divider"></li>
-                                <li><a href="<?php echo base_url('user/reset_pass'); ?>"><i class="fa fa-key" aria-hidden="true"></i> Change Password</a></li>
+                                <li><?php ajax_page_link('user/reset_pass', '<i class="fa fa-key" aria-hidden="true"></i>Change Password'); ?></li>
                                  <li class="divider"></li>
                                 <li><a href="<?php echo base_url('logout'); ?>"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
                             </ul>
@@ -202,62 +214,8 @@
             <!-- /header content -->
             
             <div class="company_name pull-right">
-                <a href="<?php echo base_url('user'); ?>"><?php echo $this->session->user_group_title; ?></a> | 
+                <?php ajax_page_link('user', $this->session->user_group_title); ?> | 
                 <a href="<?php echo base_url(); ?>" target="_blank"><?php echo site_name(); ?></a>
             </div>
 
-            <!-- page content -->
-            <div class="main-content small-gutter" role="main">
-                <div class="row bg-title clearfix page-title">
-                    <div class="<?php echo grid_col(12, '', 8); ?>">
-                        <h4 class="page-title">
-                            <?php echo $page_title;
-                            if ((bool) $this->trashed) {
-                                echo '<span class="text-danger"> [Trashed]</span>'; 
-                            } ?>
-                        </h4>
-                    </div>
-                    <?php
-                    //record count [with max data]
-                    if (strlen($record_count)) {
-                        $_affix = intval($record_count) === 1 ? '' : 's'; ?>
-                        <div class="<?php echo grid_col(12, '', 4); ?>">
-                            <h4 class="page-title pull-right">
-                                <?php
-                                echo number_format(intval($record_count)) . ' record' . $_affix . (strlen($max_data) && $max_data != -1 ? ' <small class="text-danger">(max: '.number_format(intval($max_data)).')</small>' : ''); ?>
-                            </h4>
-                        </div>
-                        <?php
-                    } ?>
-                    </h4>
-                </div>
-                
-                <?php 
-                //crud buttons not empty?
-                if (is_array($this->butts) && count($this->butts) > 0) { ?>
-                    <div class="row page_buttons">
-                        <div class="<?php echo grid_col(12); ?>">
-                            <div class="pull-left">
-                                <?php echo page_crud_butts($this->module, null, $this->butts, $crud_rec_id, $record_count); ?>
-                            </div>
-                        </div>
-                    </div>
-                    <?php 
-                } ?>
-                
-                <div class="row m-t-15">
-                    <div class="<?php echo grid_col(12); ?> m-b-10">
-                        <div class="bg-white padding-25 h-100">
-                            <div class="m-t-10">
-                                <?php
-                                //flash messages
-                                flash_message('info_msg', 'info');
-                                flash_message('success_msg', 'success');
-                                flash_message('error_msg', 'danger'); 
-                                ?>
-                            </div>
-
-                            <?php 
-                            //bulk action options
-                            if (is_array($this->ba_opts) && count($this->ba_opts) > 0) 
-                                bulk_action($this->ba_opts, $record_count);
+            <div id="ajax_page_container">

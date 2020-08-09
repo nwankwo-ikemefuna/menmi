@@ -79,9 +79,9 @@ switch (ENVIRONMENT) {
 	case 'testing':
 	case 'production': 
 		//testing/production server
-		$db_username 	= 'qschoolm_q2rweb';
-		$db_password 	= 'quest2reality';
-		$db_database 	= 'qschoolm_profig';
+		$db_username 	= 'menmi_admin';
+		$db_password 	= '0p1@9ZoiTY#^&';
+		$db_database 	= 'menmi_menmi';
 	break;
 
 	case 'development':
@@ -92,7 +92,6 @@ switch (ENVIRONMENT) {
 	break;
 
 }
-
 
 $db['default'] = array(
 	'dsn'	=> '',

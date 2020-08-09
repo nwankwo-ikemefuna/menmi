@@ -11,3 +11,7 @@ function last_sql($die = true) {
     echo $ci->db->last_query();
     if ($die) die;
 }
+
+function pretty_print($var) {
+  echo "<pre>", var_dump($var), "</pre>";
+}

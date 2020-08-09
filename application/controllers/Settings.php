@@ -15,7 +15,7 @@ class Settings extends Core_controller {
 		$this->auth->login_restricted(ADMIN);
 		$this->auth->password_restricted();
 		$this->auth->module_restricted($this->module, VIEW, ADMIN);
-		$this->page_scripts = ['settings'];
+		$this->page_scripts = [];
 	}
 
 	
@@ -30,10 +30,10 @@ class Settings extends Core_controller {
 		$this->butts = ['edit' => ['url' => 'settings/edit']];
 		$sql = $this->company_model->sql($this->company_id);
 		$row = $this->common_model->get_row($sql['table'], $id, 'id', 0, $sql['joins'], $sql['select'], $sql['where'], $sql['group_by']);
-		$this->portal_header($row->name, '', $id);
 		$data['row'] = $row;
+		$this->ajax_header($row->name, '', $id);
 		$this->load->view('portal/company/settings/view', $data);
-		$this->portal_footer();
+		$this->ajax_footer();
 	}
 
 
@@ -44,9 +44,9 @@ class Settings extends Core_controller {
 		$sql = $this->company_model->sql($this->company_id);
 		$row = $this->common_model->get_row($sql['table'], $id, 'id', 0, $sql['joins'], $sql['select'], $sql['where'], $sql['group_by']);
 		$data['row'] = $row;
-		$this->portal_header('Edit Company Settings: '.$row->name, '', $id);
+		$this->ajax_header('Edit Company Settings: '.$row->name, '', $id);
 		$this->load->view('portal/company/settings/edit', $data);
-		$this->portal_footer();
+		$this->ajax_footer();
 	}
 
 
@@ -95,14 +95,14 @@ class Settings extends Core_controller {
 			//site logo
 			if ($upload_logo_site['status'] && ! empty($upload_logo_site['file_name'])) {
 				//unlink image
-				unlink_files(company_file_path(PIX_SETTINGS), $row->logo_site);
+				unlink_file(company_file_path(PIX_SETTINGS), $row->logo_site);
 				//get the uploaded image
 				$logo_site = $upload_logo_site['file_name'];
 			} 
 			//portal logo
 			if ($upload_logo_portal['status'] && ! empty($upload_logo_portal['file_name'])) {
 				//unlink image
-				unlink_files(company_file_path(PIX_SETTINGS), $row->logo_portal);
+				unlink_file(company_file_path(PIX_SETTINGS), $row->logo_portal);
 				//get the uploaded image
 				$logo_portal = $upload_logo_portal['file_name'];
 			} 

@@ -70,4 +70,16 @@ class Product_model extends Core_Model {
         return sql_data(T_PRODUCT_TAGS.' t', $joins, $select, $where, ['t.order' => 'asc'], 't.id');
     }
 
+
+    public function total_in_stock($company_id) {
+        return $this->get_aggr_row(T_PRODUCTS, 'sum', 'stock', ['company_id' => $company_id], 0);
+    }
+
+
+    public function featured($company_id, $xtra_where = [], $order = 'rand', $limit = 8, $offset = 0) {
+        $sql = $this->sql($company_id);
+        $where = array_merge($sql['where'], ['FIND_IN_SET('.TAG_FEATURED.', p.tags)' => null], $xtra_where);
+        return $this->get_rows($sql['table'], 0, $sql['joins'], $sql['select'], $where, $order, '', $limit, $offset);
+    }
+
 }

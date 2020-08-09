@@ -50,11 +50,15 @@
               if ($this->c_controller == 'blog') {
                 $gs_action = 'blog/search_ajax';
                 $gs_attrs['id'] = 'blog_search_form';
+                $gs_attrs['data-status_modal'] = true;
+                $gs_attrs['data-loading_msg'] = 'Searching blog';
                 $gs_name = 'blog_search';
                 $gs_placeholder = 'Search blog';
               } else {
                 $gs_action = 'shop/search_ajax';
                 $gs_attrs['id'] = 'shop_search_form';
+                $gs_attrs['data-status_modal'] = true;
+                $gs_attrs['data-loading_msg'] = 'Searching shop';
                 $gs_name = 'shop_search';
                 $gs_placeholder = 'Search shop';
               } 
@@ -73,7 +77,7 @@
             <div class="mm-toggle-wrap hidden-lg hidden-md hidden-sm">
               <div class="mm-toggle"> <i class="fa fa-align-justify"></i><span class="mm-label">Menu</span> </div>
             </div>
-            <div class="logo"><a title="<?php echo $this->session->company_name; ?>" href="<?php echo base_url(); ?>"><img alt="<?php echo $this->session->company_name; ?>" src="<?php echo $this->session->company_logo_site_file; ?>"></a></div>
+            <div class="logo"><a title="<?php echo $this->session->company_name; ?>" href="<?php echo base_url(); ?>"><img alt="<?php echo $this->session->company_name; ?>" src="<?php echo base_url($this->session->company_logo_site_file); ?>"></a></div>
           </div>
 
           <div class="col-lg-4 col-sm-3 col-xs-2 top-cart"> 
@@ -133,7 +137,7 @@
             <ul>
               <li class="home"> <a title="Go Home" href="<?php echo base_url(); ?>">Home</a><span>&raquo;</span></li>
               <?php
-              if (count($this->bcrumbs)) { 
+              if (!empty($this->bcrumbs)) { 
                 foreach ($this->bcrumbs as $title => $url) { ?>
                   <li> <a href="<?php echo base_url($url); ?>"><?php echo $title; ?></a><span>&raquo;</span></li>
                   <?php

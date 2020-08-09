@@ -1,21 +1,40 @@
 <?php 
-
-function site_meta($page_title = '') { 
-    $ci =& get_instance();
-    ?>
-    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-    <title><?php echo $page_title; ?> | <?php echo $ci->site_name; ?> </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-touch-fullscreen" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="description" content="<?php echo $ci->site_description; ?>" />
-    <meta name="author" content="<?php echo $ci->site_author; ?>"  />
-    <meta name="keywords" content="">
-
-    <link rel="shortcut icon" type="image/png" href="<?php echo SITE_FAVICON; ?>" />
-    <?php
+function ajax_page_link($url, $html = '', $class = '', $attrs = '', $id = '', $callback = '', $loading = 1, $loading_text = '', $container = '', $return = false) { 
+    $container = strlen($container) ? $container : 'ajax_page_container';
+    $id_attr = strlen($id) ? "id='{$id}" : '';
+    $btn = "<a 
+        class='tload_ajax clickable {$class}' 
+        data-container='{$container}' 
+        data-url='{$url}'
+        data-callback='{$callback}' 
+        data-loading='{$loading}' 
+        data-loading_text='{$loading_text}'
+        {$id_attr} {$attrs}>
+        {$html}
+    </a>";
+    if ($return) return $btn;
+    echo $btn; 
 }
+
+function ajax_page_button($url, $html = '', $class = '', $title = '', $icon = '', $attrs = '', $id = '', $callback = '', $loading = 1, $loading_text = '', $container = '', $return = false) { 
+    $container = strlen($container) ? $container : 'ajax_page_container';
+    $id_attr = strlen($id) ? "id='{$id}" : '';
+    $html = (strlen($icon) ? "<i class='fa fa-{$icon}'></i> " : '') . $html;
+    $btn = "<button 
+        class='tload_ajax btn {$class}' 
+        data-container='{$container}' 
+        data-url='{$url}'
+        data-callback='{$callback}' 
+        data-loading='{$loading}' 
+        data-loading_text='{$loading_text}'
+        title='{$title}'
+        {$id_attr} {$attrs}>
+        {$html}
+    </button>";
+    if ($return) return $btn;
+    echo $btn; 
+}
+
 function data_show_list($label, $data) { ?>
     <div class="row m-b-5">
         <div class="<?php echo grid_col(12); ?>">
@@ -48,7 +67,7 @@ function bulk_action($options_arr, $record_count = 0, $default_modal = 'm_confir
     /*sample usage 
     
     */
-    if (count($options_arr) === 0 || $record_count == 0) return;
+    if (empty($options_arr) || $record_count == 0) return;
     $ci =& get_instance();
     ?>
     <div class="row m-b-10">
@@ -73,13 +92,15 @@ function bulk_action($options_arr, $record_count = 0, $default_modal = 'm_confir
                         //is array?
                         if (is_array($vals)) {
                             $key = $_key;
-                            $label = isset($vals['label']) && strlen($vals['label']) ? $vals['label'] : $key;
-                            $modal = isset($vals['modal']) && strlen($vals['modal']) ? $vals['modal'] : $default_modal;
+                            $label = $vals['label'] ?? $key;
+                            $modal = $vals['modal'] ?? $default_modal;
+                            $id_field = $vals['id_field'] ?? 'id';
                         } else {
                             $key = $label = $vals;
                             $modal = $default_modal;
+                            $id_field = 'id';
                         }
-                        $options .= '<option value="' . $key . '" data-modal="'.$modal.'">' . $label . '</option>';
+                        $options .= '<option value="' . $key . '" data-modal="'.$modal.'" data-id_field="'.$id_field.'">' . $label . '</option>';
                     }
                     echo $options;
                     ?>
@@ -98,6 +119,7 @@ function ajax_table($id, $url, $headers, $columns = [], $extras = [], $col_defs 
     $custom = empty($columns); //custom or general?
     $responsive = $extras['responsive'] ?? true; 
     $head_class = $extras['head_class'] ?? 'thead-default';
+    $actions_class = $extras['actions_class'] ?? 'min-w-100';
     $extras_arr = [
         'custom' => $extras['custom'] ?? true,
         'checker' => $extras['checker'] ?? true,
@@ -111,7 +133,7 @@ function ajax_table($id, $url, $headers, $columns = [], $extras = [], $col_defs 
                 <?php echo csrf_hidden_input();
                 //data columns and configs
                 $cols = [];
-                if (count($columns) > 0) {
+                if (!empty($columns)) {
                     foreach ($columns as $value) {
                         if (is_array($value)) {
                             $cols[] = $value;
@@ -125,7 +147,7 @@ function ajax_table($id, $url, $headers, $columns = [], $extras = [], $col_defs 
                     id="<?php echo $id; ?>" 
                     data-url="<?php echo $url; ?>" 
                     <?php if ( ! $custom) { ?> data-cols='<?php echo json_encode($cols); ?>' <?php } ?> 
-                    <?php if (count($col_defs) > 0) { ?> data-col_defs='<?php echo json_encode($col_defs); ?>' <?php } ?>
+                    <?php if (!empty($col_defs)) { ?> data-col_defs='<?php echo json_encode($col_defs); ?>' <?php } ?>
                     data-extras='<?php echo json_encode($extras_arr); ?>' 
                     data-custom='<?php echo json_encode($custom); ?>'>
                     <thead class="<?php echo $head_class; ?>">
@@ -135,13 +157,13 @@ function ajax_table($id, $url, $headers, $columns = [], $extras = [], $col_defs 
                                 <?php 
                             } ?>
                             <?php if ($extras_arr['actions']) { ?>
-                                <th class="min-w-100">Actions</th>
+                                <th class="<?php echo $actions_class; ?>">Actions</th>
                                 <?php 
                             } ?>
                             <?php 
                             foreach ($headers as $key => $value) {
                                 $name = is_array($value) ? $key : $value;
-                                $class = isset($value['class']) && strlen($value['class']) ? $value['class'] : '';
+                                $class = $value['class'] ?? '';
                                 echo '<th class="'.$class.'">'.$name.'</th>';
                             } ?>
                             <?php if ($extras_arr['created']) { ?>
@@ -161,20 +183,29 @@ function ajax_table($id, $url, $headers, $columns = [], $extras = [], $col_defs 
     <?php
 }
 
-function sidebar_menu($name, $url, $icon = 'cube', $title = '', $target = '') { ?>
-    <li class="nav-item">
-        <a href="<?php echo base_url($url); ?>" title="<?php echo strlen($title) ? $title : $name; ?>" target="<?php echo $target; ?>">
-            <i class="fa fa-<?php echo $icon; ?>" aria-hidden="true"></i>
-            <span><?php echo $name; ?></span>
-        </a>
-    </li>
-    <?php
+function sidebar_menu($name, $url, $icon = 'cube', $title = '', $target = '', $is_ajax = true) { 
+    if ($is_ajax) {
+        $html = '<i class="fa fa-'.$icon.'" aria-hidden="true"></i>
+        <span>'.$name.'</span>'; ?>
+        <li class="nav-item">
+            <?php ajax_page_link($url, $html); ?>
+        </li>
+        <?php
+    } else { ?>
+        <li class="nav-item">
+            <a href="<?php echo base_url($url); ?>" title="<?php echo strlen($title) ? $title : $name; ?>" target="<?php echo $target; ?>">
+                <i class="fa fa-<?php echo $icon; ?>" aria-hidden="true"></i>
+                <span><?php echo $name; ?></span>
+            </a>
+        </li>
+        <?php
+    }
 }
 
-function sidebar_menu_auth($module, $right, $usergroups = null, $name, $url, $icon = 'cube', $title = '', $target = '') {
+function sidebar_menu_auth($module, $right, $usergroups = null, $name, $url, $icon = 'cube', $title = '', $target = '', $is_ajax = true) {
     $ci =& get_instance();
     if ($ci->auth->vet_access($module, $right, $usergroups)) { 
-        sidebar_menu($name, $url, $icon, $title, $target);
+        sidebar_menu($name, $url, $icon, $title, $target, $is_ajax);
     }
 }
 
@@ -187,9 +218,24 @@ function sidebar_menu_parent($name, $children = [], $icon = 'cube', $title = '')
         </a>
         <ul class="nav child-menu">
             <?php 
-            foreach ($children as $child_name => $child_url) { ?>
-                <li><a href="<?php echo base_url($child_url); ?>"><?php echo $child_name; ?></a></li>
-                <?php
+            foreach ($children as $child_name => $child_data) {
+                //is data an array?
+                if (is_array($child_data)) {
+                    $child_url = $child_data['url'];
+                    $is_ajax = $child_data['ajax'] ?? true;
+                } else {
+                    $child_url = $child_data;
+                    $is_ajax = true;
+                }
+                if ($is_ajax) { ?>
+                   <li class="nav-item">
+                        <?php ajax_page_link($child_url, $child_name); ?>
+                    </li>
+                    <?php 
+                } else { ?>
+                    <li><a href="<?php echo base_url($child_url); ?>"><?php echo $child_name; ?></a></li>
+                    <?php
+                }
             } ?>
         </ul>
     </li>
@@ -203,31 +249,9 @@ function sidebar_menu_parent_auth($module, $right, $usergroups = null, $name, $c
     }
 }
 
-function table_data_collapse($collapse_id, $content, $link_text = 'View details') {
-    if ($content === NULL || $content === '') return NULL;
-    $collapse = '<a class="underline-link" data-toggle="collapse" href="#'.$collapse_id.'">'.$link_text.'</a>';
-    $collapse .= '<div class="collapse m-t-10" id="'.$collapse_id.'">';
-    $collapse .= $content;
-    $collapse .= '</div>';
-    return $collapse;
-}
-
-function table_more_data_collapse($collapse_id, $intro, $content, $link_text = 'More details') {
-    if ($content === NULL || $content === '') return NULL;
-    $collapse = $intro;
-    $collapse .= '<br />';
-    $collapse .= '<a class="underline-link" data-toggle="collapse" href="#'.$collapse_id.'">'.$link_text.'</a>';
-    $collapse .= '<div class="collapse m-t-10" id="'.$collapse_id.'">';
-    $collapse .= $content;
-    $collapse .= '</div>';
-    return $collapse;
-}
-
-/* Show more, show less collapsible */
-function tc_show_more($content, $show_char = 100) {
-    if ($content === NULL || $content === '') return NULL;
-    $collapse = '<span class="more" data-show_char="'.$show_char.'">';
-    $collapse .= $content;
-    $collapse .= '</span>';
-    return $collapse;
+function toggle_password_visibility() {
+    ?>
+    <span id="show_password_icon"><a id="show_password" title="Show password" style="cursor: pointer"><i class="fa fa-eye"></i></a></span>
+    <span id="hide_password_icon" style="display: none"><a id="hide_password" title="Hide password" style="cursor: pointer"><i class="fa fa-eye-slash"></i></a></span>
+   <?php
 }

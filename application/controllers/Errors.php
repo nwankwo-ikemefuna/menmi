@@ -20,17 +20,39 @@ class Errors extends Core_controller {
     * Route: error404
     */
     public function error_404() { 
-        $this->guest_header('404');
-        $this->load->view('errors/html/error_404');
-        $this->guest_footer();
+        $layout = $this->layout_type();
+        $header_method = $layout['header'];
+        $footer_method = $layout['footer'];
+        $data['referrer'] = $layout['referrer'];
+        $this->$header_method('404');
+        $this->load->view('errors/html/error_404', $data);
+        $this->$footer_method();
     }   
 
 
     public function forbidden() { 
-        $this->guest_header('403');
-        $this->load->view('errors/html/error_403');
-        $this->guest_footer();
+        $layout = $this->layout_type();
+        $header_method = $layout['header'];
+        $footer_method = $layout['footer'];
+        $data['referrer'] = $layout['referrer'];
+        $this->$header_method('403');
+        $this->load->view('errors/html/error_403', $data);
+        $this->$footer_method();
     }   
+
+
+    private function layout_type() {
+        if ($this->agent->referrer() == base_url('portal')) {
+            $header_method = 'ajax_header';
+            $footer_method = 'ajax_footer';
+            $referrer = 'portal';
+        } else {
+            $header_method = 'guest_header';
+            $footer_method = 'guest_footer';
+            $referrer = 'other';
+        }
+        return ['header' => $header_method, 'footer' => $footer_method, 'referrer' => $referrer];
+    }
 
 
 }

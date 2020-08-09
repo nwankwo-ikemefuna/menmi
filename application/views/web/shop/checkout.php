@@ -3,7 +3,7 @@ $sidebar_position = 'right';
 require 'application/views/web/layout/shop_sidebar_start.php'; 
 
 //row details
-$attrs = ['id' => 'checkout_form', 'class' => 'ajax_form', 'data-type' => 'redirect', 'data-redirect' => '_dynamic', 'data-status_modal' => true, 'loading_msg' => 'Submitting your order'];
+$attrs = ['id' => 'checkout_form'];
 echo form_open($this->c_controller.'/checkout_ajax', $attrs);
 ?>
 	<div class="panel-group" id="accordion">
@@ -174,6 +174,7 @@ echo form_open($this->c_controller.'/checkout_ajax', $attrs);
 	            </div>
 	            <div class="panel-footer">
 	            	<?php xform_notice(); ?>
+	            	<?php xform_input('currency_key', 'hidden', 'NGN'); ?>
 	            	<button type="submit" class="btn btn-success btn-lg">SUBMIT  ORDER</button>
 	            </div>
 	        </div>
@@ -193,3 +194,4 @@ cart_modal();
 <script>
 	var payment_methods = {online: <?php echo ST_PAYMENT_ONLINE; ?>, offline: <?php echo ST_PAYMENT_OFFLINE; ?>};
 </script>
+<script src="https://js.paystack.co/v1/inline.js"></script>

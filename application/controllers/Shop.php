@@ -78,7 +78,7 @@ class Shop extends Core_controller {
 
 
     public function products_ajax($page = 0) {
-        $per_page = 8;
+        $per_page = 2;
         $page = paginate_offset($page, $per_page);
         $items = $this->shop_model->products_shop($page, $per_page);
         $data = paginate($items['records'], $items['total_rows'], $per_page);
@@ -133,6 +133,7 @@ class Shop extends Core_controller {
         $this->bcrumbs = ['Shop' => 'shop'];
         $this->web_header('Cart');
         $data['viewed_products'] = $this->shop_model->viewed();
+        $data['wishlist_products'] = $this->shop_model->wishlist();
         $this->load->view('web/shop/cart', $data);
         $this->web_footer();
     }
@@ -240,6 +241,7 @@ class Shop extends Core_controller {
 
 
     public function checkout() {
+        $this->page_scripts = ['shop', 'paystack'];
         //ensure user has items in cart
         if (empty($this->session->tempdata('cart_products'))) {
             $this->session->set_flashdata('error_msg', 'Your cart is empty. Please add products to your cart before you check out');
@@ -262,7 +264,7 @@ class Shop extends Core_controller {
     }
 
 
-    public function checkout_ajax() {
+    private function validate_checkout() {
         //billing address
         $this->form_validation->set_rules('first_name', 'Billing: First Name', 'trim|required|max_length[25]');
         $this->form_validation->set_rules('last_name', 'Billing: Last Name', 'trim|required|max_length[25]');
@@ -284,6 +286,7 @@ class Shop extends Core_controller {
         $this->form_validation->set_rules('ship_is_bill', 'Shipping Address Same as Billing', 'trim');
         $this->form_validation->set_rules('ship_extra', 'Additional Info', 'trim');
         $this->form_validation->set_rules('payment_method', 'Payment Method', 'trim|required');
+        $this->form_validation->set_rules('currency_key', 'Currency Key', 'trim|required');
 
         //order items validation
         $cart_change_msg = 'Your cart has been altered, please review items in your cart, update and try again';
@@ -296,11 +299,34 @@ class Shop extends Core_controller {
         $order_total_price = intval(xpost('total_price'));
         if ($order_total_price !== $current_total_price)
             json_response($cart_change_msg, false);
+    }
 
+
+    public function checkout_ajax() {
+        $paid = 0;
+        $payment_id = null;
+        $amount_paid = null;
+        $date_paid = null;
+        //online payment?
+        if (xpost('payment_method') == ST_PAYMENT_ONLINE) {
+            //check if payload has payment ID and validate it
+            $payment_id = xpost('payment_id');
+            if ( ! strlen($payment_id))
+                json_response('Could not verify payment!', false);
+            $pay_record = $this->common_model->get_row(T_PAYMENTS, $payment_id, 'id', -1, [], 'id, amount, date_created');
+            if ( ! $pay_record)
+                json_response('Could not verify payment!', false);
+            //all goes well
+            $paid = 1;
+            $amount_paid = $pay_record->amount;
+            $date_paid = $pay_record->date_created;
+        } else {
+            $this->validate_checkout();
+        }
         //submit custmer data
         $customer_id = $this->shop_model->submit_customer_data();
         //submit order
-        $exec = $this->shop_model->submit_order($customer_id);
+        $exec = $this->shop_model->submit_order($customer_id, $paid, $payment_id, $amount_paid, $date_paid);
         //did it work?
         if ( ! $exec) 
             json_response('Unable to process your order at this time. Please try again.', false);
@@ -311,6 +337,30 @@ class Shop extends Core_controller {
         //redirect to thank you page. If customer is not signed in, save email in session so we can ask for password update
         $this->session->set_tempdata('checkout_email', xpost('email'), CHECKOUT_TTL);
         json_response(['redirect' => 'shop/thank_you']);
+    }
+
+
+    public function initiate_payment() {
+        //validate user input
+        $this->validate_checkout();
+        json_response('Payment initiated successfully!');
+    }
+
+
+    public function paystack_verify() {
+        $this->form_validation->set_rules('reference', 'Transaction Reference', 'trim|required', ['required' => 'Invalid transaction reference']);
+        $this->form_validation->set_rules('provider', 'Provider', 'trim');
+        if ($this->form_validation->run() === FALSE)
+            json_response(validation_errors(), false);
+        //load paystack library
+        $this->load->library('paystack');
+        //payment reference
+        $reference = xpost('reference');
+        $res = $this->paystack->verify($reference);
+        if ( ! $res['status']) 
+            json_response($res['msg'], false);
+        $payment_id = $this->shop_model->pay_online();
+        json_response($payment_id);
     }
 
 
@@ -342,7 +392,6 @@ class Shop extends Core_controller {
         $this->form_validation->set_rules('c_password', 'Confirm Password', 'trim|required|matches[password]', ['matches'   => 'Passwords do not match']);
         if ($this->form_validation->run() === FALSE)
             json_response(validation_errors(), false);
-        //ensure password 
         $email = $this->session->tempdata('checkout_email');
         $customer_record = $this->user_model->get_user($email, 'email', CUSTOMER);
         if ( ! $customer_record) 

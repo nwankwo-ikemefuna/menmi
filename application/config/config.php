@@ -33,12 +33,12 @@ switch (ENVIRONMENT) {
     case 'testing':
     case 'production': 
         //testing/production server
-        $config['base_url'] = 'https://qschoolmanager.com/menmi/';
+        $config['base_url'] = 'https://softbytech.com/staging/menmi/';
     break;
 
     case 'development':
         //development/local server
-        $config['base_url'] = 'http://menmi.com/'; //change to /menmi/ to view in a mobile device under the same LAN
+        $config['base_url'] = 'http://dev.menmi.com/'; //change to /menmi/ to view in a mobile device under the same LAN
     break;
 
 }
@@ -95,7 +95,6 @@ $config['url_suffix'] = '';
 |
 */
 $config['language'] = 'english';
-
 /*
 |--------------------------------------------------------------------------
 | Default Character Set
@@ -402,10 +401,11 @@ $config['sess_driver'] = 'files';
 $config['sess_cookie_name'] = 'ci_session';
 if (ENVIRONMENT == 'development') {
     $config['sess_expiration'] = 60*60*24*30; //1 month
+    $config['sess_save_path'] = NULL;
 } else {
     $config['sess_expiration'] = 60*60*2; //2 hrs
+    $config['sess_save_path'] = sys_get_temp_dir();
 }
-$config['sess_save_path'] = NULL;
 $config['sess_match_ip'] = FALSE;
 $config['sess_time_to_update'] = 300;
 $config['sess_regenerate_destroy'] = FALSE;
@@ -479,7 +479,7 @@ $config['csrf_token_name'] = 'q2r_secure';
 $config['csrf_cookie_name'] = 'q2r_csrf_cookie';
 $config['csrf_expire'] = 7200;
 $config['csrf_regenerate'] = FALSE;
-$config['csrf_exclude_uris'] = array();
+$config['csrf_exclude_uris'] = array('shop/paystack_verify');
 
 /*
 |--------------------------------------------------------------------------

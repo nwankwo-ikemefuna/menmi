@@ -24,7 +24,8 @@ class Auth {
 		//user exists, is not trashed, and password is correct...
         if ($row && password_verify($password, $row->password)) {
         	$this->ci->session->set_userdata($this->login_data($row->id));
-            json_response($success_msg);
+        	$this->set_requested_page();
+        	json_response($success_msg);
         }
         json_response('Invalid login! ' . ucwords($username_key) . ' or password not correct', false);
     }
@@ -58,11 +59,12 @@ class Auth {
     public function logout($redirect = 'login') {
     	$data = array_keys($this->login_data($this->ci->session->user_id));
     	$this->ci->session->unset_userdata($data);
+    	// $this->ci->session->unset_userdata('ajax_requested_page');
         redirect($redirect);
     }
 
 
-	public function is_logged_in($redirect = 'user', $msg = 'You are already logged in!') {
+	public function is_logged_in($redirect = 'portal', $msg = 'You are already logged in!') {
     	if ($this->ci->session->user_loggedin) {
             $this->ci->session->set_flashdata('info_msg', $msg);
             redirect($redirect);
@@ -70,26 +72,27 @@ class Auth {
     }
 
 
-    private function set_request_data() {
+    private function set_requested_page() {
+    	//if ( ! isset($_SESSION['ajax_requested_page'])) {
+			//create a session to hold the current requested page
+		$this->ci->session->set_userdata('ajax_requested_page', base_url('user'));
+		//}
+	}
+
+
+    private function update_requested_page() {
 		//create a session to hold the current requested page
-		$data = array(
-			'login_redirect' => TRUE,
-			'requested_page' => get_requested_page()
-		);
-		$this->ci->session->set_userdata($data);
-		return $data;
+		$this->ci->session->set_userdata('ajax_requested_page', get_requested_page());
 	}
 
 
-	public function unset_request_data() {
-		$data = array_keys($this->set_request_data());
-		$this->ci->session->unset_userdata($data);
-	}
-
-
-	public function requested_page_input($dashboard = 'user') {
-		$redirect = $this->ci->session->login_redirect ? $this->ci->session->requested_page : base_url($dashboard);
-		form_input('requested_page', 'hidden', $redirect);
+	public function ajax_request_restricted() {
+		//requested page via ajax?
+		if ( ! $this->ci->input->is_ajax_request()) {
+			//update requested page
+			//$this->update_requested_page();
+			redirect('portal');
+		}
 	}
 
 
@@ -106,7 +109,7 @@ class Auth {
 		//all usergroups
 		if ($this->ci->session->user_loggedin && $usergroup === null) return TRUE;
 		//create a session to hold the current requested page
-		$this->set_request_data();
+		$this->update_requested_page();
 		//redirect to login page
 		$this->ci->session->set_flashdata('error_msg', 'You are not logged in. Please login to continue.');
 		$this->logout($redirect);
@@ -122,7 +125,7 @@ class Auth {
 		//all
 		if ($this->ci->session->user_loggedin && $this->ci->session->user_password_set == 1) return TRUE;
 		//create a session to hold the current requested page
-		$this->set_request_data();
+		$this->update_requested_page();
 		//redirect to password reset page
 		$this->ci->session->set_flashdata('error_msg', 'You have not reset your default password');
 		redirect($redirect);
@@ -136,12 +139,13 @@ class Auth {
 	public function vet_access($module, $right, $usergroups = null) {
 		//level 1 user here?
 		if (intval($this->ci->session->user_level) === 1) return true;
-
+		//all usergroups?
+		if (in_array($this->ci->session->user_usergroup, ALL_USERS)) return true;
 		//user group 
 		$group = $this->ci->session->user_usergroup;
 		//is usergroup an array? Cast into array if not
 		$usergroups = is_array($usergroups) ? $usergroups : (array) $usergroups;
-		if ( count($usergroups) > 0 && ! in_array($this->ci->session->user_usergroup, $usergroups) ) return false;
+		if ( !empty($usergroups) && ! in_array($this->ci->session->user_usergroup, $usergroups) ) return false;
 		
 		//user permissions
 		$permissions = $this->ci->session->user_permissions;
@@ -150,7 +154,7 @@ class Auth {
 	    // eg 1#1|2|3|4&2#1|2|3|4
 	    // module#right1|right2|...&, ++
 	    $perms_arr = explode('&', $permissions);
-	    if ( count($perms_arr) === 0) return false;
+	    if (empty($perms_arr)) return false;
 	    $mods_arr = [];
 	    foreach ($perms_arr as $perm) {
 	        $ex = explode('#', $perm);
@@ -229,7 +233,7 @@ class Auth {
 		$license_period = strlen($this->ci->session->company_license_period) ? $this->ci->session->company_license_period : '2 HOUR';
 		$license_period = strtoupper($license_period);
         $where = [
-            "license" => $this->session->company_license,
+            "license" => $this->ci->session->company_license,
             "license_date >= DATE_SUB(CURRENT_TIMESTAMP, INTERVAL {$license_period})" => ''
         ];
         $query = $this->ci->common_model->get_row(T_COMPANIES, $this->ci->session->company_id, 'id', 0, [], '', $where);

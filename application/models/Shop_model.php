@@ -46,6 +46,7 @@ class Shop_model extends Core_Model {
 
     private function search() {
         $search = xpost('search');
+        $search = $this->db->escape_str($search, true);
         $where = sprintf("(
             p.`name` LIKE '%s' OR
             p.`barcode` LIKE '%s' OR
@@ -303,6 +304,25 @@ class Shop_model extends Core_Model {
     }
 
 
+    public function pay_online() {
+        //store payment details
+        $data = [
+            'email' => xpost('email'),
+            'first_name' => xpost('first_name'),
+            'last_name' => xpost('last_name'),
+            'amount' => xpost('amount'),
+            'provider_ref' => xpost('reference'),
+            'provider' => xpost('provider')
+        ];
+        $payment_id = $this->insert(T_PAYMENTS, $data);
+        //update ref payment id: attach RF+payment_id to unique id from time
+        $tranx_ref = strtoupper(uniqid('PRF'.$payment_id));
+        $this->update(T_PAYMENTS, ['tranx_ref' => $tranx_ref], ['id' => $payment_id]);
+        //return payment id needed to complete order
+        return $payment_id;
+    }
+
+
     public function submit_customer_data() {
         $customer_data = [
             'usergroup' => CUSTOMER,
@@ -342,11 +362,14 @@ class Shop_model extends Core_Model {
     }
 
 
-    public function submit_order($customer_id) { 
+    public function submit_order($customer_id, $paid = 0, $payment_id = null, $amount_paid = null, $date_paid = null) { 
         $order_data = [
             'customer_id' => $customer_id,
             'status' => ST_ORDER_PENDING,
-            'paid' => 0,
+            'paid' => $paid,
+            'payment_id' => $payment_id,
+            'amount_paid' => $amount_paid,
+            'date_paid' => $date_paid,
             'payment_mode' => xpost('payment_method'),
             //submit shipping details, as the customer could change this on their profile anytime
             //shipping
@@ -354,13 +377,14 @@ class Shop_model extends Core_Model {
             'ship_last_name' => ucwords(xpost('ship_last_name')),
             'ship_email' => xpost('ship_email'),
             'ship_phone' => xpost('ship_phone'),
+            'ship_is_bill' => xpost('ship_is_bill'),
             'ship_apartment' => xpost('ship_apartment'),
             'ship_state' => xpost('ship_state'),
             'ship_address' => ucwords(xpost('ship_address')),
             'ship_extra' => ucwords(xpost('ship_extra')) 
         ];
         $order_id = $this->insert(T_ORDERS, $order_data);
-        //update ref order id: attact RF+order_id to unique id from time
+        //update ref order id: attach RF+order_id to unique id from time
         $ref_id = strtoupper(uniqid('RF'.$order_id));
         //save in session
         $this->session->set_tempdata('order_ref_id', $ref_id, CHECKOUT_TTL);
@@ -376,7 +400,8 @@ class Shop_model extends Core_Model {
                 'qty' => $row['qty'],
                 'price' => $row['price'], //price at the point of order
                 'color' => '', //TODO: account for this
-                'status' => 0
+                'status' => 0,
+                'deducted' => 0
             ];
             $details_data[] = $order_details;
         }

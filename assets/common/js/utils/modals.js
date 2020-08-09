@@ -96,11 +96,11 @@ jQuery(document).ready(function ($) {
     });
     
     //bulk action: select all checkbox items if select all is checked
-    $('.ba_check_all').change(function(){  
+    $(document).on( "change", '.ba_check_all', function() {
         $('.ba_record').prop('checked', $(this).prop('checked'));
     });
     
-    $('.ba_record').change(function(){ 
+    $(document).on( "change", '.ba_record', function() {
         if(false == $(this).prop('checked')){ 
             $('.ba_check_all').prop('checked', false); 
         }
@@ -110,13 +110,15 @@ jQuery(document).ready(function ($) {
     });
 
     var ba_modal = '',
-        ba_val = '';
+        ba_val = '',
+        selected = '';
     $(document).on( "change", '[name="ba_option"]', function() {
-        var selected = $('[name="ba_option"] option:selected');
+        selected = $('[name="ba_option"] option:selected');
         ba_modal = selected.data('modal');
         ba_val = $(this).val();
     });
-    $(".ba_apply").click(function(){
+
+    $(document).on( "click", '.ba_apply', function() {
         //get checked records
         var record_idx = checked_records();
         var _records = record_idx.length + ' ' + (record_idx.length == 1 ? 'record' : 'records');
@@ -159,12 +161,13 @@ jQuery(document).ready(function ($) {
 
             default:
                 //custom
-                m_title = $('#'+ba_modal+ ' .modal-title').html();
-                ajax_post_form_refresh(post_data, ba_url, ba_modal, 'modal_dt', ba_success_msg, true, 'status_msg');
+                m_title = 'Bulk Action';
+                var id_field = selected.attr('data-id_field') ? selected.data('id_field') : 'id';
+                $('[name="'+id_field+'"]').val(record_idx.join());
                 break;
 
         }
-        $('#'+ba_modal+ ' .modal-title').text(`${m_title} (${_records})`);
+        $('#'+ba_modal+ ' .modal-title').empty().text(`${m_title} (${_records})`);
         $('#'+ba_modal+ ' .modal-body .ba_msg').text(m_msg);
         $('#'+ba_modal).modal('show');
     });

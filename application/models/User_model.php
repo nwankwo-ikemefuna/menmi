@@ -7,7 +7,7 @@ defined('BASEPATH') or exit('Direct access to script not allowed');
 * Date Modified: 31/12/2019
 */
 
-class User_model extends CI_Model {
+class User_model extends Core_Model {
     public function __construct() {
         parent::__construct();
     }
@@ -32,6 +32,14 @@ class User_model extends CI_Model {
         $where = strlen($usergroup) ? array_merge($sql['where'], ['u.usergroup' => $usergroup], $where_extra) : array_merge($sql['where'], $where_extra);
         $row = $this->common_model->get_row($sql['table'], $id, $by, 0, $sql['joins'], $sql['select'], $where);
         return $row;
+    }
+
+
+    public function total_users($company_id = '', $usergroup = '', $where_extra = []) {
+        $where = strlen($company_id) ? ['company_id' => $company_id] : [];
+        $where = strlen($usergroup) ? array_merge($where, ['usergroup' => $usergroup]) : $where;
+        $where = !empty($where_extra) ? array_merge($where, $where_extra) : $where;
+        return $this->count_rows(T_USERS, $where, 0);
     }
 
 }

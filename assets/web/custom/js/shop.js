@@ -74,11 +74,12 @@ jQuery(document).ready(function ($) {
     },
     prod_succ_callbk = function(jres) {
       var found = jres.body.msg.total_rows;
+      var products_inflect = found == 1 ? 'product' : 'products';
       if (found == 0) {
-        $('#products').html('<h4 class="text-danger">Could not find any item matching the specified criteria!</h4>');
+        $('#products').html('<h4 class="text-danger m-l-5">Could not find any item matching the specified criteria!</h4>');
         $('#empty_wishlist').hide();
       }
-      $('#total_found').html(`${jres.body.msg.total_rows_formatted} products found`);
+      $('#total_found').html(`${jres.body.msg.total_rows_formatted} ${products_inflect} found`);
     },
     shop_url = 'shop/products_ajax',
     elem = 'products',
@@ -95,7 +96,7 @@ jQuery(document).ready(function ($) {
     });
     if (current_page == 'shop')
       paginate_data(shop_url, elem, prods_col, pagination, 0, post_data, prod_succ_callbk, null, true, 'Fetching products');
-    paginate(shop_url, elem, prods_col, pagination, post_data, prod_succ_callbk);
+    ci_paginate(shop_url, elem, prods_col, pagination, post_data, 'products', prod_succ_callbk);
 
     //searching
     $(document).on('click', '#search_shop', function() {
@@ -123,9 +124,15 @@ jQuery(document).ready(function ($) {
     var price_min = $('.price_min').val(),
         price_max = $('.price_max').val();
     range_slider('price_range', Number(price_min), Number(price_max), Number(price_min), Number(price_max));
-    $(document).on('click', '#apply_price', function() {
-      post_data.price_min = Number($('.price_min').val());
-      post_data.price_max = Number($('.price_max').val());
+    range_slider('price_range_side', Number(price_min), Number(price_max), Number(price_min), Number(price_max));
+    $(document).on('click', '.apply_price', function() {
+      var p_min = Number($(this).closest('.price_range_wrapper').find('.price_min').val());
+      var p_max = Number($(this).closest('.price_range_wrapper').find('.price_max').val());
+      //update all with this class
+      $('.price_min').val(p_min);
+      $('.price_max').val(p_max);
+      post_data.price_min = p_min;
+      post_data.price_max = p_max;
       paginate_data(shop_url, elem, prods_col, pagination, 0, post_data, prod_succ_callbk, null, true, 'Fetching matching products');
     });
     //category select
@@ -162,7 +169,6 @@ jQuery(document).ready(function ($) {
       //clear checkfields
       $('.product_category, .product_size, .product_color, .product_rating').prop('checked', false);
       //clear post object values
-      console.log(post_data);
       post_data = {
         search: '',
         sort_by: '',
@@ -195,6 +201,7 @@ jQuery(document).ready(function ($) {
 
     function product_grid_widget(row, item_class = '') {
       var url = product_url(row.id, row.name),
+          image_url = base_url+row.image_file,
           amount_old = row.amount_old.length ? `<p class="old-price"> <span class="price-label">Regular Price:</span><span class="price">${row.amount_old}</span></p>` : '';
       return `
       <div class="product-item p-b-10 ${item_class}">
@@ -207,7 +214,7 @@ jQuery(document).ready(function ($) {
                 <a class="action add-to-wishlist clickable wishlist_product" type="button" title="Add to Wishlist" data-id="${row.id}" data-in_wishlist="${row.in_wishlist}" ${row.in_wishlist == 1 ? 'disabled' : ''}></a>
               </div>
             </div>
-            <a href="${url}" class="product-item-photo"> <img class="product-image-photo" src="${row.image_file}" alt=""></a> 
+            <a href="${url}" class="product-item-photo"> <img class="product-image-photo" src="${image_url}" alt=""></a> 
           </div>
           <div class="pro-box-info">
             <div class="item-info">
@@ -282,9 +289,10 @@ jQuery(document).ready(function ($) {
     /* =========================== CART ACTIONS ==================== */
     //cart products preview - in header
     var cart_prods_preview_mini = function(row) {
-      var url = product_url(row.id, row.name);
+      var url = product_url(row.id, row.name),
+          image_url = base_url+row.image_file;
       return `
-      <li class="item odd"> <a href="${url}" title="${row.name}" class="product-image"><img src="${row.image_file}" alt="${row.name}" width="65"></a>
+      <li class="item odd"> <a href="${url}" title="${row.name}" class="product-image"><img src="${image_url}" alt="${row.name}" width="65"></a>
         <div class="product-details">
           <a title="Remove this item from cart" class="remove-cart remove_cart_product" data-id="${row.id}"><i class="icon-close text-danger"></i></a>
           <p class="product-name"><a href="${url}">${row.name}</a></p>
@@ -293,10 +301,11 @@ jQuery(document).ready(function ($) {
       </li>`;
     },
     cart_prods_preview_modal = function(row) {
-      var url = product_url(row.id, row.name);
+      var url = product_url(row.id, row.name),
+          image_url = base_url+row.image_file;
       return `
       <tr>
-        <td class="cart_product text-center"><a href="${url}"><img src="${row.image_file}" alt="${row.name}"></a></td>
+        <td class="cart_product text-center"><a href="${url}"><img src="${image_url}" alt="${row.name}"></a></td>
         <td class="cart_description">
           <p class="product-name text-bold"><a href="${url}">${row.name}</a></p>
           <small>Category: ${row.category}</small> <br>
@@ -308,12 +317,13 @@ jQuery(document).ready(function ($) {
     },
     cart_prods_table = function(row) {
       var url = product_url(row.id, row.name),
+          image_url = base_url+row.image_file,
           in_stock = row.stock > 0 ? 'In stock' : 'Sold out',
           in_stock_class = row.stock > 0 ? 'text-success' : 'text-danger',
           in_stock_readonly = row.stock > 0 ? '' : 'readonly';
       return `
       <tr>
-        <td class="cart_product"><a href="${url}"><img src="${row.image_file}" alt="${row.name}"></a></td>
+        <td class="cart_product"><a href="${url}"><img src="${image_url}" alt="${row.name}"></a></td>
         <td class="cart_description">
           <p class="product-name text-bold"><a href="${url}">${row.name}</a></p>
           <small>Category: ${row.category}</small> <br>
@@ -416,14 +426,10 @@ jQuery(document).ready(function ($) {
     var profile_succ_callbk = function(jres) {
       var data = jres.body.msg;
       if ($.isEmptyObject(data)) {
-        status_box('profile_msg', 'Could not find your profile!', 'danger', 'id');
+        status_box('profile_msg', 'Could not locate a profile associated with the provided email address!', 'danger', 'id');
       } else {
         status_box('profile_msg', 'Profile fetched and populated successfully', 'success', 'id');
-        fill_form_fields('checkout_form', data, ['total_price']);
-        //shipping address toggle
-        // toggle_elem_prop('#ship_is_bill', '#shipping_address', 'checked', true);
-        //payment method toggle
-        // toggle_elem_val('[name="payment_method"]', '#payment_online', '#payment_offline', 1);
+        fill_form_fields('checkout_form', data, ['total_price', 'payment_method', 'currency_key']);
       }
     };
     $(document).on('click', '#fetch_profile', function() {
@@ -438,6 +444,53 @@ jQuery(document).ready(function ($) {
       //payment method
       toggle_elem_val('[name="payment_method"]', '#payment_online', '#payment_offline', payment_methods.online);
       toggle_elem_val_trigger('[name="payment_method"]', '#payment_online', '#payment_offline', payment_methods.online);
+    }
+
+    $('#checkout_form').on( "submit", function(e) {
+      e.preventDefault();
+      var form_data = new FormData(this);
+      // console.log(...form_data);
+      //online payment? let's pay with paystack first before submitting order
+      var payment_method = $('[name="payment_method"]:checked').val()
+      if (payment_method == payment_methods.online) {
+        
+        //initiate payment
+        var initpay_succ_callbk = function(jres) {
+          if ( ! jres.status) {
+            status_box('status_msg', jres.error, 'danger');
+          } else {
+            //pay with paystack
+            var paystack_succ_callbk = function(pres) {
+              if ( ! pres.status) {
+                status_box('status_msg', 'Unable to complete transaction', 'danger');
+              } else {
+                //append payment id to form data
+                form_data.append('payment_id', pres.body.msg);
+                process_order(form_data);
+              }
+            };
+            var paystack_data = {
+              email: $('[name="email"]').val(),
+              first_name: $('[name="first_name"]').val(),
+              last_name: $('[name="last_name"]').val(),
+              amount: +$('[name="total_price"]').val(),
+              currency_key: $('[name="currency_key"]').val()
+            };
+            payWithPaystack('shop/paystack_verify', paystack_data, paystack_succ_callbk);
+          }
+        };
+        var initpay_url = base_url+'shop/initiate_payment';
+        post_data_ajax(initpay_url, form_data, true, initpay_succ_callbk);
+        
+      } else {
+        //offline payment
+        process_order(form_data);
+      }
+    });
+
+    function process_order(form_data) {
+      var checkout_url = base_url+'shop/checkout_ajax';
+      return ajax_post_form('checkout_form', form_data, checkout_url, 'redirect', '_dynamic', 'Order submitted successfully');
     }
 
 });

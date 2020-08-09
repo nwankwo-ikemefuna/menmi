@@ -5,25 +5,33 @@
             <div class="table-responsive">
                 <table class="table mt-0 mb-0">
                     <thead>
-                    <tr>
-                        <th>Item</th>
-                        <th>Details</th>
-                        <th>Date</th>
-                        <th>Price</th>
-                    </tr>
+                        <tr>
+                            <th>Image</th>
+                            <th class="min-w-200">Product</th>
+                            <th>Unit Price</th>
+                            <th>Quantity</th>
+                            <th>Total Price</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>Electronics</td>
-                        <td><span class="badge badge-pill badge-primary text-uppercase">SALE</span> </td>
-                        <td>January 18</td>
-                        <td><span class="text-primary">$32</span></td>
-                    </tr>
+                        <?php 
+                        $products = $this->shop_model->cart();;
+                        foreach ($products as $row) { ?>
+                            <tr>
+                                <td><img class="record_image clickable tm_image" src="<?php echo base_url($row['image_file']); ?>"></td>
+                                <td><?php echo $row['name']; ?></td>
+                                <td><?php echo $row['amount']; ?></td>
+                                <td><?php echo $row['qty']; ?></td>
+                                <td><?php echo $row['product_total_amount']; ?></td>
+                            </tr>
+                            <?php 
+                        } ?>
                     </tbody>
                 </table>
             </div>
-            <a href="<?php echo base_url('shop/cart'); ?>" class="card-link btn btn-theme ripple">Manage Cart</a>
-            <a href="<?php echo base_url('shop/checkout'); ?>" class="card-link btn btn-theme ripple">Checkout</a>
+            <a class="btn btn-primary btn-raised" href="<?php echo base_url('shop/checkout'); ?>">Checkout &raquo;</a>
         </div>
     </div>
 </div>
+
+<?php require 'application/views/portal/shared/recent_orders.php'; ?>

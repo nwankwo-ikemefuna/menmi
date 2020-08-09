@@ -49,9 +49,9 @@ class Sliders extends Core_controller {
 			$title .= ': '.$row->title;
 			$max_data = MAX_SLIDER_CAT[$cat_id];
 		}
-		$this->portal_header($title, $count, '', $max_data);
+		$this->ajax_header($title, $count, '', $max_data);
 		$this->load->view('portal/company/sliders/index');
-		$this->portal_footer();
+		$this->ajax_footer();
 	}
 
 
@@ -76,10 +76,10 @@ class Sliders extends Core_controller {
 		$this->butts = ['add' => ['url' => 'sliders/add'.$qry_str], 'edit' => ['url' => 'sliders/edit/'.$id.$qry_str], 'list' => ['url' => 'sliders'.$qry_str]];
 		$sql = $this->slider_model->sql($this->company_id);
 		$row = $this->common_model->get_row($sql['table'], $id, 'id', $this->trashed, $sql['joins'], $sql['select'], $sql['where']);
-		$this->portal_header($row->name, '', $id);
 		$data['row'] = $row;
+		$this->ajax_header($row->name, '', $id);
 		$this->load->view('portal/company/sliders/view', $data);
-		$this->portal_footer();
+		$this->ajax_footer();
 	}
 
 
@@ -87,9 +87,9 @@ class Sliders extends Core_controller {
 		$qry_str = $this->qry_str();
 		//buttons
 		$this->butts = ['list' => ['url' => 'sliders'.$qry_str], 'save' => ['form' => 'add_form']];
-		$this->portal_header('Add Slider');
+		$this->ajax_header('Add Slider');
 		$this->load->view('portal/company/sliders/add');
-		$this->portal_footer();
+		$this->ajax_footer();
 	}
 
 
@@ -101,9 +101,9 @@ class Sliders extends Core_controller {
 		$sql = $this->slider_model->sql($this->company_id);
 		$row = $this->common_model->get_row($sql['table'], $id, 'id', $this->trashed, $sql['joins'], $sql['select'], $sql['where']);
 		$data['row'] = $row;
-		$this->portal_header('Edit Slider: '.$row->name, '', $id);
+		$this->ajax_header('Edit Slider: '.$row->name, '', $id);
 		$this->load->view('portal/company/sliders/edit', $data);
-		$this->portal_footer();
+		$this->ajax_footer();
 	}
 
 
@@ -151,7 +151,7 @@ class Sliders extends Core_controller {
 			//was image uploaded?
 		} elseif ($upload['status'] && ! empty($upload['file_name'])) {
 			//unlink image
-			unlink_files(company_file_path(PIX_SLIDERS), $row->image);
+			unlink_file(company_file_path(PIX_SLIDERS), $row->image);
 			//get the uploaded image
 			$image = $upload['file_name'];
 		} else {

@@ -2,13 +2,16 @@
     <div class="card-body">
         <div class="row tile-count">
             <?php
+            $total_stock_products = number_format($this->product_model->total_in_stock($this->company_id));
+            $total_customers = number_format($this->user_model->total_users('', CUSTOMER));
+            $total_pending_orders = number_format($this->order_model->total_orders(ST_ORDER_PENDING));
+            $completed_orders = number_format($this->order_model->total_orders(ST_ORDER_COMPLETED));
             $stats = [
-                ['Sold Products', 121, 'money'],
-                ['Products In Stock', 366, 'shopping-bag'],
-                ['Customers', 23, 'users'],
-                ['Product Categories', 91, 'cubes']
+                ['Products In Stock', $total_stock_products, 'shopping-bag'],
+                ['Customers', $total_customers, 'users'],
+                ['Pending Orders', $total_pending_orders, 'clock-o'],
+                ['Completed Orders', $completed_orders, 'check-circle'],
             ];
-            $product_image = base_url(get_file(company_file_path(PIX_SETTINGS, 'dash1.jpeg'), IMAGE_404));
             foreach ($stats as $stat) { ?>
                 <div class="<?php echo grid_col('', 6, 6, 3, 3); ?> tile-stats-count"> 
                     <div class="row">
@@ -28,110 +31,26 @@
                 <?php 
             } ?>
         </div>
-        <div class="card" style="border-radius: 10px">
-            <div class="card-body">
-                <img class="img-responsive" src="<?php echo $product_image; ?>">
+        
+        <?php 
+        $featured_products = $this->product_model->featured($this->company_id, [], 'rand', 3);
+        if (!empty($featured_products)) { ?>
+            <h3>Featured Products</h3>
+            <div class="row mb-2">
+                <?php
+                foreach ($featured_products as $row) { ?>
+                    <div class="<?php echo grid_col(12, 6, 4); ?> p-b-10">
+                        <div class="h-100 bg-white padding-25">
+                            <?php ajax_page_link('products/view/'.$row->id, '<h4 class="box-title mt-0">'.$row->name.'</h4>'); ?>
+                            <img class="img-responsive" src="<?php echo $row->image_file; ?>">
+                        </div>
+                    </div>
+                    <?php 
+                } ?>
             </div>
-        </div>
+            <?php 
+        } ?>
     </div>
 </div>
 
-<div class="row">
-    <div class="<?php echo grid_col(12, '', '', '', 4); ?> mb-2">
-        <div class="h-100 bg-white padding-25">
-            <h4 class="box-title mt-0">Recent sales</h4>
-            <div class="table-responsive">
-                <table class="table mt-0 mb-0">
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Status</th>
-                        <th>Date</th>
-                        <th>Price</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>Electronics</td>
-                        <td><span class="badge badge-pill badge-primary text-uppercase">SALE</span> </td>
-                        <td>January 18</td>
-                        <td><span class="text-primary">$32</span></td>
-                    </tr>
-                    <tr>
-                        <td>Books</td>
-                        <td><span class="badge badge-pill badge-info text-uppercase">EXTENDED</span></td>
-                        <td>May 19</td>
-                        <td><span class="text-info">$1400</span></td>
-                    </tr>
-                    <tr>
-                        <td>Crafts</td>
-                        <td><span class="badge badge-pill badge-danger text-uppercase">SALE</span></td>
-                        <td>June 20</td>
-                        <td><span class="text-danger">-$38</span></td>
-                    </tr>
-                    <tr>
-                        <td>Video games</td>
-                        <td><span class="badge badge-pill badge-success text-uppercase">EXTENDED</span></td>
-                        <td>June 22</td>
-                        <td><span class="text-success">$350</span></td>
-                    </tr>
-                    <tr>
-                        <td>Shoes</td>
-                        <td><span class="badge badge-pill badge-warning text-uppercase">EXTENDED</span></td>
-                        <td>July 22</td>
-                        <td><span class="text-warning">$64</span></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="<?php echo grid_col(12, '', '', '', 4); ?> mb-2 mb-xl-0">
-        <div class="h-100 w-100 bg-white padding-25">
-            <h4 class="box-title mt-0">Sales analytics</h4>
-            <div id="columnChart"></div>
-        </div>
-    </div>
-    <div class="<?php echo grid_col(12, '', '', '', 4); ?> mb-2 mb-lg-0">
-        <div class="h-100 bg-white padding-25">
-            <h4 class="box-title mt-0">New registrations</h4>
-            <ul class="list-new-registrations list-group" data-role="newregistrationslist">
-                <li class="list-group-item border-0 d-flex align-items-center justify-content-between pt-0" data-role="newregistrationslist">
-                    <a href="#" class="d-flex justify-content-between align-items-center">
-                        <div class="img-wrapper float-left"><img src="assets/common/img/avatar/generic.png" class="rounded-circle" alt="User Image"></div>
-                        <h5>Richard Cook</h5>
-                    </a>
-                    <button type="button" class="btn"><i class="fa fa-ban"></i></button>
-                </li>
-                <li class="list-group-item border-0 d-flex align-items-center justify-content-between" data-role="newregistrationslist">
-                    <a href="#" class="d-flex justify-content-between align-items-center">
-                        <div class="img-wrapper float-left"><img src="assets/common/img/avatar/generic.png" class="rounded-circle" alt="User Image"></div>
-                        <h5>Richard Sevian</h5>
-                    </a>
-                    <button type="button" class="btn"><i class="fa fa-ban"></i></button>
-                </li>
-                <li class="list-group-item border-0 d-flex align-items-center justify-content-between" data-role="newregistrationslist">
-                    <a href="#" class="d-flex justify-content-between align-items-center">
-                        <div class="img-wrapper float-left"><img src="assets/common/img/avatar/generic.png" class="rounded-circle" alt="User Image"></div>
-                        <h5>Samuel Nelson</h5>
-                    </a>
-                    <button type="button" class="btn"><i class="fa fa-ban"></i></button>
-                </li>
-                <li class="list-group-item border-0 d-flex align-items-center justify-content-between" data-role="newregistrationslist">
-                    <a href="#" class="d-flex justify-content-between align-items-center">
-                        <div class="img-wrapper float-left"><img src="assets/common/img/avatar/generic.png" class="rounded-circle" alt="User Image"></div>
-                        <h5>Mary Cruise</h5>
-                    </a>
-                    <button type="button" class="btn"><i class="fa fa-ban"></i></button>
-                </li>
-                <li class="list-group-item border-0 d-flex align-items-center justify-content-between" data-role="newregistrationslist">
-                    <a href="#" class="d-flex justify-content-between align-items-center">
-                        <div class="img-wrapper float-left"><img src="assets/common/img/avatar/generic.png" class="rounded-circle" alt="User Image"></div>
-                        <h5>Jessica Anderson</h5>
-                    </a>
-                    <button type="button" class="btn"><i class="fa fa-ban"></i></button>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
+<?php require 'application/views/portal/shared/recent_orders.php'; ?>

@@ -1,4 +1,30 @@
 <?php 
+function site_meta($page_title = '') { 
+    $ci =& get_instance();
+    ?>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <title><?php echo $page_title; ?> | <?php echo $ci->site_name; ?> </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="description" content="<?php echo $ci->site_description; ?>" />
+    <meta name="author" content="<?php echo $ci->site_author; ?>"  />
+    <meta name="keywords" content="">
+
+    <link rel="shortcut icon" type="image/png" href="<?php echo SITE_FAVICON; ?>" />
+    <?php
+}
+
+function load_scripts(array $scripts, $path) {
+    if ($scripts) {
+        foreach ($scripts as $script) { 
+            $script_url = base_url().$path.'/'.$script.'.js'; ?>
+            <script src="<?php echo $script_url; ?>"></script>
+            <?php echo "\r\n";
+        }
+    }
+}
 
 function xpost($field, $default = NULL, $xss_clean = TRUE) {
 	$ci =& get_instance();
@@ -6,7 +32,7 @@ function xpost($field, $default = NULL, $xss_clean = TRUE) {
 	return $data;
 }
 
-function xpost_txt($field, $xss_clean = TRUE) {
+function xpost_txt($field, $default = NULL, $xss_clean = TRUE) {
 	$ci =& get_instance();
 	$data = !empty($ci->input->post($field, $xss_clean)) ? nl2br_except_pre(ucfirst($ci->input->post($field, $xss_clean))) : $default;
 	return $data;
@@ -39,6 +65,29 @@ function get_requested_page() {
 	return current_url() . (strlen($_SERVER['QUERY_STRING']) ? '?' . $_SERVER['QUERY_STRING'] : '');
 }
 
+function get_requested_resource() {
+    //we don't want the scheme and host pls
+    $requested_page = get_requested_page();
+    $resource = str_replace(base_url(), '', $requested_page);
+    return $resource;
+}
+
+function get_requested_resource_ajax() {
+    $ci =& get_instance();
+    $requested_page = isset($_SESSION['ajax_requested_page']) 
+        ? str_replace(base_url(), '', $ci->session->ajax_requested_page)
+        : 'user';
+    //is there a leading slash?
+    $requested_page = $requested_page[0] === '/' ? substr($requested_page, 1) : $requested_page; 
+    //ensure we don't return asset files like images, js, css, etc
+    //our urls do not contain the .php extension, so we can consider anything that has a dot to be a nuisance.
+    if (preg_match('/\./', $requested_page)) {
+        //set to default
+        $requested_page = 'user';
+    }
+    return $requested_page;
+}
+
 function response_headers(
 	$content_type = 'application/json', 
 	$allow_origin = '*', 
@@ -61,9 +110,9 @@ function json_response($data = null, $status = true, $code = HTTP_OK) {
     exit;
 }
 
-function json_response_db($is_edit = false) {
+function json_response_db($is_update = false) {
 	$ci =& get_instance();
-	$error = $is_edit ? 'No changes detected' : 'Sorry, something went wrong. If issue persists, report to site administrator';
+	$error = $is_update ? 'No changes detected' : 'Sorry, something went wrong. If issue persists, report to site administrator';
 	return $ci->db->affected_rows() > 0 ? json_response() : json_response($error, false);
 }
 

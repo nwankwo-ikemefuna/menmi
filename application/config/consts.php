@@ -74,6 +74,8 @@ foreach ($usergroups as $group) {
 } 
 //all company users
 define('COMPANY_USERS', [ADMIN, STAFF]);
+//all users
+define('ALL_USERS', [ADMIN, STAFF, CUSTOMER]);
 
 // User Rights 
 define('VIEW', 1);
@@ -88,15 +90,19 @@ define('C_NIGERIA', 135);
 define('CART_TTL', 60*60*24*7); //7 days
 define('CHECKOUT_TTL', 60*60); //1 hour
 
+//default company
+define('SITE', 2);
+
+//before company session data is set, use default: 
+//TODO: review when multi-company account is set up
+$COMPANY_ID = $CI->session->company_id ?? SITE;
 //company file dir
-define('COMPANY_PIX_DIR', 'uploads/companies/'.$CI->session->company_id.'/images');
-define('COMPANY_DOC_DIR', 'uploads/companies/'.$CI->session->company_id.'/docs');
+define('COMPANY_PIX_DIR', 'uploads/companies/'.$COMPANY_ID.'/images');
+define('COMPANY_DOC_DIR', 'uploads/companies/'.$COMPANY_ID.'/docs');
 //customer file dir
 define('CUSTOMER_PIX_DIR', 'uploads/customers/images');
 define('CUSTOMER_DOC_DIR', 'uploads/companies/docs');
 
-//default company
-define('SITE', 1);
 $row = $this->company_model->company_details(SITE);
 define('SITE_NAME', $row['company_name']);
 define('SITE_SHORT_NAME', $row['company_short_name']);

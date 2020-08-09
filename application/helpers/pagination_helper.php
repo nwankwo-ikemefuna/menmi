@@ -7,7 +7,7 @@ function paginate($records, $total_rows, $per_page = 15, $url = '') {
     $config['per_page'] = $per_page;
     $config['next_link'] = '&raquo;';
     $config['prev_link'] = '&laquo;';
-    $config['first_link'] = 'Last';
+    $config['first_link'] = 'First';
     $config['last_link'] = 'Last';
     $config['full_tag_open'] = '<ul>';
     $config['full_tag_close'] = '</ul>';

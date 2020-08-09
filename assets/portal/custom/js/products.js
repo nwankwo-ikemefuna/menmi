@@ -1,7 +1,7 @@
 jQuery(document).ready(function ($) {
     "use strict"; 
     var columns = [
-        record_image_col(),
+        dt_image_col(),
         {data: 'name'},
         {data: 'category'},
         {data: 'size_name'},

@@ -38,7 +38,7 @@ require 'application/views/web/layout/shop_sidebar_start.php';
 					<?php
 				} else { ?>
 					<p>Go to your dashboard to view details of this order.</p>
-					<a class="btn btn-success" href="<?php echo base_url('user'); ?>">Take Me There</a> 
+					<a class="btn btn-success" href="<?php echo base_url('portal'); ?>">Take Me There</a> 
 					<?php
 				} ?>
 			</div>

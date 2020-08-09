@@ -1,4 +1,7 @@
 <?php 
+function spinner_icon() {
+    return '<i class="fa fa-spinner fa-spin"></i>';
+}
 
 function ajax_spinner($class = 'ajax_spinner') {
     return ' <i class="fa fa-spinner hide '.$class.'"></i>';
@@ -121,13 +124,11 @@ function modal_footer($with_footer = true, $with_btn = false, $btn_id = 'confirm
     <?php        
 }
 
-function ajax_status_modal() { ?>
-    <div class="modal" id="m_ajax_status" style="display: none">
-        <div class="modal-body text-center">
-            <div class="status_box">
-                <img class="" src="<?php echo base_url('assets/common/img/icons/loader1.gif'); ?>">
-                <em id="loading_msg"></em>
-            </div>
+function ajax_overlay_loader() { ?>
+    <div id="ajax_overlay_loader">
+        <div id="overlay_content">
+            <img id="overlay_image" src="<?php echo base_url('assets/common/img/icons/ajax_loader.gif'); ?>">
+            <div id="overlay_text">Loading...</div>
         </div>
     </div>
     <?php

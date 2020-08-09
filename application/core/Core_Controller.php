@@ -14,7 +14,7 @@ class Core_Controller extends CI_Controller {
 		require_once 'application/config/http_codes.php';
 		require_once 'application/config/consts.php';
 		$this->site_author = 'SoftBytech';
-		$this->author_linkedin = 'https://www.linkedin.com/in/nwankwoikemefuna';
+		$this->site_author_url = 'https://softbytech.com';
         //trashed?
 		$this->trashed = trashed_record_list();
 		//company details
@@ -43,14 +43,14 @@ class Core_Controller extends CI_Controller {
 		$this->ba_opts = [];
 		$this->show_bcrumbs = true;
 		$this->bcrumbs = [];
-		
-        //set CSRF
+
+		//set CSRF
 		$this->set_csrf();
 	}
 
 
 	private function set_company_info() {
-		$data = $this->company_model->company_details(2);
+		$data = $this->company_model->company_details(SITE);
 		$this->session->set_userdata($data);
 	}
 
@@ -95,13 +95,12 @@ class Core_Controller extends CI_Controller {
 	}
 
 
-	protected function portal_header($page_title, $record_count = '', $crud_rec_id = '', $max_data = '', $meta_tags = '') {
-		//unset user login request data
-		$this->auth->unset_request_data();
+	protected function portal_header($page_title, $meta_tags = '') {
+		//update requested page to user if it's portal
+		if ($this->session->ajax_requested_page == base_url('portal')) {
+			$this->session->ajax_requested_page = base_url('user');
+		} 
 		$data['page_title'] = $page_title;
-		$data['record_count'] = $record_count;
-		$data['crud_rec_id'] = $crud_rec_id;
-		$data['max_data'] = $max_data;
 		$data['meta_tags'] = $meta_tags;
 		return $this->load->view('portal/layout/header', $data);
 	}
@@ -110,6 +109,23 @@ class Core_Controller extends CI_Controller {
 	protected function portal_footer($current_page = '') {
 		$data['current_page'] = $current_page;
 		return $this->load->view('portal/layout/footer', $data);
+	}
+
+
+	protected function ajax_header($page_title, $record_count = '', $crud_rec_id = '', $max_data = '') {
+		$this->auth->ajax_request_restricted();
+		$this->session->ajax_requested_page = get_requested_page();
+		$data['page_title'] = $page_title;
+		$data['record_count'] = $record_count;
+		$data['crud_rec_id'] = $crud_rec_id;
+		$data['max_data'] = $max_data;
+		return $this->load->view('portal/layout/ajax_header', $data);
+	}
+	
+
+	protected function ajax_footer($current_page = '') {
+		$data['current_page'] = $current_page;
+		return $this->load->view('portal/layout/ajax_footer', $data);
 	}
 
 

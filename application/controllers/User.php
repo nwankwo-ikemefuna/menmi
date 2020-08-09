@@ -15,19 +15,23 @@ class User extends Core_controller {
 
 	
 	public function index() { 
-		$this->portal_header('Dashboard');
 		$view = 'portal/' . ( company_user() ? 'company' : 'customer') . '/index';
+		if ($this->session->user_password_set != 1) {
+			$reset_url = ajax_page_link('user/reset_pass', 'Reset it now', 'underline-link');
+			$this->session->set_flashdata('error_msg', 'You have not reset your default password. '.$reset_url);
+		}
+		$this->ajax_header('Dashboard');
 		$this->load->view($view); 
-		$this->portal_footer();
+		$this->ajax_footer();
 	}
 
 
 	public function reset_pass() { 
 		//buttons
 		$this->butts = ['save' => ['form' => 'reset_pass_form']];
-		$this->portal_header('Reset Password');
+		$this->ajax_header('Reset Password');
 		$this->load->view('portal/account/reset_pass');
-		$this->portal_footer();
+		$this->ajax_footer();
 	}
 
 

@@ -15,7 +15,7 @@ function product_url($id, $name) {
 }
 
 function products_col_slider($title, $data, $more_url = '') { 
-	if (count($data) === 0) return;
+	if (empty($data)) return;
 	$ci =& get_instance(); 
 	?>
 	<div class="container section_30">
@@ -39,7 +39,7 @@ function products_col_slider($title, $data, $more_url = '') {
 									<a class="action add-to-wishlist clickable wishlist_product" type="button" title="Add to Wishlist" data-id="<?php echo $xrow['id']; ?>" data-in_wishlist="<?php echo $xrow['in_wishlist']; ?>" <?php echo $xrow['in_wishlist'] == 1 ? 'disabled' : ''; ?>></a>
 								</div>
 							</div>
-					      	<a href="<?php echo product_url($xrow['id'], $xrow['name']); ?>" class="product-item-photo"> <img class="product-image-photo" src="<?php echo $xrow['image_file']; ?>" alt="<?php echo $xrow['name']; ?>"></a>
+					      	<a href="<?php echo product_url($xrow['id'], $xrow['name']); ?>" class="product-item-photo"> <img class="product-image-photo" src="<?php echo base_url($xrow['image_file']); ?>" alt="<?php echo $xrow['name']; ?>"></a>
 					    </div>
 					    <div class="pro-box-info">
 					      <div class="item-info">
@@ -88,6 +88,73 @@ function products_col_slider($title, $data, $more_url = '') {
 	  </div>
 	</div>
 	<?php
+}
+
+function product_filter_box($title, $data, $class, $jtx) {
+	if (!empty($data)) { ?>
+		<div class="layered-Category">
+	  		<h2 class="saider-bar-title"><?php echo $title; ?></h2>
+	  		<div class="layered-content product_categories">
+	    		<ul class="check-box-list">
+			      	<?php
+			      	$j = 1;
+			      	foreach ($data as $side_row) { 
+			        	if ($side_row->product_count == 0) continue; ?>
+			        	<li>
+			          		<?php
+			          		if ($class == 'product_category' && strlen(xget('cat_id') == $side_row->id)) { ?>
+			            		<input type="checkbox" id="<?php echo $jtx.$j; ?>" value="<?php echo $side_row->id; ?>" class="<?php echo $class; ?>" checked>
+			          		<?php } else { ?> 
+			            		<input type="checkbox" id="<?php echo $jtx.$j; ?>" value="<?php echo $side_row->id; ?>" class="<?php echo $class; ?>">
+			          		<?php } ?>
+			          		<label for="<?php echo $jtx.$j; ?>"><span class="button"></span><?php echo $class == 'product_color' ? print_color($side_row->color_code, $side_row->name) : $side_row->name; ?><span class="count">(<?php echo number_format($side_row->product_count); ?>)</span></label>
+			        	</li>
+			        	<?php
+			        	$j++;
+			      	} ?> 
+	    		</ul>
+	  		</div>
+		</div>
+		<?php 
+	} 
+}
+
+function product_price_filter($id, $price_min, $price_max) { ?>
+  <div class="product-price-range price_range_wrapper">
+    <div class="block-content">
+      <div class="layered-Category">
+      <h2 class="saider-bar-title">Price</h2>
+      <div class="slider-range">
+        <div class="slider-range-price" id="<?php echo $id; ?>"></div>
+        <div class="price_input">
+          <input type="number" class="form-control price_min product_price" value="<?php echo $price_min; ?>" data-orig_price_min="<?php echo $price_min; ?>"> <span class="">-</span>
+          <input type="number" class="form-control price_max product_price" value="<?php echo $price_max; ?>" data-orig_price_max="<?php echo $price_max; ?>">
+        </div>
+        <button type="button" class="btn btn-warning btn-sm m-t-10 apply_price">Apply</button>
+      </div>
+      </div>
+    </div>
+  </div>
+  <?php
+}
+
+function product_rating_filter($jtx) { ?>
+  <div class="layered-Category">
+    <h2 class="saider-bar-title">Ratings</h2>
+    <div class="layered-content product_categories">
+      <ul class="check-box-list">
+        <?php
+        for ($j = 5; $j >= 0; $j--) { ?>
+          <li>
+            <input type="radio" name="product_rating" id="<?php echo $jtx.$j; ?>" value="<?php echo $j; ?>" class="product_rating">
+            <label for="<?php echo $jtx.$j; ?>"><span class="button"></span><?php echo rating_stars($j) . ($j < 5 ? ' & above' : ''); ?><span class="count"></span></label>
+          </li>
+          <?php
+        } ?>
+      </ul>
+    </div>
+  </div>
+  <?php
 }
 
 function cart_modal() { 
@@ -184,7 +251,7 @@ function product_order_summary($title = '', $show_name = false) {
 function payment_cards($title = '') { ?>
 	<div class="m-b-10 m-t-10-n">
 	    <?php echo strlen($title) ? $title : ''; ?>
-	    <img src="<?php echo base_url('assets/common/img/icons/payment/paypal.png'); ?>">
+	    <img class="hide" src="<?php echo base_url('assets/common/img/icons/payment/paypal.png'); ?>">
 	    <img src="<?php echo base_url('assets/common/img/icons/payment/visa.png'); ?>">
 	    <img src="<?php echo base_url('assets/common/img/icons/payment/master_card.png'); ?>">
 	    <img src="<?php echo base_url('assets/common/img/icons/payment/verve.png'); ?>">
@@ -194,6 +261,10 @@ function payment_cards($title = '') { ?>
 
 function order_status_bg($status, $bg) {
 	return '<span class="badge badge-pill badge-'.$bg.' text-bold">'.$status.'</span>';
+}
+
+function order_payment_statuses() {
+	return [1 => 'Paid'];
 }
 
 function order_item_statuses() {

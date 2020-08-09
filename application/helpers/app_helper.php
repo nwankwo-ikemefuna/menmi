@@ -15,11 +15,26 @@ function is_assoc_array(array $arr) {
     return array_keys($arr) !== range(0, count($arr) - 1);
 }
 
-function toggle_password_visibility() {
-    ?>
-    <span id="show_password_icon"><a id="show_password" title="Show password" style="cursor: pointer"><i class="fa fa-eye"></i></a></span>
-    <span id="hide_password_icon" style="display: none"><a id="hide_password" title="Hide password" style="cursor: pointer"><i class="fa fa-eye-slash"></i></a></span>
-   <?php
+function closest_val_lower($array, $number) {
+    $lesser = [];
+    foreach ($array as $val) {
+        if ($val < $number) {
+            $lesser[] = $val;
+        }
+    }
+    //if no value is greater than number, return the number
+    return empty($lesser) ? $number : max($lesser);
+}
+
+function closest_val_upper($array, $number) {
+    $greater = [];
+    foreach ($array as $val) {
+        if ($val > $number) {
+            $greater[] = $val;
+        }
+    }
+    //if no value is greater than number, return the number
+    return empty($greater) ? $number : min($greater);
 }
 
 function pluralize_word($word, $count) {
@@ -113,17 +128,8 @@ function sluggify_string($string, $separator = '-') { //get slug from titles and
     return url_title($string, $separator, $lowercase = TRUE);
 }
 
-function csrf_hidden_input() {
-    $CI =& get_instance();
-    return '<input type="hidden" id="csrf_hash" value="'.$CI->security->get_csrf_hash().'" />';
-} 
-
 function get_currency_symbol($currency_code) {
     return '&#'.$currency_code.';';
-}
-
-function array_has_string_keys(array $array) {
-    return count(array_filter(array_keys($array), 'is_string')) > 0;
 }
 
 function join_us($data, $delim = ',') {
@@ -134,6 +140,10 @@ function join_us($data, $delim = ',') {
 function split_us($data, $delim = ',') {
     if (empty($data)) return null; 
     return explode($delim, $data);
+}
+
+function array_has_string_keys(array $array) {
+    return count(array_filter(array_keys($array), 'is_string')) > 0;
 }
 
 function attr_isset($key, $val, $default) {
@@ -149,7 +159,7 @@ function input_key_isset($arr, $key, $default = '', $val = '') {
 
 function set_extra_attrs($extra, $exclude = []) {
     $attrs = "";
-    if (count($extra) > 0) { 
+    if (!empty($extra)) { 
         foreach ($extra as $attr => $value) {
             if ( ! in_array($attr, $exclude)) {
                 $attrs .= "{$attr}='{$value}' ";

@@ -7,7 +7,7 @@ $currencies = $this->common_model->get_rows($sql['table'], 0, $sql['joins'], $sq
 $next_order = $this->common_model->next_order(T_CURRENCIES);
 
 //form
-$attrs = ['id' => 'edit_form', 'class' => 'ajax_form', 'data-type' => 'redirect', 'data-redirect' => '_dynamic'];
+$attrs = ['id' => 'edit_form', 'class' => 'ajax_form', 'data-type' => 'redirect', 'data-redirect' => '_ajax_dynamic'];
 echo form_open_multipart($this->c_controller.'/edit_ajax', $attrs);
 	xform_pre_notice();
 	xform_notice();
