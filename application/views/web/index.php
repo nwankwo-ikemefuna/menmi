@@ -36,7 +36,7 @@ if ($this->session->company_home_slider == 1 && !empty($sliders)) { ?>
         [
           'icon' => 'icon-rocket', 
           'text' => 'Pay on Delivery', 
-          'msg' => 'Make your order and pay when you receive the order.'
+          'msg' => 'Make your order and pay on delivery.'
         ],
         [
           'icon' => 'fa fa-dollar', 

@@ -114,7 +114,7 @@
                                 sidebar_menu_parent_auth(M_SETTINGS, VIEW, ADMIN, 'Settings', 
                                     [
                                         'Company Profile' => 'settings', 
-                                        'Site Settings' => 'settings/site'
+                                        // 'Site Settings' => 'settings/site'
                                     ], 
                                 'wrench');
 
@@ -143,7 +143,7 @@
                             //general menus lower
                             sidebar_menu_parent('My Account', 
                                 [
-                                    'My Profile' => 'user/profile', 
+                                    // 'My Profile' => 'user/profile', 
                                     'Change Password' => 'user/reset_pass',
                                     'Logout' => 'logout'
                                 ], 
