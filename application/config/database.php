@@ -81,7 +81,7 @@ switch (ENVIRONMENT) {
 		//testing/production server
 		$db_username 	= 'menmi_admin';
 		$db_password 	= '0p1@9ZoiTY#^&';
-		$db_database 	= 'menmi_menmi';
+		$db_database 	= 'menmi_main';
 	break;
 
 	case 'development':

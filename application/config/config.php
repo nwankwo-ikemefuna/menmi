@@ -30,15 +30,18 @@ date_default_timezone_set('Africa/Lagos');
 //use set environment to determine base_url
 switch (ENVIRONMENT) {
 
-    case 'testing':
     case 'production': 
-        //testing/production server
-        $config['base_url'] = 'https://softbytech.com/staging/menmi/';
+        //production server
+        $config['base_url'] = 'https://menmisolutions.com/';
+
+    case 'testing':
+        //testing server
+        $config['base_url'] = 'https://menmisolutions.com/';
     break;
 
     case 'development':
         //development/local server
-        $config['base_url'] = 'http://dev.menmi.com/'; //change to /menmi/ to view in a mobile device under the same LAN
+        $config['base_url'] = 'http://dev.menmi.com:8080/'; //change to /menmi/ to view in a mobile device under the same LAN
     break;
 
 }

@@ -35,18 +35,18 @@ if ($this->session->company_home_slider == 1 && !empty($sliders)) { ?>
       $stuffs = [
         [
           'icon' => 'icon-rocket', 
-          'text' => 'Free Delivery', 
-          'msg' => 'Lorem ipsum dolor sit amet, consectetur adipis elit'
+          'text' => 'Pay on Delivery', 
+          'msg' => 'Make your order and pay when you receive the order.'
         ],
         [
           'icon' => 'fa fa-dollar', 
-          'text' => 'money back guarantee', 
-          'msg' => 'Lorem ipsum dolor sit amet, consectetur adipis elit'
+          'text' => 'Money Back Guarantee', 
+          'msg' => 'Request for refund if unsatisfied with order.'
         ],
         [
           'icon' => 'fa fa-headphones', 
-          'text' => 'online support 24/7', 
-          'msg' => 'consectetur adipis elit. Lorem ipsum dolor sit amet'
+          'text' => 'Online Support 24/7', 
+          'msg' => '24 hours support, 7 days a week'
         ]
       ];
       foreach ($stuffs as $value) { ?>

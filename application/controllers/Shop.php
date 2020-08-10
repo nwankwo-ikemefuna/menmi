@@ -78,7 +78,7 @@ class Shop extends Core_controller {
 
 
     public function products_ajax($page = 0) {
-        $per_page = 2;
+        $per_page = 9;
         $page = paginate_offset($page, $per_page);
         $items = $this->shop_model->products_shop($page, $per_page);
         $data = paginate($items['records'], $items['total_rows'], $per_page);
